@@ -265,6 +265,22 @@ body.dark .mm-name{filter:brightness(1.6)}
 .acc-card{border-top:4px solid var(--gold)}
 .pw-in{width:100%;border:1.5px solid var(--b);background:var(--card);border-radius:12px;padding:12px 14px;outline:none;font-family:inherit;font-size:16px;color:var(--t)}
 .pw-in:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(30,58,138,.12)}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.plan{position:relative;background:var(--card);border:1.5px solid var(--b);border-radius:14px;padding:22px 8px 12px;text-align:center;color:var(--t);transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:4px}
+.plan.on{border-color:var(--p);box-shadow:0 0 0 3px rgba(30,58,138,.15);transform:translateY(-2px)}
+.plan.best{border-width:2px}
+.ribbon{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--p);color:#fff;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.ribbon.gold{background:var(--y)}
+.plan-ic{font-size:24px}.plan-n{font-weight:700;font-size:15px}
+.plan-p{font-weight:700;font-size:19px;color:var(--p);line-height:1.3}
+body.dark .plan-p{color:#9DB8FF}
+.plan-p small{display:block;font-size:11px;color:var(--m);font-weight:500}
+.plan-f{font-size:11.5px;color:var(--m);line-height:1.7;margin-top:4px}
+.pay{border-top:4px solid var(--gold)}
+.pay-row{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--b)}
+.pay-row span{min-width:90px}.pay-row b{flex:1;overflow-wrap:anywhere;font-size:15px}
+@media (max-width:380px){.plans{grid-template-columns:1fr}}
+.pay-tabs button{font-size:12px;padding:9px 2px}
 </style>
 </head>
 <body>
@@ -285,6 +301,13 @@ const CONFIG = {
   API_URL: 'https://zakerli-api.waeldahshan.workers.dev',
   FREE_USES: 3,            // عدد الطلبات المجانية
   FREE_TUTOR: 15,          // رسائل المعلّم المجانية قبل التفعيل
+  /* ===== بيانات الدفع: اكتبها هنا. أي خانة فارغة يظهر بدلها زر «اطلب البيانات عبر واتساب» ===== */
+  PAY: {
+    cliq:   { alias: 'DAHSHAN65', name: 'وائل أحمد دهشان', bank: 'البنك الإسلامي الأردني' },
+    bank:   { bank: 'البنك العربي الإسلامي الدولي', bankEn: 'Arab Islamic International Bank', name: 'Wael Ahmad Dahshan', acc: '1050001253500', iban: 'JO64IIBA1050000001050001253500', swift: 'IIBAJOAM200' },
+    paypal: { email: 'waeldahshan@gmail.com', user: '@WaelDahshan', link: '' },   // link اختياري: ضع رابط paypal.me بعد التأكد منه
+    wu:     { name: 'Wael Ahmad Dahshan', country: 'Jordan – الأردن', city: '' }  // Western Union / MoneyGram
+  },
   WHATSAPP: '962779221235',
   INSTAGRAM: 'https://instagram.com/dahshansoft',
   SITE: 'https://dahshansoft.com',
@@ -304,25 +327,38 @@ const TR = {
     snap: 'صوّر صفحة من كتابك', snapSub: 'وخلّي الذكاء الاصطناعي يحوّلها لأسئلة',
     paste: 'الصق نص', pasteSub: 'ملخص أو درس', topic: 'اكتب موضوع', topicSub: 'وأنا أسأل عنه',
     revWrong: 'راجع أخطاءك ({0})', revWrongSub: 'الأسئلة التي أخطأت فيها حتى تتقنها',
-    recent: 'آخر مجموعاتك', seeAll: 'عرض الكل ←', solved: 'سؤال محلول', accuracy: 'نسبة الصواب', bestStreak: 'أطول سلسلة 🔥',
-    demo: 'تجريبية', qc: '{0} سؤال · {1} بطاقة', emptyT: 'لا توجد مجموعات بعد', emptyS: 'اضغط ＋ وأنشئ أول مجموعة لك',
+    recent: 'آخر دروسك', seeAll: 'عرض الكل ←', solved: 'سؤال محلول', accuracy: 'نسبة الصواب', bestStreak: 'أطول سلسلة 🔥',
+    demo: 'تجريبية', qc: '{0} سؤال · {1} بطاقة', emptyT: 'لا توجد دروس بعد', emptyS: 'اضغط ＋ وأضف أول درس لك',
     n_home: 'الرئيسية', n_lib: 'مكتبتي', n_badges: 'إنجازاتي', n_prof: 'حسابي',
-    lib: '📚 مكتبتي', setsN: '{0} مجموعة', search: '🔍 ابحث في مجموعاتك...',
-    newSet: '✨ مجموعة جديدة', tb_image: '📸 صورة', tb_pdf: '📄 PDF', tb_text: '📝 نص', tb_topic: '💡 موضوع',
+    lib: '📚 مكتبتي', setsN: '{0} درس', search: '🔍 ابحث في دروسك...',
+    newSet: '✨ درس جديد', tb_image: '📸 صورة', tb_pdf: '📄 PDF', tb_text: '📝 نص', tb_topic: '💡 موضوع',
     cam: 'صوّر الآن', gal: 'من المعرض', imgTip: 'يمكنك إضافة حتى 6 صفحات. تأكد أن الصورة واضحة والإضاءة جيدة 💡', maxImg: 'الحد الأقصى 6 صفحات', imgErr: 'تعذّر قراءة الصورة',
     pdfPick: 'اختر ملف PDF', pdfSub: 'ملخص، شرائح محاضرة، فصل من كتاب (حتى 50 ميغا – 1000 صفحة)', pdfBig: 'الملف أكبر من 50 ميغا',
     textPh: 'الصق هنا الدرس أو الملخص أو الملاحظات...', chars: '{0} حرف',
     topicPh: 'مثال: قوانين نيوتن، الجملة الفعلية، الخلية الحيوانية...', topicTip: '💡 كلما كتبت الموضوع بدقة أكثر (المادة + الدرس + المرحلة) كانت الأسئلة أدق.',
-    setName: 'اسم المجموعة (اختياري)', setNamePh: 'سأقترح اسماً تلقائياً', numQ: 'عدد الأسئلة', diffL: 'مستوى الصعوبة',
+    setName: 'اسم الدرس (اختياري)', setNamePh: 'سأقترح اسماً تلقائياً', numQ: 'عدد الأسئلة', diffL: 'مستوى الصعوبة',
     d_easy: 'سهل', d_med: 'متوسط', d_hard: 'صعب', d_exam_s: '🎓 نمط الوزارة', d_exam_u: '🎓 نمط امتحان الجامعة',
-    qLang: 'لغة الأسئلة', l_auto: 'نفس لغة المادة', l_ar: 'عربي', l_en: 'English', make: '🪄 اصنع المجموعة',
+    qLang: 'لغة الأسئلة', l_auto: 'نفس لغة المادة', l_ar: 'عربي', l_en: 'English', make: '🪄 جهّز الدرس',
     needImg: 'أضف صورة واحدة على الأقل 📸', needPdf: 'اختر ملف PDF أولاً 📄', shortText: 'النص قصير جداً، أضف المزيد ✍️', needTopic: 'اكتب الموضوع أولاً 💡',
-    ready: '✨ جاهزة! {0} سؤال و{1} بطاقة',
+    ready: '✨ الدرس جاهز! {0} سؤال و{1} بطاقة',
     ld: ['أقرأ المادة بتركيز...', 'أستخرج الأفكار المهمة...', 'أصنع أسئلة ذكية...', 'أكتب الشرح لكل سؤال...', 'أرتّب البطاقات...', 'لحظات وتكون جاهزة ✨'],
+    subT: '⭐ الاشتراك', subscribe: 'اشترك', myPlan: '⭐ باقتي', choosePlan: 'اختر باقتك', renewT: 'جدّد أو رقِّ باقتك', subDesc: 'اختر الباقة المناسبة، وادفع بالطريقة الأسهل لك، ثم أرسل صورة التحويل عبر واتساب ليُفعَّل حسابك على كل أجهزتك.',
+    pl_basic: 'أساسي', pl_student: 'الطالب', pl_yearly: 'سنة كاملة', mostChosen: '⭐ الأكثر اختياراً', bestValue: '👑 الأوفر', perMonth: ' / شهرياً', perYear: ' / سنوياً',
+    jod: '{0} د.أ', usd: '${0}', lessonsMo: '{0} درساً شهرياً', chatMo: '{0} رسالة للمعلّم', months12: '12 شهراً بسعر 6',
+    planLeft: 'بقي {0} من {1} درساً · يتجدد بعد {2} يوم',
+    planLine: '⭐ {0} · بقي {1} من {2} درساً · يتجدد بعد {3} يوم', chatLeftL: '🤖 بقي {0} رسالة للمعلّم',
+    bigRule: '📚 الملف الكبير (أكثر من 20 صفحة) يُحسب 3 دروس. والمراجعة والاختبارات على دروسك المحفوظة مجانية دائماً.', costs3: '📚 ملف كبير: يُحسب 3 دروس',
+    planOver: 'انتهت دروس باقتك لهذا الشهر 📚 تتجدد بعد {0} يوم، أو رقِّ باقتك', planNeed3: 'هذا ملف كبير ويحتاج 3 دروس، وبقي لك {0}. قسّمه أو رقِّ باقتك', planChatOver: 'انتهت رسائل المعلّم لهذا الشهر',
+    payT: '💳 ادفع {0} – {1}', pm_cliq: '🇯🇴 كليك', pm_bank: '🏦 بنكي', pm_paypal: '🅿️ PayPal', pm_wu: '🌍 حوالة', accNo: 'رقم الحساب', ppEmail: 'البريد', ppUser: 'اسم المستخدم', ppOpen: '🅿️ افتح PayPal', ppHow: 'أرسل {0} عبر PayPal إلى البريد أعلاه، واختر «لصديق أو قريب» (Friends & Family) إن أمكن.',
+    cliqAlias: 'الاسم المستعار (CliQ Alias)', cliqHow: 'افتح تطبيق بنكك ← كليك ← تحويل إلى اسم مستعار، والصق الاسم أعلاه.', bankName: 'البنك', accName: 'اسم صاحب الحساب',
+    wuName: 'اسم المستلم', wuCountry: 'الدولة', wuCity: 'المدينة', wuHow: 'عبر Western Union أو MoneyGram. بعد التحويل أرسل رقم الحوالة (MTCN) مع صورة الإيصال.',
+    askDetails: '💬 اطلب بيانات التحويل عبر واتساب', sentPay: '💬 أرسلت التحويل – أبلغ المطوّر', afterPay: 'أرفق صورة التحويل في واتساب، وبعد التفعيل اضغط «تحديث الحالة» 👇', copiedX: '📋 تم النسخ',
+    waAsk: 'مرحباً، أريد الاشتراك في {0} عن طريق {1}\nاسم المستخدم: {2}\nأرجو إرسال بيانات التحويل', waPaid: 'مرحباً، دفعت اشتراك {0} ✅\nاسم المستخدم: {1}\nالباقة: {2} – {3}\nطريقة الدفع: {4}\n(مرفق صورة التحويل)',
     accT: 'حساب ذاكرلي', accSub: 'سجّل مرة واحدة، وادخل بنفس الحساب من أي هاتف أو لابتوب أو تابلت 📱💻', tabReg: 'إنشاء حساب', tabLog: 'تسجيل الدخول',
     user: 'اسم المستخدم', userPh: 'مثل: ahmad11', userHint: 'أحرف إنجليزية صغيرة وأرقام و . _ (من 3 إلى 20)', pass: 'كلمة المرور', passPh: '6 أحرف على الأقل', pass2: 'تأكيد كلمة المرور',
     phone: 'رقم واتساب (اختياري)', phoneHint: 'ليصلك تأكيد التفعيل من المطوّر', doReg: '✨ أنشئ حسابي', doLog: '🔓 دخول', passMismatch: 'كلمتا المرور غير متطابقتين',
     regOk: '🎉 تم إنشاء حسابك! لديك {0} محاولات مجانية', logOk: '👋 أهلاً بعودتك',
+    e_quota: 'وصل التطبيق للحد اليومي من طلبات الذكاء الاصطناعي، حاول لاحقاً أو غداً ⏳ (المحاولة لم تُحسب عليك)',
     e_bad_user: 'اسم المستخدم: أحرف إنجليزية صغيرة وأرقام فقط (3-20)', e_short_pass: 'كلمة المرور قصيرة (6 أحرف على الأقل)', e_exists: 'اسم المستخدم مأخوذ، اختر اسماً آخر', e_wrong: 'اسم المستخدم أو كلمة المرور غير صحيحة',
     e_devices: 'وصلت للحد الأقصى من الأجهزة ({0}). تواصل مع المطوّر ليصفّرها لك', e_no_db: 'الخادم غير مهيّأ بعد (قاعدة البيانات)', e_auth: 'انتهت جلستك، سجّل الدخول مرة أخرى',
     trialNoAcc: '🔐 أنشئ حساباً مجانياً واحصل على {0} محاولات', activeUntil: '✅ مفعّل حتى {0}', activeForever: '♾️ اشتراك دائم', expiredT: '⛔ انتهى اشتراكك',
@@ -332,20 +368,20 @@ const TR = {
     ldUp: ['أرفع الملف إلى الخادم... 📤', 'أجهّز صفحات الملف...', 'لحظات ونبدأ القراءة ✨'],
     ldBig: ['أقرأ المادة كلها بتركيز...', 'أكتب الشرح التفصيلي للدرس...', 'أصنع بنك الأسئلة مع الشرح...', 'أجهّز البطاقات والمصطلحات...', 'أرسم الخريطة الذهنية...', 'أكتب الأسئلة الكتابية...', 'أراجع الدقة العلمية...', 'لحظات وتكون جاهزة ✨ (قد يستغرق دقيقة)'],
     lessonT: 'الشرح التفصيلي', lessonSub: 'الدرس كاملاً بالأمثلة والتعليل', mmT: 'الخريطة الذهنية', mmSub: 'الدرس في صورة واحدة', wrT: 'أسئلة كتابية', wrSub: 'مع تصحيح ذكي',
-    example: '💡 مثال', mistakes: '⚠️ أخطاء شائعة يقع فيها الطلاب', tipsT: '🎯 نصائح للامتحان', gloss: '📚 المصطلحات', noExtra: 'هذه المجموعة لا تحتوي على هذا القسم بعد.', genExtra: '🪄 ولّد الشرح والخريطة والأسئلة الكتابية',
+    example: '💡 مثال', mistakes: '⚠️ أخطاء شائعة يقع فيها الطلاب', tipsT: '🎯 نصائح للامتحان', gloss: '📚 المصطلحات', noExtra: 'هذا الدرس لا يحتوي على هذا القسم بعد.', genExtra: '🪄 ولّد الشرح والخريطة والأسئلة الكتابية',
     wrTip: '✍️ اكتب إجابتك كما تكتبها في الامتحان، ثم اضغط «صحّح إجابتي» ليصحّحها الذكاء الاصطناعي ويعطيك علامة من 10.', yourAnswer: 'اكتب إجابتك هنا...', grade: '✅ صحّح إجابتي', model: '👁️ الإجابة النموذجية', score: 'علامتك: {0} / 10', good: '👍 ما أحسنت فيه', missing: '📌 ما ينقص إجابتك', needAns: 'اكتب إجابتك أولاً ✍️', points: 'عناصر الإجابة',
     examDate: '📅 موعد الامتحان', daysLeft: '⏳ باقي {0} يوم', examToday: '🍀 الامتحان اليوم! بالتوفيق', examPast: '✔️ انتهى موعد الامتحان', homeExam: '📅 امتحان «{0}» بعد {1} يوم', homeExamToday: '🍀 امتحان «{0}» اليوم! بالتوفيق',
     focus: 'مؤقت التركيز', focusSub: 'بومودورو: 25 دقيقة دراسة + 5 استراحة', fStudy: '📖 دراسة', fBreak: '☕ استراحة', fStart: '▶️ ابدأ', fPause: '⏸️ إيقاف مؤقت', fReset: '↺ إعادة', fDone: '🎉 أحسنت! أنهيت جلسة تركيز (+15 XP)', fBreakDone: '💪 انتهت الاستراحة، يلّا نرجع', close: 'إغلاق', fTip: 'ضع هاتفك على الصامت وركّز على درس واحد فقط 📵',
     ldMore: ['أفكّر بأسئلة جديدة...', 'أتأكد أنها غير مكررة...', 'تقريباً جاهزة ✨'],
     tips: ['💡 المراجعة المتكررة على أيام متفرقة أقوى من الحفظ في ليلة واحدة', '💡 حلّ الأسئلة يثبّت المعلومة أكثر من إعادة القراءة', '💡 ادرس 25 دقيقة ثم خذ استراحة 5 دقائق', '💡 اشرح الدرس بصوت عالٍ كأنك المعلم', '💡 النوم الجيد قبل الامتحان يحفظ ما درسته'],
-    e_noapi: 'لم يتم ربط خادم الذكاء الاصطناعي بعد. جرّب المجموعة التجريبية الآن 👌', e_off: 'لا يوجد اتصال بالإنترنت 📶', e_busy: 'ضغط كبير على الخادم الآن، حاول بعد دقيقة ⏳', e_json: 'لم أفهم الرد، حاول مرة أخرى 🔄', e_gen: 'حدث خطأ، حاول مرة أخرى ({0})',
-    mastery: 'نسبة الإتقان', best: 'أفضل نتيجة {0}%', set: 'مجموعة',
+    e_noapi: 'لم يتم ربط خادم الذكاء الاصطناعي بعد. جرّب الدرس التجريبي الآن 👌', e_off: 'لا يوجد اتصال بالإنترنت 📶', e_busy: 'ضغط كبير على الخادم الآن، حاول بعد دقيقة ⏳', e_json: 'لم أفهم الرد، حاول مرة أخرى 🔄', e_gen: 'حدث خطأ، حاول مرة أخرى ({0})',
+    mastery: 'نسبة الإتقان', best: 'أفضل نتيجة {0}%', set: 'درس',
     quick: 'اختبار سريع', quickSub: '{0} أسئلة عشوائية مع الشرح الفوري', cards: 'البطاقات', cardsSub: 'احفظ بسرعة', summary: 'الملخص', summarySub: 'أهم النقاط',
     exam: 'وضع الامتحان', examSub: 'بوقت وعلامة', tutor: 'اسأل المعلّم', tutorSub: 'اشرح لي أكثر',
-    wrongSet: '🎯 راجع أخطائي في هذه المجموعة ({0})', all: '📝 حلّ كل الأسئلة ({0})', chBtn: '⚔️ تحدَّ صديقاً بهذه المجموعة', more: '➕ ولّد أسئلة إضافية',
-    delQ: 'حذف هذه المجموعة نهائياً؟', deleted: 'تم الحذف', moreAdded: '➕ أضفت {0} أسئلة جديدة',
+    wrongSet: '🎯 راجع أخطائي في هذا الدرس ({0})', all: '📝 حلّ كل الأسئلة ({0})', chBtn: '⚔️ تحدَّ صديقاً بهذا الدرس', more: '➕ ولّد أسئلة إضافية',
+    delQ: 'حذف هذا الدرس نهائياً؟', deleted: 'تم الحذف', moreAdded: '➕ أضفت {0} أسئلة جديدة',
     noSum: 'لا يوجد ملخص', testNow: '⚡ اختبر نفسك الآن',
-    cDone: 'أنهيت البطاقات!', cKnown: 'حفظتها ✅', cAgain: 'تحتاج مراجعة 🔁', again: '🔁 مرة أخرى', testYou: '⚡ اختبر نفسك', back: 'رجوع', tapFlip: '👆 اضغط لقلب البطاقة', notYet: '🔁 لم أحفظها', gotIt: '✅ حفظتها', noCards: 'لا توجد بطاقات في هذه المجموعة',
+    cDone: 'أنهيت البطاقات!', cKnown: 'حفظتها ✅', cAgain: 'تحتاج مراجعة 🔁', again: '🔁 مرة أخرى', testYou: '⚡ اختبر نفسك', back: 'رجوع', tapFlip: '👆 اضغط لقلب البطاقة', notYet: '🔁 لم أحفظها', gotIt: '✅ حفظتها', noCards: 'لا توجد بطاقات في هذا الدرس',
     t_mcq: 'اختيار من متعدد', t_tf: 'صح أم خطأ', t_fill: 'أكمل الفراغ', revB: 'مراجعة خطأ', letters: ['أ', 'ب', 'ج', 'د', 'هـ', 'و'],
     praise: ['ممتاز! 🌟', 'أحسنت! 👏', 'رائع! 🔥', 'بطل! 💪', 'صح عليك! ✅', 'عبقري! 🧠'],
     correctIs: '❌ الإجابة الصحيحة: {0}', inRow: '🔥 {0} متتالية!', listen: '🔊 اسمع الشرح', explain: '🤖 اشرح لي أكثر', results: 'النتيجة 🏁', next: 'التالي ←',
@@ -353,7 +389,7 @@ const TR = {
     r1: 'أداء أسطوري!', r2: 'ممتاز جداً!', r3: 'جيد، وبتقدر أحسن!', r4: 'لا بأس، المراجعة هي الطريق',
     maxCombo: 'أطول سلسلة 🔥', minutes: 'دقيقة', of100: 'من 100', answeredOf: 'أجبت عن {0} من {1}',
     retryWrong: '🎯 أعد الأسئلة الخاطئة ({0})', chFriend: '⚔️ تحدَّ صديقك يجيب أحسن منك', cont: 'متابعة', revMist: '📌 راجع أخطاءك', yourAns: '❌ إجابتك: {0}', noAns: '⏰ لم تُجب',
-    chWon: '🏆 فزت بالتحدي!', chTie: '🤝 تعادل!', chLost: '😅 {0} غلبك هالمرة', you: 'أنت', replyCh: '↩️ ردّ التحدي عليه', saveSet: '📥 احفظ المجموعة في مكتبتي',
+    chWon: '🏆 فزت بالتحدي!', chTie: '🤝 تعادل!', chLost: '😅 {0} غلبك هالمرة', you: 'أنت', replyCh: '↩️ ردّ التحدي عليه', saveSet: '📥 احفظ الدرس في مكتبتي',
     gotScore: 'جبت {0} من {1} 👏', chWith: '⚔️ تحدَّ {0} بنتيجتك', savedLib: '📥 تم الحفظ في مكتبتك', copied: '📋 تم نسخ الرابط، أرسله لصديقك', chBad: 'رابط التحدي غير صالح',
     chT1: '{0} يتحدّاك!', chT2: '{0} يدعوك لتحدٍّ', nQs: '{0} أسئلة', hisScore: 'نتيجته:', accept: '🔥 قبلت التحدي!', later: 'لاحقاً',
     shCh1: '⚔️ تحدّيتك في «{0}»! جبت {1}/{2} على {3}، فكرك بتغلبني؟ 😏\n', shCh2: '⚔️ تعال نتحدّى في «{0}» على {1}! 🧠\n', shReply: '{0}جبت {1}/{2} في «{3}». جرّب تغلبني 👊\n', shWin: '😎 غلبتك! ',
@@ -361,17 +397,17 @@ const TR = {
     tutorT: '🤖 المعلّم الذكي', tutorPh: 'اسأل أي سؤال عن الدرس...', tutorHi: 'أهلاً {0} 👋 أنا معلّمك الخاص لهذا الدرس. اسألني أي شيء، أو جرّب:',
     tutorS: ['اشرح لي الدرس ببساطة', 'أعطني مثالاً من الحياة', 'ما أهم شيء للامتحان؟', 'اعمل لي طريقة سهلة للحفظ'], listen2: '🔊 استمع',
     tutorPre: 'ما فهمت هذا السؤال: «{0}»\nالجواب الصحيح: «{1}»{2}\nاشرح لي ليش؟', tutorChose: '\nوأنا اخترت: «{0}»',
-    bTitle: '🏆 إنجازاتي', curStreak: 'السلسلة الحالية', perfect: 'علامة كاملة', cardsN: 'بطاقة', setsL: 'مجموعة', examsL: 'امتحان', chL: 'تحدّي', badgesL: 'الأوسمة', newBadge: '🏅 وسام جديد: ',
+    bTitle: '🏆 إنجازاتي', curStreak: 'السلسلة الحالية', perfect: 'علامة كاملة', cardsN: 'بطاقة', setsL: 'درس', examsL: 'امتحان', chL: 'تحدّي', badgesL: 'الأوسمة', newBadge: '🏅 وسام جديد: ',
     prof: '👤 حسابي', name: 'الاسم', saved: 'تم الحفظ ✅', goalL: 'الهدف اليومي', goals: ['خفيف', 'عادي', 'جاد', 'وحش 🔥'],
-    sound: '🔊 المؤثرات الصوتية', dark: '🌙 الوضع الليلي', shareApp: '📤 شارك التطبيق مع أصحابك', reset: '🗑️ حذف كل البيانات', resetQ: 'سيتم حذف كل مجموعاتك ونقاطك. متأكد؟',
+    sound: '🔊 المؤثرات الصوتية', dark: '🌙 الوضع الليلي', shareApp: '📤 شارك التطبيق مع أصحابك', reset: '🗑️ حذف كل البيانات', resetQ: 'سيتم حذف كل دروسك ونقاطك. متأكد؟',
     version: 'الإصدار 1.1', dev: 'تطوير:', wa: '💬 تواصل عبر واتساب', insta: '📸 تابعنا على إنستغرام',
-    lvUp: '🎉 مبروك! وصلت المستوى {0} – {1}', goalDone: '🎯 حققت هدفك اليومي! استمر 🔥', full: '⚠️ ذاكرة الجهاز ممتلئة، احذف بعض المجموعات', noTts: 'القراءة الصوتية غير مدعومة على هذا الجهاز',
+    lvUp: '🎉 مبروك! وصلت المستوى {0} – {1}', goalDone: '🎯 حققت هدفك اليومي! استمر 🔥', full: '⚠️ ذاكرة الجهاز ممتلئة، احذف بعض الدروس', noTts: 'القراءة الصوتية غير مدعومة على هذا الجهاز',
     trialLeft: '🎁 التجربة المجانية: بقي {0} من {1}', activated: '✅ النسخة الكاملة مفعّلة', actTitle: 'انتهت التجربة المجانية',
     actDesc: 'استخدمت {0} طلبات مجانية 🎉 لتكمل بلا حدود، أرسل رقم جهازك للمطوّر عبر واتساب ليرسل لك رمز التفعيل.',
-    actFeat: ['مجموعات بلا حدود من الصور والـ PDF والنصوص', 'المعلّم الذكي بلا حدود', 'توليد أسئلة إضافية لأي مجموعة', 'كل الميزات القادمة'],
+    actFeat: ['دروس من الصور والـ PDF والنصوص', 'المعلّم الذكي وتصحيح الأسئلة الكتابية', 'توليد أسئلة إضافية لأي درس', 'كل الميزات القادمة'],
     devId: 'رقم جهازك (أرسله للمطوّر)', copy: 'نسخ', idCopied: '📋 تم نسخ رقم الجهاز', reqWa: '💬 اطلب التفعيل عبر واتساب', haveCode: 'أدخل رمز التفعيل (رقمان)', codePh: '••', activate: 'فعّل',
     actOk: '🎉 تم التفعيل! استمتع بلا حدود', actBad: 'رمز التفعيل غير صحيح ❌', actNeed: 'أدخل رمز التفعيل المكوّن من رقمين', actLocked: 'محاولات كثيرة خاطئة، حاول بعد {0} دقيقة ⏳', actBtn: '🔓 تفعيل النسخة الكاملة',
-    waMsg: 'مرحباً، أريد تفعيل تطبيق {0}\nالاسم: {1}\nرقم الجهاز: {2}', tutorLim: 'انتهت رسائل المعلّم المجانية، فعّل النسخة الكاملة 🔓', actTitle2: '🔓 التفعيل', freeOK: 'المجموعة التجريبية والتحديات مجانية دائماً 💚'
+    waMsg: 'مرحباً، أريد تفعيل تطبيق {0}\nالاسم: {1}\nرقم الجهاز: {2}', tutorLim: 'انتهت رسائل المعلّم المجانية، فعّل النسخة الكاملة 🔓', actTitle2: '🔓 التفعيل', freeOK: 'المراجعة والاختبارات على دروسك المحفوظة مجانية دائماً 💚'
   },
   en: {
     tag: 'Study smarter', welcome: 'Welcome to {0}',
@@ -384,25 +420,38 @@ const TR = {
     snap: 'Snap a page from your book', snapSub: 'and let AI turn it into questions',
     paste: 'Paste text', pasteSub: 'Notes or a lesson', topic: 'Type a topic', topicSub: "and I'll quiz you",
     revWrong: 'Review your mistakes ({0})', revWrongSub: 'Questions you missed, until you master them',
-    recent: 'Recent sets', seeAll: 'See all →', solved: 'Answered', accuracy: 'Accuracy', bestStreak: 'Best streak 🔥',
-    demo: 'Demo', qc: '{0} questions · {1} cards', emptyT: 'No sets yet', emptyS: 'Tap ＋ to create your first set',
+    recent: 'Recent lessons', seeAll: 'See all →', solved: 'Answered', accuracy: 'Accuracy', bestStreak: 'Best streak 🔥',
+    demo: 'Demo', qc: '{0} questions · {1} cards', emptyT: 'No lessons yet', emptyS: 'Tap ＋ to add your first lesson',
     n_home: 'Home', n_lib: 'Library', n_badges: 'Awards', n_prof: 'Profile',
-    lib: '📚 My library', setsN: '{0} sets', search: '🔍 Search your sets...',
-    newSet: '✨ New set', tb_image: '📸 Photo', tb_pdf: '📄 PDF', tb_text: '📝 Text', tb_topic: '💡 Topic',
+    lib: '📚 My library', setsN: '{0} lessons', search: '🔍 Search your lessons...',
+    newSet: '✨ New lesson', tb_image: '📸 Photo', tb_pdf: '📄 PDF', tb_text: '📝 Text', tb_topic: '💡 Topic',
     cam: 'Take photo', gal: 'Gallery', imgTip: 'Add up to 6 pages. Make sure the photo is sharp and well lit 💡', maxImg: 'Maximum 6 pages', imgErr: "Couldn't read the image",
     pdfPick: 'Choose a PDF', pdfSub: 'Notes, lecture slides, a book chapter (up to 50 MB – 1000 pages)', pdfBig: 'File is larger than 50 MB',
     textPh: 'Paste your lesson, summary or notes here...', chars: '{0} characters',
     topicPh: "e.g. Newton's laws, photosynthesis, the animal cell...", topicTip: '💡 The more precise the topic (subject + lesson + level), the better the questions.',
-    setName: 'Set name (optional)', setNamePh: "I'll suggest one automatically", numQ: 'Number of questions', diffL: 'Difficulty',
+    setName: 'Lesson name (optional)', setNamePh: "I'll suggest one automatically", numQ: 'Number of questions', diffL: 'Difficulty',
     d_easy: 'Easy', d_med: 'Medium', d_hard: 'Hard', d_exam_s: '🎓 Ministry exam style', d_exam_u: '🎓 University exam style',
-    qLang: 'Question language', l_auto: 'Same as material', l_ar: 'عربي', l_en: 'English', make: '🪄 Create set',
+    qLang: 'Question language', l_auto: 'Same as material', l_ar: 'عربي', l_en: 'English', make: '🪄 Prepare lesson',
     needImg: 'Add at least one photo 📸', needPdf: 'Choose a PDF first 📄', shortText: 'The text is too short, add more ✍️', needTopic: 'Type a topic first 💡',
-    ready: '✨ Ready! {0} questions & {1} cards',
+    ready: '✨ Lesson ready! {0} questions & {1} cards',
     ld: ['Reading your material...', 'Finding the key ideas...', 'Writing smart questions...', 'Explaining every answer...', 'Building flashcards...', 'Almost ready ✨'],
+    subT: '⭐ Subscription', subscribe: 'Subscribe', myPlan: '⭐ My plan', choosePlan: 'Choose your plan', renewT: 'Renew or upgrade', subDesc: 'Pick a plan, pay the easiest way for you, then send the transfer receipt on WhatsApp to activate your account on all your devices.',
+    pl_basic: 'Basic', pl_student: 'Student', pl_yearly: 'Full year', mostChosen: '⭐ Most popular', bestValue: '👑 Best value', perMonth: ' / month', perYear: ' / year',
+    jod: '{0} JOD', usd: '${0}', lessonsMo: '{0} lessons per month', chatMo: '{0} tutor messages', months12: '12 months for the price of 6',
+    planLeft: '{0} of {1} lessons left · renews in {2} days',
+    planLine: '⭐ {0} · {1} of {2} lessons left · renews in {3} days', chatLeftL: '🤖 {0} tutor messages left',
+    bigRule: '📚 A large file (over 20 pages) counts as 3 lessons. Reviewing and quizzing your saved lessons is always free.', costs3: '📚 Large file: counts as 3 lessons',
+    planOver: "You've used this month's lessons 📚 They renew in {0} days, or upgrade your plan", planNeed3: 'This large file needs 3 lessons and you have {0}. Split it or upgrade', planChatOver: "You've used this month's tutor messages",
+    payT: '💳 Pay {0} – {1}', pm_cliq: '🇯🇴 CliQ', pm_bank: '🏦 Bank', pm_paypal: '🅿️ PayPal', pm_wu: '🌍 Transfer', accNo: 'Account no.', ppEmail: 'Email', ppUser: 'Username', ppOpen: '🅿️ Open PayPal', ppHow: 'Send {0} via PayPal to the email above, choosing "Friends & Family" if possible.',
+    cliqAlias: 'CliQ alias', cliqHow: 'Open your bank app → CliQ → send to alias, and paste the alias above.', bankName: 'Bank', accName: 'Account holder',
+    wuName: 'Receiver name', wuCountry: 'Country', wuCity: 'City', wuHow: 'Via Western Union or MoneyGram. After sending, share the MTCN / reference number with a photo of the receipt.',
+    askDetails: '💬 Ask for transfer details on WhatsApp', sentPay: "💬 I've paid – notify the developer", afterPay: 'Attach the receipt on WhatsApp, then tap "Refresh status" once activated 👇', copiedX: '📋 Copied',
+    waAsk: 'Hello, I want to subscribe to {0} via {1}\nUsername: {2}\nPlease send me the transfer details', waPaid: 'Hello, I paid for {0} ✅\nUsername: {1}\nPlan: {2} – {3}\nPayment method: {4}\n(receipt attached)',
     accT: 'Zakerli account', accSub: 'Sign up once and use the same account on any phone, laptop or tablet 📱💻', tabReg: 'Sign up', tabLog: 'Log in',
     user: 'Username', userPh: 'e.g. ahmad11', userHint: 'Lowercase letters, numbers, . and _ (3-20)', pass: 'Password', passPh: 'At least 6 characters', pass2: 'Confirm password',
     phone: 'WhatsApp number (optional)', phoneHint: 'So the developer can confirm your activation', doReg: '✨ Create my account', doLog: '🔓 Log in', passMismatch: "Passwords don't match",
     regOk: '🎉 Account created! You have {0} free tries', logOk: '👋 Welcome back',
+    e_quota: 'The app reached its daily AI limit, please try later or tomorrow ⏳ (this try was not counted)',
     e_bad_user: 'Username: lowercase letters and numbers only (3-20)', e_short_pass: 'Password is too short (min 6)', e_exists: 'Username is taken, choose another', e_wrong: 'Wrong username or password',
     e_devices: 'Device limit reached ({0}). Contact the developer to reset it', e_no_db: 'Server not set up yet (database)', e_auth: 'Session expired, please log in again',
     trialNoAcc: '🔐 Create a free account and get {0} tries', activeUntil: '✅ Active until {0}', activeForever: '♾️ Lifetime access', expiredT: '⛔ Your subscription has expired',
@@ -412,20 +461,20 @@ const TR = {
     ldUp: ['Uploading your file... 📤', 'Preparing the pages...', 'Almost ready to read ✨'],
     ldBig: ['Reading all your material...', 'Writing the full lesson explanation...', 'Building the question bank...', 'Preparing flashcards & glossary...', 'Drawing the mind map...', 'Writing written questions...', 'Double-checking accuracy...', 'Almost ready ✨ (may take a minute)'],
     lessonT: 'Full explanation', lessonSub: 'The whole lesson with examples', mmT: 'Mind map', mmSub: 'The lesson at a glance', wrT: 'Written questions', wrSub: 'with AI grading',
-    example: '💡 Example', mistakes: '⚠️ Common student mistakes', tipsT: '🎯 Exam tips', gloss: '📚 Glossary', noExtra: "This set doesn't have this section yet.", genExtra: '🪄 Generate explanation, mind map & written questions',
+    example: '💡 Example', mistakes: '⚠️ Common student mistakes', tipsT: '🎯 Exam tips', gloss: '📚 Glossary', noExtra: "This lesson doesn't have this section yet.", genExtra: '🪄 Generate explanation, mind map & written questions',
     wrTip: '✍️ Write your answer as you would in the exam, then tap "Grade my answer" to get an AI score out of 10.', yourAnswer: 'Write your answer here...', grade: '✅ Grade my answer', model: '👁️ Model answer', score: 'Your score: {0} / 10', good: '👍 What you did well', missing: '📌 What is missing', needAns: 'Write your answer first ✍️', points: 'Marking points',
     examDate: '📅 Exam date', daysLeft: '⏳ {0} days left', examToday: '🍀 Exam is today! Good luck', examPast: '✔️ Exam date has passed', homeExam: '📅 "{0}" exam in {1} days', homeExamToday: '🍀 "{0}" exam is today! Good luck',
     focus: 'Focus timer', focusSub: 'Pomodoro: 25 min study + 5 break', fStudy: '📖 Study', fBreak: '☕ Break', fStart: '▶️ Start', fPause: '⏸️ Pause', fReset: '↺ Reset', fDone: '🎉 Great! Focus session done (+15 XP)', fBreakDone: '💪 Break is over, back to it', close: 'Close', fTip: 'Silence your phone and focus on one lesson only 📵',
     ldMore: ['Thinking of new questions...', 'Making sure they are not repeated...', 'Almost ready ✨'],
     tips: ['💡 Spaced review beats cramming in one night', '💡 Answering questions sticks better than re-reading', '💡 Study 25 minutes, then rest 5', '💡 Explain the lesson out loud like a teacher', '💡 Good sleep before an exam locks in what you studied'],
-    e_noapi: 'The AI server is not connected yet. Try the demo set for now 👌', e_off: 'No internet connection 📶', e_busy: 'The server is busy, try again in a minute ⏳', e_json: "I couldn't read the reply, try again 🔄", e_gen: 'Something went wrong, try again ({0})',
-    mastery: 'Mastery', best: 'Best score {0}%', set: 'Set',
+    e_noapi: 'The AI server is not connected yet. Try the demo lesson for now 👌', e_off: 'No internet connection 📶', e_busy: 'The server is busy, try again in a minute ⏳', e_json: "I couldn't read the reply, try again 🔄", e_gen: 'Something went wrong, try again ({0})',
+    mastery: 'Mastery', best: 'Best score {0}%', set: 'Lesson',
     quick: 'Quick quiz', quickSub: '{0} random questions with instant explanations', cards: 'Flashcards', cardsSub: 'Memorize fast', summary: 'Summary', summarySub: 'Key points',
     exam: 'Exam mode', examSub: 'Timed & graded', tutor: 'Ask the tutor', tutorSub: 'Explain more',
-    wrongSet: '🎯 Review my mistakes in this set ({0})', all: '📝 Answer all questions ({0})', chBtn: '⚔️ Challenge a friend with this set', more: '➕ Generate more questions',
-    delQ: 'Delete this set permanently?', deleted: 'Deleted', moreAdded: '➕ Added {0} new questions',
+    wrongSet: '🎯 Review my mistakes in this lesson ({0})', all: '📝 Answer all questions ({0})', chBtn: '⚔️ Challenge a friend with this lesson', more: '➕ Generate more questions',
+    delQ: 'Delete this lesson permanently?', deleted: 'Deleted', moreAdded: '➕ Added {0} new questions',
     noSum: 'No summary', testNow: '⚡ Test yourself now',
-    cDone: 'Flashcards done!', cKnown: 'Got it ✅', cAgain: 'Need review 🔁', again: '🔁 Again', testYou: '⚡ Test yourself', back: 'Back', tapFlip: '👆 Tap to flip', notYet: '🔁 Not yet', gotIt: '✅ Got it', noCards: 'This set has no flashcards',
+    cDone: 'Flashcards done!', cKnown: 'Got it ✅', cAgain: 'Need review 🔁', again: '🔁 Again', testYou: '⚡ Test yourself', back: 'Back', tapFlip: '👆 Tap to flip', notYet: '🔁 Not yet', gotIt: '✅ Got it', noCards: 'This lesson has no flashcards',
     t_mcq: 'Multiple choice', t_tf: 'True or false', t_fill: 'Fill in the blank', revB: 'Review', letters: ['A', 'B', 'C', 'D', 'E', 'F'],
     praise: ['Excellent! 🌟', 'Well done! 👏', 'Awesome! 🔥', 'Champion! 💪', 'Correct! ✅', 'Genius! 🧠'],
     correctIs: '❌ Correct answer: {0}', inRow: '🔥 {0} in a row!', listen: '🔊 Listen', explain: '🤖 Explain more', results: 'Results 🏁', next: 'Next →',
@@ -433,7 +482,7 @@ const TR = {
     r1: 'Legendary!', r2: 'Excellent!', r3: 'Good, you can do better!', r4: 'No worries, review is the way',
     maxCombo: 'Best streak 🔥', minutes: 'min', of100: 'out of 100', answeredOf: 'You answered {0} of {1}',
     retryWrong: '🎯 Retry wrong answers ({0})', chFriend: '⚔️ Challenge a friend to beat you', cont: 'Continue', revMist: '📌 Review your mistakes', yourAns: '❌ Your answer: {0}', noAns: '⏰ Not answered',
-    chWon: '🏆 You won the challenge!', chTie: "🤝 It's a tie!", chLost: '😅 {0} beat you this time', you: 'You', replyCh: '↩️ Challenge back', saveSet: '📥 Save this set to my library',
+    chWon: '🏆 You won the challenge!', chTie: "🤝 It's a tie!", chLost: '😅 {0} beat you this time', you: 'You', replyCh: '↩️ Challenge back', saveSet: '📥 Save this lesson to my library',
     gotScore: 'You got {0} of {1} 👏', chWith: '⚔️ Challenge {0} with your score', savedLib: '📥 Saved to your library', copied: '📋 Link copied, send it to your friend', chBad: 'Invalid challenge link',
     chT1: '{0} challenges you!', chT2: '{0} invites you to a challenge', nQs: '{0} questions', hisScore: 'Their score:', accept: '🔥 Challenge accepted!', later: 'Later',
     shCh1: '⚔️ I challenge you on "{0}"! I scored {1}/{2} on {3}. Think you can beat me? 😏\n', shCh2: '⚔️ Let\'s battle on "{0}" in {1}! 🧠\n', shReply: '{0}I scored {1}/{2} on "{3}". Try to beat me 👊\n', shWin: '😎 Beat you! ',
@@ -441,17 +490,17 @@ const TR = {
     tutorT: '🤖 AI Tutor', tutorPh: 'Ask anything about the lesson...', tutorHi: "Hi {0} 👋 I'm your personal tutor for this lesson. Ask me anything, or try:",
     tutorS: ['Explain the lesson simply', 'Give me a real-life example', "What's most important for the exam?", 'Give me an easy way to memorize it'], listen2: '🔊 Listen',
     tutorPre: 'I didn\'t understand this question: "{0}"\nThe correct answer: "{1}"{2}\nCan you explain why?', tutorChose: '\nI chose: "{0}"',
-    bTitle: '🏆 My awards', curStreak: 'Current streak', perfect: 'Perfect scores', cardsN: 'Cards', setsL: 'Sets', examsL: 'Exams', chL: 'Challenges', badgesL: 'Badges', newBadge: '🏅 New badge: ',
+    bTitle: '🏆 My awards', curStreak: 'Current streak', perfect: 'Perfect scores', cardsN: 'Cards', setsL: 'Lessons', examsL: 'Exams', chL: 'Challenges', badgesL: 'Badges', newBadge: '🏅 New badge: ',
     prof: '👤 Profile', name: 'Name', saved: 'Saved ✅', goalL: 'Daily goal', goals: ['Light', 'Regular', 'Serious', 'Beast 🔥'],
-    sound: '🔊 Sound effects', dark: '🌙 Dark mode', shareApp: '📤 Share the app with friends', reset: '🗑️ Delete all data', resetQ: 'All your sets and points will be deleted. Are you sure?',
+    sound: '🔊 Sound effects', dark: '🌙 Dark mode', shareApp: '📤 Share the app with friends', reset: '🗑️ Delete all data', resetQ: 'All your lessons and points will be deleted. Are you sure?',
     version: 'Version 1.1', dev: 'Developed by', wa: '💬 Contact on WhatsApp', insta: '📸 Follow us on Instagram',
-    lvUp: '🎉 Congrats! You reached level {0} – {1}', goalDone: '🎯 Daily goal reached! Keep going 🔥', full: '⚠️ Device storage is full, delete some sets', noTts: 'Text-to-speech is not supported on this device',
+    lvUp: '🎉 Congrats! You reached level {0} – {1}', goalDone: '🎯 Daily goal reached! Keep going 🔥', full: '⚠️ Device storage is full, delete some lessons', noTts: 'Text-to-speech is not supported on this device',
     trialLeft: '🎁 Free trial: {0} of {1} left', activated: '✅ Full version activated', actTitle: 'Your free trial has ended',
     actDesc: "You've used your {0} free requests 🎉 To keep going without limits, send your device code to the developer on WhatsApp to get your activation code.",
-    actFeat: ['Unlimited sets from photos, PDFs and text', 'Unlimited AI tutor', 'Extra questions for any set', 'All upcoming features'],
+    actFeat: ['Lessons from photos, PDFs and text', 'AI tutor and written-answer grading', 'Extra questions for any lesson', 'All upcoming features'],
     devId: 'Your device code (send it to the developer)', copy: 'Copy', idCopied: '📋 Device ID copied', reqWa: '💬 Request activation on WhatsApp', haveCode: 'Enter your activation code (2 digits)', codePh: '••', activate: 'Activate',
     actOk: '🎉 Activated! Enjoy unlimited studying', actBad: 'Wrong activation code ❌', actNeed: 'Enter the 2-digit activation code', actLocked: 'Too many wrong attempts, try again in {0} min ⏳', actBtn: '🔓 Activate full version',
-    waMsg: 'Hello, I want to activate {0}\nName: {1}\nDevice ID: {2}', tutorLim: 'Free tutor messages are used up, activate the full version 🔓', actTitle2: '🔓 Activation', freeOK: 'The demo set and challenges are always free 💚'
+    waMsg: 'Hello, I want to activate {0}\nName: {1}\nDevice ID: {2}', tutorLim: 'Free tutor messages are used up, activate the full version 🔓', actTitle2: '🔓 Activation', freeOK: 'Reviewing and quizzing your saved lessons is always free 💚'
   }
 };
 let LANG = 'ar';
@@ -509,7 +558,7 @@ function addXP(n) {
 
 /* ---------------- الأوسمة ---------------- */
 const BADGES = [
-  { id: 'first', e: '🎒', n: ['البداية', 'First step'], d: ['أنشئ أول مجموعة', 'Create your first set'], t: s => s.stats.created >= 1 },
+  { id: 'first', e: '🎒', n: ['البداية', 'First step'], d: ['أضف أول درس', 'Add your first lesson'], t: s => s.stats.created >= 1 },
   { id: 'q50', e: '✍️', n: ['نشيط', 'Active'], d: ['أجب 50 سؤالاً', 'Answer 50 questions'], t: s => s.stats.answered >= 50 },
   { id: 'q500', e: '📚', n: ['دودة كتب', 'Bookworm'], d: ['أجب 500 سؤال', 'Answer 500 questions'], t: s => s.stats.answered >= 500 },
   { id: 'perfect', e: '💯', n: ['العلامة الكاملة', 'Full marks'], d: ['اختبار بلا أخطاء', 'A quiz with no mistakes'], t: s => s.stats.perfect >= 1 },
@@ -522,7 +571,7 @@ const BADGES = [
   { id: 'duel', e: '⚔️', n: ['المتحدّي', 'Challenger'], d: ['العب تحدياً مع صديق', 'Play a friend challenge'], t: s => s.stats.challenges >= 1 },
   { id: 'lvl5', e: '🧠', n: ['نابغة', 'Brainy'], d: ['المستوى 5', 'Reach level 5'], t: s => levelOf(s.xp) >= 5 },
   { id: 'lvl10', e: '👑', n: ['أسطورة', 'Legend'], d: ['المستوى 10', 'Reach level 10'], t: s => levelOf(s.xp) >= 10 },
-  { id: 'sets10', e: '🗂️', n: ['مكتبة عامرة', 'Full shelf'], d: ['10 مجموعات', '10 sets'], t: s => s.stats.created >= 10 },
+  { id: 'sets10', e: '🗂️', n: ['مكتبة عامرة', 'Full shelf'], d: ['10 دروس', '10 lessons'], t: s => s.stats.created >= 10 },
   { id: 'xp1000', e: '💎', n: ['ألف نقطة', '1000 club'], d: ['1000 XP', '1000 XP'], t: s => s.xp >= 1000 }
 ];
 const LI = () => LANG === 'ar' ? 0 : 1;
@@ -633,7 +682,9 @@ function aiError(e) {
   if (m === 'no_db') return t('e_no_db');
   if (m === 'NOAPI') return t('e_noapi');
   if (m === 'OFFLINE') return t('e_off');
-  if (/429|503|quota|rate|high demand|overloaded|unavailable|no longer available/i.test(m)) return t('e_busy');
+  if (e && e.data && e.data.quota) return t('e_quota');
+  if (/quota|exhausted/i.test(m)) return t('e_quota');
+  if (/429|503|rate|high demand|overloaded|unavailable|no longer available/i.test(m)) return t('e_busy') + ' (' + m.replace(/\s+/g, ' ').slice(0, 70) + ')';
   if (/too large/i.test(m)) return t('pdfBig');
   if (/JSON/.test(m)) return t('e_json');
   return t('e_gen', m.slice(0, 60));
@@ -644,16 +695,18 @@ let CUR_TICKET = '', ACC_NEXT = null, ACC_TAB = 'reg';
 const meNow = () => S.auth && S.auth.me ? S.auth.me : null;
 const isPro = () => !!(meNow() && meNow().active);
 const fmtDate = ts => new Date(ts).toLocaleDateString(LANG === 'ar' ? 'ar-JO' : 'en-GB');
-async function getTicket(kind) {
+async function getTicket(kind, cost) {
   if (!S.auth || !S.auth.token) { ACC_NEXT = [VIEW, VARG]; go('account'); throw new Error('STOP'); }
   try {
-    const r = await callApi({ action: 'use', token: S.auth.token, kind, device: S.deviceId });
+    const r = await callApi({ action: 'use', token: S.auth.token, kind, cost: cost || 1, device: S.deviceId });
     S.auth.me = r.me; save(); CUR_TICKET = r.ticket; return r.ticket;
   } catch (e) {
     if (e.message === 'auth') { S.auth = null; save(); ACC_NEXT = [VIEW, VARG]; go('account'); throw new Error('STOP'); }
-    if (e.message === 'trial_over' || e.message === 'chat_over') {
+    if (['trial_over', 'chat_over', 'plan_over', 'plan_chat_over'].includes(e.message)) {
       if (e.data && e.data.me) { S.auth.me = e.data.me; save(); }
       if (e.message === 'chat_over') toast(t('tutorLim'));
+      if (e.message === 'plan_chat_over') toast(t('planChatOver'));
+      if (e.message === 'plan_over') { const m = S.auth.me; const d = m && m.resetAt ? Math.max(1, Math.ceil((m.resetAt - Date.now()) / 864e5)) : 30; toast(e.data && e.data.need === 3 && m && m.pLeft > 0 ? t('planNeed3', m.pLeft) : t('planOver', d)); }
       go('activate'); throw new Error('STOP');
     }
     throw e;
@@ -664,12 +717,6 @@ async function refreshMe(showMsg) {
   if (!S.auth) return;
   try { const r = await callApi({ action: 'me', token: S.auth.token }); S.auth.me = r.me; save(); if (showMsg) toast(r.me.active ? t('actOk') : t('stillTrial')); if (r.me.active && showMsg) { sfx('win'); confetti(); } }
   catch (e) { if (e.message === 'auth') { S.auth = null; save(); } else if (showMsg) toast(aiError(e)); }
-}
-function trialChip() {
-  const m = meNow();
-  if (!m) return `<div class="trial" onclick="ACC_NEXT=null;go('account')">${t('trialNoAcc', CONFIG.FREE_USES)} <b>${back() === '→' ? '←' : '→'}</b></div>`;
-  if (m.active) return `<div class="trial ok" onclick="go('activate')">${m.until ? t('activeUntil', fmtDate(m.until)) : t('activated')}</div>`;
-  return `<div class="trial ${m.left ? '' : 'end'}" onclick="go('activate')">${m.expired ? t('expiredT') : m.left ? t('trialLeft', m.left, m.free) : '🔒 ' + t('actTitle')} <b>${m.left && !m.expired ? '' : t('activate') + ' ←'}</b></div>`;
 }
 
 /* شاشة إنشاء الحساب وتسجيل الدخول */
@@ -713,28 +760,76 @@ function logout() {
   S.auth = null; save(); toast('👋'); go('home');
 }
 
-/* شاشة التفعيل */
+/* ---------------- الباقات وطرق الدفع ---------------- */
+const PLANS = [
+  { id: 'basic', jod: 5, usd: 7, lessons: 10, chat: 100, per: 'month' },
+  { id: 'student', jod: 10, usd: 14, lessons: 30, chat: 300, per: 'month', best: true },
+  { id: 'yearly', jod: 60, usd: 85, lessons: 30, chat: 300, per: 'year', save: true }
+];
+let CUR = null, SEL_PLAN = 'student', PAY_TAB = null;
+const curNow = () => CUR || (LANG === 'ar' ? 'jod' : 'usd');
+const priceTxt = p => curNow() === 'jod' ? t('jod', p.jod) : t('usd', p.usd);
+const planName = id => t('pl_' + id);
+function planStatus(m) {
+  const days = m.resetAt ? Math.max(0, Math.ceil((m.resetAt - Date.now()) / 864e5)) : 0;
+  return t('planLine', planName(m.plan), m.pLeft, m.pLessons, days);
+}
+function trialChip() {
+  const m = meNow();
+  if (!m) return `<div class="trial" onclick="ACC_NEXT=null;go('account')">${t('trialNoAcc', CONFIG.FREE_USES)} <b>${back() === '→' ? '←' : '→'}</b></div>`;
+  if (m.active) return `<div class="trial ${m.pLeft ? 'ok' : 'end'}" onclick="go('activate')">${planStatus(m)}</div>`;
+  return `<div class="trial ${m.left ? '' : 'end'}" onclick="go('activate')">${m.expired ? t('expiredT') : m.left ? t('trialLeft', m.left, m.free) : '🔒 ' + t('actTitle')} <b>${m.left && !m.expired ? '' : t('subscribe') + ' ←'}</b></div>`;
+}
+function copyTxt(x) { try { navigator.clipboard.writeText(x); toast(t('copiedX')); } catch (e) { toast(x); } }
+function payBox() {
+  if (!PAY_TAB) PAY_TAB = LANG === 'ar' ? 'cliq' : 'paypal';
+  const P = CONFIG.PAY, m = meNow(), plan = PLANS.find(p => p.id === SEL_PLAN);
+  const row = (label, val) => val ? `<div class="pay-row"><span class="muted small">${label}</span><b dir="auto">${esc(val)}</b><button class="btn btn-o btn-s" onclick="copyTxt(${J(val)})">📋</button></div>` : '';
+  const askWa = method => `<a class="btn btn-o mt" style="text-decoration:none" target="_blank" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(t('waAsk', appName(), t('pm_' + method), m.u))}">${t('askDetails')}</a>`;
+  let body = '';
+  if (PAY_TAB === 'cliq') body = P.cliq.alias ? row(t('cliqAlias'), P.cliq.alias) + row(t('accName'), P.cliq.name) + row(t('bankName'), P.cliq.bank) + `<p class="muted small mt">${t('cliqHow')}</p>` : askWa('cliq');
+  else if (PAY_TAB === 'bank') body = P.bank.iban ? row(t('bankName'), P.bank.bank) + row('Bank', P.bank.bankEn) + row(t('accName'), P.bank.name) + row(t('accNo'), P.bank.acc) + row('IBAN', P.bank.iban) + row('SWIFT', P.bank.swift) : askWa('bank');
+  else if (PAY_TAB === 'paypal') body = P.paypal.email ? row(t('ppEmail'), P.paypal.email) + row(t('ppUser'), P.paypal.user) + (P.paypal.link ? `<a class="btn btn-p mt" style="text-decoration:none" target="_blank" href="${esc(P.paypal.link)}">${t('ppOpen')}</a>` : '') + `<p class="muted small mt">${t('ppHow', t('usd', plan.usd))}</p>` : askWa('paypal');
+  else body = P.wu.name ? row(t('wuName'), P.wu.name) + row(t('wuCountry'), P.wu.country) + row(t('wuCity'), P.wu.city) + `<p class="muted small mt">${t('wuHow')}</p>` : askWa('wu');
+  const msg = t('waPaid', appName(), m.u, planName(plan.id), priceTxt(plan), t('pm_' + PAY_TAB));
+  return `<div class="card mt pay">
+    <div class="h3">${t('payT', planName(plan.id), priceTxt(plan))}</div>
+    <div class="tabs mt pay-tabs">${['cliq', 'bank', 'paypal', 'wu'].map(k => `<button class="${PAY_TAB === k ? 'on' : ''}" onclick="PAY_TAB='${k}';activateView()">${t('pm_' + k)}</button>`).join('')}</div>
+    <div class="mt">${body}</div>
+    <a class="btn mt" style="background:#25D366;color:#fff;text-decoration:none" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(msg)}" target="_blank">${t('sentPay')}</a>
+    <p class="muted small mt" style="text-align:center">${t('afterPay')}</p>
+  </div>`;
+}
 function activateView() {
   VIEW = 'activate'; renderNav();
   const m = meNow();
   if (!m) { ACC_NEXT = null; return accountView(); }
-  const msg = t('waMsg2', appName(), m.u, (S.user && S.user.name) || m.name || '');
+  const head = m.active
+    ? `<div class="card" style="text-align:center;border-top:4px solid var(--gold)"><div style="font-size:46px">${m.plan === 'yearly' ? '👑' : m.plan === 'basic' ? '🟢' : '⭐'}</div><div class="h1">${planName(m.plan)}</div>
+       <div class="mt" style="font-weight:600">${t('planLeft', m.pLeft, m.pLessons, m.resetAt ? Math.max(0, Math.ceil((m.resetAt - Date.now()) / 864e5)) : 0)}</div>
+       <div class="bar mt"><div style="width:${m.pLessons ? (m.pLeft / m.pLessons * 100) : 0}%;background:linear-gradient(90deg,var(--a),var(--g))"></div></div>
+       <p class="muted small mt">${m.until ? t('activeUntil', fmtDate(m.until)) : t('activeForever')} · ${t('chatLeftL', m.pChatLeft)}</p>
+       <div class="devid" style="font-size:20px;letter-spacing:1px">${esc(m.u)}</div></div>`
+    : `<div class="hero" style="text-align:center"><div style="font-size:46px;position:relative;z-index:1">${m.left && !m.expired ? '🎁' : '🔒'}</div>
+       <div class="h1" style="position:relative;z-index:1">${m.expired ? t('expiredT') : m.left ? t('trialLeft', m.left, m.free) : t('actTitle')}</div>
+       <p style="position:relative;z-index:1;line-height:1.9;margin-top:6px;opacity:.95">${t('subDesc')}</p></div>`;
+  const cards = PLANS.map(p => `<button class="plan ${SEL_PLAN === p.id ? 'on' : ''} ${p.best ? 'best' : ''}" onclick="SEL_PLAN='${p.id}';activateView()">
+      ${p.best ? `<span class="ribbon">${t('mostChosen')}</span>` : p.save ? `<span class="ribbon gold">${t('bestValue')}</span>` : ''}
+      <div class="plan-ic">${p.id === 'yearly' ? '👑' : p.id === 'basic' ? '🟢' : '⭐'}</div>
+      <div class="plan-n">${planName(p.id)}</div>
+      <div class="plan-p">${priceTxt(p)}<small>${p.per === 'year' ? t('perYear') : t('perMonth')}</small></div>
+      <div class="plan-f">📚 ${t('lessonsMo', p.lessons)}<br>🤖 ${t('chatMo', p.chat)}${p.per === 'year' ? '<br>📅 ' + t('months12') : ''}</div>
+    </button>`).join('');
   $('#app').innerHTML = `
-  <div class="top"><button class="icon-btn" onclick="go('home')">${back()}</button><div class="h2">${t('actTitle2')}</div><div style="width:40px"></div></div>
-  ${m.active ? `<div class="card" style="text-align:center"><div style="font-size:64px">🎉</div><div class="h1">${t('activated')}</div>
-    <p class="muted mt">${m.until ? t('activeUntil', fmtDate(m.until)) : t('activeForever')}</p><div class="devid" style="font-size:22px;letter-spacing:1px">${esc(m.u)}</div><p class="muted small">${t('devicesL', m.devices, m.maxDevices)}</p></div>
-  <button class="btn btn-p mt" onclick="go('home')">${t('cont')}</button>` : `
-  <div class="hero" style="text-align:center"><div style="font-size:52px;position:relative;z-index:1">${m.left && !m.expired ? '🎁' : '🔒'}</div>
-    <div class="h1" style="position:relative;z-index:1">${m.expired ? t('expiredT') : m.left ? t('trialLeft', m.left, m.free) : t('actTitle')}</div>
-    <p style="position:relative;z-index:1;line-height:1.9;margin-top:6px;opacity:.95">${t('actDesc2')}</p></div>
-  <div class="card mt">${t('actFeat').map(f => `<div class="list-row"><span>✅ ${f}</span></div>`).join('')}<div class="list-row"><span>✅ ${t('featDevices')}</span></div></div>
-  <div class="card mt" style="text-align:center">
-    <div class="muted small" style="font-weight:600">${t('yourUser')}</div>
-    <div class="devid" style="font-size:28px;letter-spacing:1px">${esc(m.u)}</div>
-  </div>
-  <a class="btn mt" style="background:#25D366;color:#fff;text-decoration:none" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(msg)}" target="_blank">${t('reqWa')}</a>
+  <div class="top"><button class="icon-btn" onclick="go('home')">${back()}</button><div class="h2">${t('subT')}</div>
+    <button class="lang-btn" onclick="CUR=curNow()==='jod'?'usd':'jod';activateView()">${curNow() === 'jod' ? '$ USD' : 'د.أ JOD'}</button></div>
+  ${head}
+  <div class="h2 mt2">${m.active ? t('renewT') : t('choosePlan')}</div>
+  <div class="plans mt">${cards}</div>
+  <div class="tip mt">${t('bigRule')}</div>
+  ${payBox()}
   <button class="btn btn-o mt" id="rfBtn" onclick="this.disabled=true;refreshMe(true).then(()=>activateView())">${t('refresh')}</button>
-  <p class="muted small mt" style="text-align:center">${t('freeOK')}</p>`}`;
+  <div class="card mt">${t('actFeat').map(f => `<div class="list-row"><span>✅ ${f}</span></div>`).join('')}<div class="list-row"><span>✅ ${t('featDevices')}</span></div></div>`;
 }
 
 /* ---------------- مجموعات تجريبية ---------------- */
@@ -1067,10 +1162,17 @@ function autoCount() {
   return { easy: 25, med: 30, hard: 35, exam: 40 }[CR.diff] || 30;
 }
 const qCount = () => CR.n === 'auto' ? autoCount() : CR.n;
+/* الملف الكبير (أكثر من 20 صفحة) يُحسب 3 دروس للمشتركين */
+function lessonCost() {
+  if (!isPro()) return 1;
+  if (CR.src === 'pdf' && CR.pdf) return (CR.pdf.pages || Math.round(CR.pdf.size / 120000)) > 20 ? 3 : 1;
+  if (CR.src === 'text') return CR.text.trim().length > 40000 ? 3 : 1;
+  return 1;
+}
 function autoHint() {
   const el = $('#autoHint'); if (!el) return;
   const n = autoCount(), pg = CR.src === 'pdf' && CR.pdf && CR.pdf.pages ? t('pagesN', CR.pdf.pages) + ' · ' : '';
-  el.textContent = '🤖 ' + pg + t('autoHint', n, cardsFor(n));
+  el.textContent = '🤖 ' + pg + t('autoHint', n, cardsFor(n)) + (lessonCost() === 3 ? ' · ' + t('costs3') : '');
 }
 function contentPrompt(nCards, src, topic) {
   return `أنت معلّم خبير جداً ومؤلف كتب دراسية. المتعلّم: ${stageTxt()}.
@@ -1173,7 +1275,7 @@ async function generate() {
   else if (CR.src === 'text') { if (CR.text.trim().length < 80) return toast(t('shortText')); media.push({ text: 'المادة:\n' + CR.text.trim().slice(0, 60000) }); }
   else if (CR.topic.trim().length < 3) return toast(t('needTopic'));
   let tk;
-  try { tk = await getTicket('gen'); } catch (e) { return toast(aiError(e)); }
+  try { tk = await getTicket('gen', lessonCost()); } catch (e) { return toast(aiError(e)); }
   if (CR.src === 'pdf') {
     loading(true, t('ldUp'));
     try { media.push({ file_data: { mime_type: 'application/pdf', file_uri: await uploadPdf(CR.pdf) } }); }
@@ -1698,10 +1800,10 @@ function profileView() {
 function accCard() {
   const m = meNow();
   if (!m) return `<div class="card acc-card"><div class="h3">🔐 ${t('accT')}</div><p class="muted small mt">${t('accSub')}</p><div class="grid2 mt"><button class="btn btn-p" onclick="ACC_TAB='reg';ACC_NEXT=['profileView'];go('account')">${t('tabReg')}</button><button class="btn btn-o" onclick="ACC_TAB='log';ACC_NEXT=['profileView'];go('account')">${t('tabLog')}</button></div></div>`;
-  return `<div class="card acc-card"><div class="row between"><div><div class="muted small">${t('loggedAs')}</div><div class="h2" dir="ltr" style="text-align:start">${esc(m.u)}</div></div><span class="chip">${m.active ? '✅ PRO' : '🎁 ' + m.left + '/' + m.free}</span></div>
-    <div class="mt small" style="font-weight:600">${m.active ? (m.until ? t('activeUntil', fmtDate(m.until)) : t('activeForever')) : m.expired ? t('expiredT') : t('trialLeft', m.left, m.free)}</div>
+  return `<div class="card acc-card"><div class="row between"><div><div class="muted small">${t('loggedAs')}</div><div class="h2" dir="ltr" style="text-align:start">${esc(m.u)}</div></div><span class="chip">${m.active ? planName(m.plan) : '🎁 ' + m.left + '/' + m.free}</span></div>
+    <div class="mt small" style="font-weight:600">${m.active ? planStatus(m) + '<br>' + (m.until ? t('activeUntil', fmtDate(m.until)) : t('activeForever')) : m.expired ? t('expiredT') : t('trialLeft', m.left, m.free)}</div>
     <div class="muted small">${t('devicesL', m.devices, m.maxDevices)}</div>
-    <div class="grid2 mt">${m.active ? `<button class="btn btn-o btn-s" style="width:100%" onclick="refreshMe(true).then(()=>go('profileView'))">${t('refresh')}</button>` : `<button class="btn btn-g btn-s" style="width:100%" onclick="go('activate')">${t('actBtn')}</button>`}<button class="btn btn-o btn-s" style="width:100%" onclick="logout()">${t('logout')}</button></div></div>`;
+    <div class="grid2 mt">${m.active ? `<button class="btn btn-o btn-s" style="width:100%" onclick="go('activate')">${t('myPlan')}</button>` : `<button class="btn btn-g btn-s" style="width:100%" onclick="go('activate')">${t('subscribe')}</button>`}<button class="btn btn-o btn-s" style="width:100%" onclick="logout()">${t('logout')}</button></div></div>`;
 }
 function shareApp() { shareText(t('shApp', appName()), baseUrl()); }
 function resetAll() {

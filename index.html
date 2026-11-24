@@ -608,7 +608,7 @@ function aiError(e) {
   const m = String(e && e.message || e);
   if (m === 'NOAPI') return t('e_noapi');
   if (m === 'OFFLINE') return t('e_off');
-  if (/429|503|quota|rate|high demand|overloaded|unavailable/i.test(m)) return t('e_busy');
+  if (/429|503|quota|rate|high demand|overloaded|unavailable|no longer available/i.test(m)) return t('e_busy');
   if (/too large/i.test(m)) return t('pdfBig');
   if (/JSON/.test(m)) return t('e_json');
   return t('e_gen', m.slice(0, 60));
@@ -1074,6 +1074,23 @@ function normExtra(d) {
 }
 const normKey = s => String(s).replace(/[\sً-ْ.,،؟?!:;"'«»()\-_]/g, '').toLowerCase();
 function dedupe(qs) { const seen = new Set(); return qs.filter(q => { const k = normKey(q.q); if (seen.has(k)) return false; seen.add(k); return true; }); }
+/* تشغيل الطلبات 3 في كل مرة، مع إعادة محاولة واحدة لكل طلب يفشل */
+async function pool(jobs, limit) {
+  const out = new Array(jobs.length); let next = 0;
+  async function worker() {
+    while (next < jobs.length) {
+      const i = next++;
+      try { out[i] = { status: 'fulfilled', value: await jobs[i]() }; }
+      catch (e) {
+        if (/NOAPI|OFFLINE/.test(e && e.message)) { out[i] = { status: 'rejected', reason: e }; continue; }
+        await new Promise(r => setTimeout(r, 3000));
+        try { out[i] = { status: 'fulfilled', value: await jobs[i]() }; } catch (e2) { out[i] = { status: 'rejected', reason: e2 }; }
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(limit, jobs.length) }, worker));
+  return out;
+}
 function splitN(n, size) { const m = Math.ceil(n / size), base = Math.floor(n / m), r = n % m; return Array.from({ length: m }, (_, i) => base + (i < r ? 1 : 0)); }
 
 async function generate() {
@@ -1093,8 +1110,8 @@ async function generate() {
   const call = (text, tok) => ai([{ role: 'user', parts: [...media, { text }] }], true, tok).then(parseJSON);
   loading(true, t('ldBig'));
   try {
-    const jobs = [call(contentPrompt(cardsFor(n), src, topic), 32000), ...batches.map((b, i) => call(questionPrompt(b, i + 1, batches.length, src, topic), 24000))];
-    const res = await Promise.allSettled(jobs);
+    const jobs = [() => call(contentPrompt(cardsFor(n), src, topic), 32000), ...batches.map((b, i) => () => call(questionPrompt(b, i + 1, batches.length, src, topic), 24000))];
+    const res = await pool(jobs, 3);
     const okQ = res.slice(1).filter(r => r.status === 'fulfilled');
     let qs = dedupe(okQ.flatMap(r => normQs(r.value)));
     if (qs.length < 3) { const err = res.find(r => r.status === 'rejected'); throw err ? err.reason : new Error('JSON'); }

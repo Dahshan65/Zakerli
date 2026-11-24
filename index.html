@@ -692,7 +692,11 @@ function aiError(e) {
 
 /* ---------------- الحساب والتفعيل (من الخادم) ---------------- */
 let CUR_TICKET = '', ACC_NEXT = null, ACC_TAB = 'reg';
-const meNow = () => S.auth && S.auth.me ? S.auth.me : null;
+const meNow = () => {
+  const m = S.auth && S.auth.me ? S.auth.me : null;
+  if (m && m.active && !m.plan) Object.assign(m, { plan: 'student', pLessons: m.pLessons || 30, pLeft: m.pLeft ?? 30, pChat: m.pChat || 300, pChatLeft: m.pChatLeft ?? 300, resetAt: m.resetAt || 0 });
+  return m;
+};
 const isPro = () => !!(meNow() && meNow().active);
 const fmtDate = ts => new Date(ts).toLocaleDateString(LANG === 'ar' ? 'ar-JO' : 'en-GB');
 async function getTicket(kind, cost) {
@@ -771,7 +775,7 @@ const curNow = () => CUR || (LANG === 'ar' ? 'jod' : 'usd');
 const priceTxt = p => curNow() === 'jod' ? t('jod', p.jod) : t('usd', p.usd);
 const planName = id => t('pl_' + id);
 function planStatus(m) {
-  const days = m.resetAt ? Math.max(0, Math.ceil((m.resetAt - Date.now()) / 864e5)) : 0;
+  const days = m.resetAt ? Math.max(0, Math.ceil((m.resetAt - Date.now()) / 864e5)) : 30;
   return t('planLine', planName(m.plan), m.pLeft, m.pLessons, days);
 }
 function trialChip() {
@@ -806,7 +810,7 @@ function activateView() {
   if (!m) { ACC_NEXT = null; return accountView(); }
   const head = m.active
     ? `<div class="card" style="text-align:center;border-top:4px solid var(--gold)"><div style="font-size:46px">${m.plan === 'yearly' ? '👑' : m.plan === 'basic' ? '🟢' : '⭐'}</div><div class="h1">${planName(m.plan)}</div>
-       <div class="mt" style="font-weight:600">${t('planLeft', m.pLeft, m.pLessons, m.resetAt ? Math.max(0, Math.ceil((m.resetAt - Date.now()) / 864e5)) : 0)}</div>
+       <div class="mt" style="font-weight:600">${t('planLeft', m.pLeft, m.pLessons, m.resetAt ? Math.max(0, Math.ceil((m.resetAt - Date.now()) / 864e5)) : 30)}</div>
        <div class="bar mt"><div style="width:${m.pLessons ? (m.pLeft / m.pLessons * 100) : 0}%;background:linear-gradient(90deg,var(--a),var(--g))"></div></div>
        <p class="muted small mt">${m.until ? t('activeUntil', fmtDate(m.until)) : t('activeForever')} · ${t('chatLeftL', m.pChatLeft)}</p>
        <div class="devid" style="font-size:20px;letter-spacing:1px">${esc(m.u)}</div></div>`

@@ -262,6 +262,9 @@ body.dark .mm-name{filter:brightness(1.6)}
   .card{box-shadow:none!important;break-inside:avoid;border:1px solid #ccc}
   .mm-br,.ex{break-inside:avoid}
 }
+.acc-card{border-top:4px solid var(--gold)}
+.pw-in{width:100%;border:1.5px solid var(--b);background:var(--card);border-radius:12px;padding:12px 14px;outline:none;font-family:inherit;font-size:16px;color:var(--t)}
+.pw-in:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(30,58,138,.12)}
 </style>
 </head>
 <body>
@@ -316,6 +319,15 @@ const TR = {
     needImg: 'أضف صورة واحدة على الأقل 📸', needPdf: 'اختر ملف PDF أولاً 📄', shortText: 'النص قصير جداً، أضف المزيد ✍️', needTopic: 'اكتب الموضوع أولاً 💡',
     ready: '✨ جاهزة! {0} سؤال و{1} بطاقة',
     ld: ['أقرأ المادة بتركيز...', 'أستخرج الأفكار المهمة...', 'أصنع أسئلة ذكية...', 'أكتب الشرح لكل سؤال...', 'أرتّب البطاقات...', 'لحظات وتكون جاهزة ✨'],
+    accT: 'حساب ذاكرلي', accSub: 'سجّل مرة واحدة، وادخل بنفس الحساب من أي هاتف أو لابتوب أو تابلت 📱💻', tabReg: 'إنشاء حساب', tabLog: 'تسجيل الدخول',
+    user: 'اسم المستخدم', userPh: 'مثل: ahmad11', userHint: 'أحرف إنجليزية صغيرة وأرقام و . _ (من 3 إلى 20)', pass: 'كلمة المرور', passPh: '6 أحرف على الأقل', pass2: 'تأكيد كلمة المرور',
+    phone: 'رقم واتساب (اختياري)', phoneHint: 'ليصلك تأكيد التفعيل من المطوّر', doReg: '✨ أنشئ حسابي', doLog: '🔓 دخول', passMismatch: 'كلمتا المرور غير متطابقتين',
+    regOk: '🎉 تم إنشاء حسابك! لديك {0} محاولات مجانية', logOk: '👋 أهلاً بعودتك',
+    e_bad_user: 'اسم المستخدم: أحرف إنجليزية صغيرة وأرقام فقط (3-20)', e_short_pass: 'كلمة المرور قصيرة (6 أحرف على الأقل)', e_exists: 'اسم المستخدم مأخوذ، اختر اسماً آخر', e_wrong: 'اسم المستخدم أو كلمة المرور غير صحيحة',
+    e_devices: 'وصلت للحد الأقصى من الأجهزة ({0}). تواصل مع المطوّر ليصفّرها لك', e_no_db: 'الخادم غير مهيّأ بعد (قاعدة البيانات)', e_auth: 'انتهت جلستك، سجّل الدخول مرة أخرى',
+    trialNoAcc: '🔐 أنشئ حساباً مجانياً واحصل على {0} محاولات', activeUntil: '✅ مفعّل حتى {0}', activeForever: '♾️ اشتراك دائم', expiredT: '⛔ انتهى اشتراكك',
+    actDesc2: 'لتكمل بلا حدود على كل أجهزتك، أرسل اسم المستخدم للمطوّر عبر واتساب، وبعد أن يفعّله اضغط «تحديث الحالة».', yourUser: 'اسم المستخدم (أرسله للمطوّر)', refresh: '🔄 تحديث الحالة', stillTrial: 'لم يُفعَّل بعد، حاول بعد قليل ⏳',
+    waMsg2: 'مرحباً، أريد تفعيل تطبيق {0}\nاسم المستخدم: {1}\nالاسم: {2}', logout: '🚪 خروج', logoutQ: 'تسجيل الخروج من هذا الجهاز؟', devicesL: '📱 الأجهزة المستخدمة: {0} من {1}', loggedAs: 'مسجّل باسم', featDevices: 'نفس الحساب على الهاتف واللابتوب والتابلت',
     autoL: '🤖 تلقائي', autoHint: 'سيحدد التطبيق العدد حسب حجم المادة: ≈ {0} سؤالاً و{1} بطاقة', pagesN: '{0} صفحة',
     ldUp: ['أرفع الملف إلى الخادم... 📤', 'أجهّز صفحات الملف...', 'لحظات ونبدأ القراءة ✨'],
     ldBig: ['أقرأ المادة كلها بتركيز...', 'أكتب الشرح التفصيلي للدرس...', 'أصنع بنك الأسئلة مع الشرح...', 'أجهّز البطاقات والمصطلحات...', 'أرسم الخريطة الذهنية...', 'أكتب الأسئلة الكتابية...', 'أراجع الدقة العلمية...', 'لحظات وتكون جاهزة ✨ (قد يستغرق دقيقة)'],
@@ -387,6 +399,15 @@ const TR = {
     needImg: 'Add at least one photo 📸', needPdf: 'Choose a PDF first 📄', shortText: 'The text is too short, add more ✍️', needTopic: 'Type a topic first 💡',
     ready: '✨ Ready! {0} questions & {1} cards',
     ld: ['Reading your material...', 'Finding the key ideas...', 'Writing smart questions...', 'Explaining every answer...', 'Building flashcards...', 'Almost ready ✨'],
+    accT: 'Zakerli account', accSub: 'Sign up once and use the same account on any phone, laptop or tablet 📱💻', tabReg: 'Sign up', tabLog: 'Log in',
+    user: 'Username', userPh: 'e.g. ahmad11', userHint: 'Lowercase letters, numbers, . and _ (3-20)', pass: 'Password', passPh: 'At least 6 characters', pass2: 'Confirm password',
+    phone: 'WhatsApp number (optional)', phoneHint: 'So the developer can confirm your activation', doReg: '✨ Create my account', doLog: '🔓 Log in', passMismatch: "Passwords don't match",
+    regOk: '🎉 Account created! You have {0} free tries', logOk: '👋 Welcome back',
+    e_bad_user: 'Username: lowercase letters and numbers only (3-20)', e_short_pass: 'Password is too short (min 6)', e_exists: 'Username is taken, choose another', e_wrong: 'Wrong username or password',
+    e_devices: 'Device limit reached ({0}). Contact the developer to reset it', e_no_db: 'Server not set up yet (database)', e_auth: 'Session expired, please log in again',
+    trialNoAcc: '🔐 Create a free account and get {0} tries', activeUntil: '✅ Active until {0}', activeForever: '♾️ Lifetime access', expiredT: '⛔ Your subscription has expired',
+    actDesc2: 'To keep going without limits on all your devices, send your username to the developer on WhatsApp, then tap "Refresh status" once activated.', yourUser: 'Your username (send it to the developer)', refresh: '🔄 Refresh status', stillTrial: 'Not activated yet, try again shortly ⏳',
+    waMsg2: 'Hello, I want to activate {0}\nUsername: {1}\nName: {2}', logout: '🚪 Log out', logoutQ: 'Log out from this device?', devicesL: '📱 Devices used: {0} of {1}', loggedAs: 'Logged in as', featDevices: 'One account on phone, laptop and tablet',
     autoL: '🤖 Auto', autoHint: 'The app picks the amount based on your material: ≈ {0} questions & {1} cards', pagesN: '{0} pages',
     ldUp: ['Uploading your file... 📤', 'Preparing the pages...', 'Almost ready to read ✨'],
     ldBig: ['Reading all your material...', 'Writing the full lesson explanation...', 'Building the question bank...', 'Preparing flashcards & glossary...', 'Drawing the mind map...', 'Writing written questions...', 'Double-checking accuracy...', 'Almost ready ✨ (may take a minute)'],
@@ -455,7 +476,7 @@ function newDeviceId() {
 }
 function defState() {
   return { user: null, lang: null, xp: 0, streak: 0, best: 0, lastDay: null, todayXp: 0, todayDate: null, sets: [],
-    deviceId: newDeviceId(), uses: 0, tutorUses: 0, activated: false, actCode: '', actFails: 0, actLock: 0,
+    deviceId: newDeviceId(), auth: null,
     stats: { answered: 0, correct: 0, perfect: 0, created: 0, challenges: 0, cards: 0, exams: 0 },
     badges: [], settings: { sound: true, dark: false, goal: 50 } };
 }
@@ -543,6 +564,7 @@ function speak(text) {
 
 /* ---------------- أدوات الواجهة ---------------- */
 function toast(m) {
+  if (!m) return;
   document.querySelectorAll('.toast').forEach(x => x.remove());
   const d = document.createElement('div'); d.className = 'toast'; d.textContent = m;
   document.body.appendChild(d); setTimeout(() => d.remove(), 2800);
@@ -589,11 +611,11 @@ async function callApi(body) {
   if (!navigator.onLine) throw new Error('OFFLINE');
   const res = await fetch(CONFIG.API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
   let data; try { data = await res.json(); } catch (e) { throw new Error('BAD'); }
-  if (!res.ok || data.error) throw new Error(data.error || ('HTTP ' + res.status));
+  if (!res.ok || data.error) { const er = new Error(data.error || ('HTTP ' + res.status)); er.data = data; throw er; }
   return data;
 }
 async function ai(contents, wantJson, maxTok) {
-  const body = { device: S.deviceId, contents, generationConfig: { temperature: wantJson ? .5 : .7, maxOutputTokens: maxTok || 16384 } };
+  const body = { ticket: CUR_TICKET, contents, generationConfig: { temperature: wantJson ? .5 : .7, maxOutputTokens: maxTok || 16384 } };
   if (wantJson) body.generationConfig.responseMimeType = 'application/json';
   return (await callApi(body)).text || '';
 }
@@ -606,6 +628,9 @@ function parseJSON(x) {
 }
 function aiError(e) {
   const m = String(e && e.message || e);
+  if (m === 'STOP') return '';
+  if (m === 'auth') return t('e_auth');
+  if (m === 'no_db') return t('e_no_db');
   if (m === 'NOAPI') return t('e_noapi');
   if (m === 'OFFLINE') return t('e_off');
   if (/429|503|quota|rate|high demand|overloaded|unavailable|no longer available/i.test(m)) return t('e_busy');
@@ -614,55 +639,102 @@ function aiError(e) {
   return t('e_gen', m.slice(0, 60));
 }
 
-/* ---------------- التجربة المجانية والتفعيل ---------------- */
-const usesLeft = () => Math.max(0, CONFIG.FREE_USES - S.uses);
-function canUse() { if (S.activated || usesLeft() > 0) return true; go('activate'); return false; }
-function useOne() { if (!S.activated) { S.uses++; save(); } }
-function trialChip() {
-  if (S.activated) return `<div class="trial ok" onclick="go('activate')">${t('activated')}</div>`;
-  const left = usesLeft();
-  return `<div class="trial ${left ? '' : 'end'}" onclick="go('activate')">${left ? t('trialLeft', left, CONFIG.FREE_USES) : '🔒 ' + t('actTitle')} <b>${left ? '' : t('activate') + ' ←'}</b></div>`;
+/* ---------------- الحساب والتفعيل (من الخادم) ---------------- */
+let CUR_TICKET = '', ACC_NEXT = null, ACC_TAB = 'reg';
+const meNow = () => S.auth && S.auth.me ? S.auth.me : null;
+const isPro = () => !!(meNow() && meNow().active);
+const fmtDate = ts => new Date(ts).toLocaleDateString(LANG === 'ar' ? 'ar-JO' : 'en-GB');
+async function getTicket(kind) {
+  if (!S.auth || !S.auth.token) { ACC_NEXT = [VIEW, VARG]; go('account'); throw new Error('STOP'); }
+  try {
+    const r = await callApi({ action: 'use', token: S.auth.token, kind, device: S.deviceId });
+    S.auth.me = r.me; save(); CUR_TICKET = r.ticket; return r.ticket;
+  } catch (e) {
+    if (e.message === 'auth') { S.auth = null; save(); ACC_NEXT = [VIEW, VARG]; go('account'); throw new Error('STOP'); }
+    if (e.message === 'trial_over' || e.message === 'chat_over') {
+      if (e.data && e.data.me) { S.auth.me = e.data.me; save(); }
+      if (e.message === 'chat_over') toast(t('tutorLim'));
+      go('activate'); throw new Error('STOP');
+    }
+    throw e;
+  }
 }
+async function refund(ticket) { try { if (ticket && !isPro()) { const r = await callApi({ action: 'refund', token: S.auth.token, ticket }); if (r.me) { S.auth.me = r.me; save(); } } } catch (e) {} }
+async function refreshMe(showMsg) {
+  if (!S.auth) return;
+  try { const r = await callApi({ action: 'me', token: S.auth.token }); S.auth.me = r.me; save(); if (showMsg) toast(r.me.active ? t('actOk') : t('stillTrial')); if (r.me.active && showMsg) { sfx('win'); confetti(); } }
+  catch (e) { if (e.message === 'auth') { S.auth = null; save(); } else if (showMsg) toast(aiError(e)); }
+}
+function trialChip() {
+  const m = meNow();
+  if (!m) return `<div class="trial" onclick="ACC_NEXT=null;go('account')">${t('trialNoAcc', CONFIG.FREE_USES)} <b>${back() === '→' ? '←' : '→'}</b></div>`;
+  if (m.active) return `<div class="trial ok" onclick="go('activate')">${m.until ? t('activeUntil', fmtDate(m.until)) : t('activated')}</div>`;
+  return `<div class="trial ${m.left ? '' : 'end'}" onclick="go('activate')">${m.expired ? t('expiredT') : m.left ? t('trialLeft', m.left, m.free) : '🔒 ' + t('actTitle')} <b>${m.left && !m.expired ? '' : t('activate') + ' ←'}</b></div>`;
+}
+
+/* شاشة إنشاء الحساب وتسجيل الدخول */
+function accountView() {
+  VIEW = 'account'; renderNav();
+  const reg = ACC_TAB === 'reg';
+  $('#app').innerHTML = `
+  <div class="top"><button class="icon-btn" onclick="${ACC_NEXT ? `go(ACC_NEXT[0]==='account'?'home':ACC_NEXT[0],ACC_NEXT[1])` : `go('home')`}">${back()}</button><div class="h2">${t('accT')}</div>${langBtn()}</div>
+  <div class="hero" style="text-align:center"><div style="font-size:46px;position:relative;z-index:1">🔐</div><p style="position:relative;z-index:1;line-height:1.9;opacity:.95">${t('accSub')}</p></div>
+  <div class="tabs mt"><button class="${reg ? 'on' : ''}" onclick="ACC_TAB='reg';accountView()">${t('tabReg')}</button><button class="${!reg ? 'on' : ''}" onclick="ACC_TAB='log';accountView()">${t('tabLog')}</button></div>
+  <div class="card col mt">
+    <div><div class="label">${t('user')}</div><input type="text" id="aU" dir="ltr" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="username" placeholder="${t('userPh')}" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9._]/g,'')">${reg ? `<div class="muted small" style="margin-top:5px">${t('userHint')}</div>` : ''}</div>
+    <div><div class="label">${t('pass')}</div><input type="password" id="aP" dir="ltr" autocomplete="${reg ? 'new-password' : 'current-password'}" placeholder="${t('passPh')}" class="pw-in"></div>
+    ${reg ? `<div><div class="label">${t('pass2')}</div><input type="password" id="aP2" dir="ltr" autocomplete="new-password" class="pw-in"></div>
+    <div><div class="label">${t('phone')}</div><input type="tel" id="aPh" dir="ltr" inputmode="tel" placeholder="07XXXXXXXX" class="pw-in"><div class="muted small" style="margin-top:5px">${t('phoneHint')}</div></div>` : ''}
+    <button class="btn btn-p" id="aBtn" onclick="doAccount()">${reg ? t('doReg') : t('doLog')}</button>
+  </div>
+  ${reg ? `<div class="tip mt">${t('trialLeft', CONFIG.FREE_USES, CONFIG.FREE_USES)}</div>` : ''}`;
+}
+async function doAccount() {
+  const reg = ACC_TAB === 'reg', u = $('#aU').value.trim().toLowerCase(), p = $('#aP').value;
+  if (!/^[a-z0-9._]{3,20}$/.test(u)) return toast(t('e_bad_user'));
+  if (p.length < 6) return toast(t('e_short_pass'));
+  if (reg && p !== $('#aP2').value) return toast(t('passMismatch'));
+  const b = $('#aBtn'); b.disabled = true;
+  try {
+    const r = await callApi(reg ? { action: 'register', u, p, name: S.user ? S.user.name : '', phone: $('#aPh').value.trim(), device: S.deviceId } : { action: 'login', u, p, device: S.deviceId });
+    S.auth = { u, token: r.token, me: r.me }; save(); sfx('win');
+    toast(reg ? t('regOk', r.me.left) : t('logOk'));
+    if (reg) confetti();
+    const nx = ACC_NEXT; ACC_NEXT = null;
+    if (nx && nx[0] && !['account', 'activate'].includes(nx[0])) go(nx[0], nx[1]); else go('home');
+  } catch (e) {
+    sfx('no'); b.disabled = false;
+    const k = 'e_' + e.message;
+    toast(TR.ar[k] ? t(k, (e.data && e.data.max) || 3) : aiError(e));
+  }
+}
+function logout() {
+  if (!confirmBox(t('logoutQ'))) return;
+  S.auth = null; save(); toast('👋'); go('home');
+}
+
+/* شاشة التفعيل */
 function activateView() {
   VIEW = 'activate'; renderNav();
-  const msg = t('waMsg', appName(), S.user ? S.user.name : '', S.deviceId);
+  const m = meNow();
+  if (!m) { ACC_NEXT = null; return accountView(); }
+  const msg = t('waMsg2', appName(), m.u, (S.user && S.user.name) || m.name || '');
   $('#app').innerHTML = `
-  <div class="top"><button class="icon-btn" onclick="go('home')">${back()}</button><div class="h2">${t('actTitle2')}</div><div style="width:42px"></div></div>
-  ${S.activated ? `<div class="card" style="text-align:center"><div style="font-size:64px">🎉</div><div class="h1">${t('activated')}</div><p class="muted mt" dir="ltr">${esc(S.deviceId)}</p></div>
+  <div class="top"><button class="icon-btn" onclick="go('home')">${back()}</button><div class="h2">${t('actTitle2')}</div><div style="width:40px"></div></div>
+  ${m.active ? `<div class="card" style="text-align:center"><div style="font-size:64px">🎉</div><div class="h1">${t('activated')}</div>
+    <p class="muted mt">${m.until ? t('activeUntil', fmtDate(m.until)) : t('activeForever')}</p><div class="devid" style="font-size:22px;letter-spacing:1px">${esc(m.u)}</div><p class="muted small">${t('devicesL', m.devices, m.maxDevices)}</p></div>
   <button class="btn btn-p mt" onclick="go('home')">${t('cont')}</button>` : `
-  <div class="hero" style="text-align:center"><div style="font-size:56px;position:relative;z-index:1">${usesLeft() ? '🎁' : '🔒'}</div>
-    <div class="h1" style="position:relative;z-index:1">${usesLeft() ? t('trialLeft', usesLeft(), CONFIG.FREE_USES) : t('actTitle')}</div>
-    <p style="position:relative;z-index:1;line-height:1.9;margin-top:6px;opacity:.95">${t('actDesc', CONFIG.FREE_USES)}</p></div>
-  <div class="card mt">${t('actFeat').map(f => `<div class="list-row"><span>✅ ${f}</span></div>`).join('')}</div>
+  <div class="hero" style="text-align:center"><div style="font-size:52px;position:relative;z-index:1">${m.left && !m.expired ? '🎁' : '🔒'}</div>
+    <div class="h1" style="position:relative;z-index:1">${m.expired ? t('expiredT') : m.left ? t('trialLeft', m.left, m.free) : t('actTitle')}</div>
+    <p style="position:relative;z-index:1;line-height:1.9;margin-top:6px;opacity:.95">${t('actDesc2')}</p></div>
+  <div class="card mt">${t('actFeat').map(f => `<div class="list-row"><span>✅ ${f}</span></div>`).join('')}<div class="list-row"><span>✅ ${t('featDevices')}</span></div></div>
   <div class="card mt" style="text-align:center">
-    <div class="muted small" style="font-weight:800">${t('devId')}</div>
-    <div class="devid">${esc(S.deviceId)}</div>
-    <button class="btn btn-o btn-s" style="margin:6px auto 0" onclick="copyId()">📋 ${t('copy')}</button>
+    <div class="muted small" style="font-weight:600">${t('yourUser')}</div>
+    <div class="devid" style="font-size:28px;letter-spacing:1px">${esc(m.u)}</div>
   </div>
   <a class="btn mt" style="background:#25D366;color:#fff;text-decoration:none" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(msg)}" target="_blank">${t('reqWa')}</a>
-  <div class="card mt col">
-    <div class="label">${t('haveCode')}</div>
-    <input type="text" id="actCode" class="code-in" placeholder="••" inputmode="numeric" maxlength="2" autocomplete="off" oninput="this.value=this.value.replace(/\D/g,'')">
-    <button class="btn btn-g" id="actBtn" onclick="doActivate()">🔓 ${t('activate')}</button>
-  </div>
+  <button class="btn btn-o mt" id="rfBtn" onclick="this.disabled=true;refreshMe(true).then(()=>activateView())">${t('refresh')}</button>
   <p class="muted small mt" style="text-align:center">${t('freeOK')}</p>`}`;
-}
-async function copyId() { try { await navigator.clipboard.writeText(S.deviceId); toast(t('idCopied')); } catch (e) { toast(S.deviceId); } }
-async function doActivate() {
-  const code = ($('#actCode').value || '').replace(/\D/g, '');
-  if (code.length !== 2) return toast(t('actNeed'));
-  if (S.actLock > Date.now()) return toast(t('actLocked', Math.ceil((S.actLock - Date.now()) / 60000)));
-  const b = $('#actBtn'); b.disabled = true;
-  try {
-    const r = await callApi({ action: 'verify', device: S.deviceId, code });
-    if (r.ok) { S.activated = true; S.actCode = code; S.actFails = 0; save(); sfx('win'); confetti(); toast(t('actOk')); activateView(); }
-    else {
-      S.actFails = (S.actFails || 0) + 1;
-      if (S.actFails >= 5) { S.actLock = Date.now() + 30 * 60000; S.actFails = 0; toast(t('actLocked', 30)); }
-      else toast(t('actBad'));
-      save(); sfx('no'); b.disabled = false;
-    }
-  } catch (e) { sfx('no'); toast(/invalid|code/i.test(e.message) ? t('actBad') : aiError(e)); b.disabled = false; }
 }
 
 /* ---------------- مجموعات تجريبية ---------------- */
@@ -748,13 +820,13 @@ function go(v, arg) {
   if (TIMER) { clearInterval(TIMER); TIMER = null; }
   try { speechSynthesis.cancel(); } catch (e) {}
   VIEW = v; VARG = arg;
-  const views = { home, library, create, setView, summaryView, badgesView, profileView, tutorView, lessonView, mindmapView, writtenView, activate: activateView };
+  const views = { home, library, create, setView, summaryView, badgesView, profileView, tutorView, lessonView, mindmapView, writtenView, account: accountView, activate: activateView };
   const app = $('#app'); app.innerHTML = ''; app.className = 'fade'; void app.offsetWidth;
   (views[v] || home)(arg);
   renderNav(); window.scrollTo(0, 0);
 }
 function renderNav() {
-  const hide = ['quiz', 'cards', 'tutor', 'result', 'onb', 'challenge', 'activate'].includes(VIEW);
+  const hide = ['quiz', 'cards', 'tutor', 'result', 'onb', 'challenge', 'activate', 'account'].includes(VIEW);
   if (hide) { $('#navWrap').innerHTML = ''; return; }
   const b = (v, e, k) => `<button class="${VIEW === v ? 'on' : ''}" onclick="sfx('tap');go('${v}')"><span class="e">${e}</span>${t(k)}</button>`;
   $('#navWrap').innerHTML = `<div class="nav"><div class="nav-in">${b('home', '🏠', 'n_home')}${b('library', '📚', 'n_lib')}<button class="fab" onclick="sfx('tap');go('create')">＋</button>${b('badgesView', '🏆', 'n_badges')}${b('profileView', '👤', 'n_prof')}</div></div>`;
@@ -952,7 +1024,7 @@ async function uploadPdf(p) {
   if (p.uri) return p.uri;
   if (!apiReady()) throw new Error('NOAPI');
   if (!navigator.onLine) throw new Error('OFFLINE');
-  const res = await fetch(CONFIG.API_URL + '?upload=1', { method: 'POST', headers: { 'Content-Type': 'application/pdf' }, body: p.file });
+  const res = await fetch(CONFIG.API_URL + '?upload=1', { method: 'POST', headers: { 'Content-Type': 'application/pdf', 'X-Ticket': CUR_TICKET }, body: p.file });
   const d = await res.json().catch(() => ({}));
   if (!res.ok || !d.uri) throw new Error(d.error || ('HTTP ' + res.status));
   p.uri = d.uri; return d.uri;
@@ -1100,11 +1172,12 @@ async function generate() {
   else if (CR.src === 'pdf') { if (!CR.pdf) return toast(t('needPdf')); }
   else if (CR.src === 'text') { if (CR.text.trim().length < 80) return toast(t('shortText')); media.push({ text: 'المادة:\n' + CR.text.trim().slice(0, 60000) }); }
   else if (CR.topic.trim().length < 3) return toast(t('needTopic'));
-  if (!canUse()) return;
+  let tk;
+  try { tk = await getTicket('gen'); } catch (e) { return toast(aiError(e)); }
   if (CR.src === 'pdf') {
     loading(true, t('ldUp'));
     try { media.push({ file_data: { mime_type: 'application/pdf', file_uri: await uploadPdf(CR.pdf) } }); }
-    catch (e) { loading(false); sfx('no'); return toast(aiError(e)); }
+    catch (e) { loading(false); sfx('no'); refund(tk); return toast(aiError(e)); }
   }
   const src = CR.src, topic = CR.topic.trim(), n = qCount(), batches = splitN(n, 20);
   const call = (text, tok) => ai([{ role: 'user', parts: [...media, { text }] }], true, tok).then(parseJSON);
@@ -1120,17 +1193,17 @@ async function generate() {
     const set = { id: uid(), title: CR.title.trim() || base.title || t('newSet'), subject: base.subject, created: Date.now(), best: 0,
       summary: base.summary, cards: base.cards, qs, lesson: ex.lesson, glossary: ex.glossary, mm: ex.mm, written: ex.written,
       src: src === 'text' ? CR.text.trim().slice(0, 12000) : src === 'topic' ? 'Topic: ' + topic : '' };
-    S.sets.push(set); S.stats.created++; useOne();
+    S.sets.push(set); S.stats.created++;
     Object.assign(CR, { text: '', topic: '', title: '', images: [], pdf: null });
     loading(false); save(); sfx('win'); confetti(); addXP(30);
     toast(t('ready', set.qs.length, set.cards.length));
     go('setView', set.id);
-  } catch (e) { loading(false); sfx('no'); toast(aiError(e)); }
+  } catch (e) { loading(false); sfx('no'); refund(tk); toast(aiError(e)); }
 }
 /* توليد الشرح والخريطة والأسئلة الكتابية لمجموعة قديمة */
 async function genExtras(id) {
   const s = getSet(id); if (!s) return;
-  if (!canUse()) return;
+  let tk; try { tk = await getTicket('gen'); } catch (e) { return toast(aiError(e)); }
   const mat = s.src && !s.src.startsWith('Topic: ') ? 'المادة:\n' + s.src : s.src ? s.src : 'ملخص الدرس:\n' + s.summary.join('\n') + '\nأسئلة الدرس:\n' + s.qs.map(q => '- ' + q.q + ' ← ' + q.o[q.a]).join('\n');
   loading(true, t('ldBig'));
   try {
@@ -1140,8 +1213,8 @@ async function genExtras(id) {
     Object.assign(s, { lesson: ex.lesson, glossary: ex.glossary, mm: ex.mm, written: ex.written });
     if (base.summary.length > s.summary.length) s.summary = base.summary;
     if (base.cards.length > s.cards.length) s.cards = base.cards;
-    useOne(); save(); loading(false); sfx('win'); go('lessonView', id);
-  } catch (e) { loading(false); toast(aiError(e)); }
+    save(); loading(false); sfx('win'); go('lessonView', id);
+  } catch (e) { loading(false); refund(tk); toast(aiError(e)); }
 }
 
 /* ---------------- صفحة المجموعة ---------------- */
@@ -1257,8 +1330,8 @@ function gradeHtml(r) {
 async function gradeW(id, i) {
   const s = getSet(id), w = s.written[i], ans = $('#wa' + i).value.trim();
   if (ans.length < 5) return toast(t('needAns'));
-  if (!S.activated && S.tutorUses >= CONFIG.FREE_TUTOR) { toast(t('tutorLim')); go('activate'); return; }
   w.mine = ans; save();
+  try { await getTicket('chat'); } catch (e) { return toast(aiError(e)); }
   const b = $('#wb' + i); b.disabled = true; b.textContent = '⏳ ...';
   const prompt = `أنت مصحّح امتحانات عادل ودقيق لـ${stageTxt()}. صحّح إجابة الطالب مقارنةً بالإجابة النموذجية وعناصر التصحيح.
 السؤال: ${w.q}
@@ -1269,7 +1342,7 @@ async function gradeW(id, i) {
 اكتب بلغة إجابة الطالب. لا تكن متساهلاً ولا قاسياً.`;
   try {
     const r = parseJSON(await ai([{ role: 'user', parts: [{ text: prompt }] }], true));
-    w.res = r; if (!S.activated) S.tutorUses++; save();
+    w.res = r; save();
     $('#wr' + i).innerHTML = gradeHtml(r); (+r.score >= 8 ? sfx('win') : sfx('ok')); addXP(Math.round((+r.score || 0)));
   } catch (e) { toast(aiError(e)); }
   b.disabled = false; b.textContent = t('grade');
@@ -1316,7 +1389,7 @@ function delSet(id) {
 }
 async function moreQs(id) {
   const s = getSet(id); if (!s) return;
-  if (!canUse()) return;
+  let tk; try { tk = await getTicket('gen'); } catch (e) { return toast(aiError(e)); }
   const existing = s.qs.map(q => '- ' + q.q).join('\n').slice(0, 6000);
   const ctx = s.src ? 'المادة الأصلية:\n' + s.src : 'ملخص الدرس:\n' + s.summary.join('\n');
   const prompt = `${ctx}\n\nالأسئلة الموجودة (لا تكررها):\n${existing}\n\nأنشئ 10 أسئلة جديدة مختلفة عن نفس الدرس وبنفس لغة الأسئلة الموجودة. أعد JSON فقط: {"questions":[{"type":"mcq|tf|fill","q":"...","options":[...],"answer":0,"explanation":"..."}]} — mcq بأربعة خيارات، tf خياراتها ["صح","خطأ"] أو ["True","False"]، fill فيها ____ وأربعة خيارات، answer يبدأ من 0. explanation: شرح وافٍ من 3 إلى 5 جمل يوضح لماذا الإجابة صحيحة ولماذا الخيار الخاطئ الأقرب خاطئ.`;
@@ -1324,8 +1397,8 @@ async function moreQs(id) {
   try {
     const d = normalize(parseJSON(await ai([{ role: 'user', parts: [{ text: prompt }] }], true)));
     if (!d.qs.length) throw new Error('JSON');
-    s.qs.push(...d.qs); useOne(); save(); loading(false); sfx('ok'); toast(t('moreAdded', d.qs.length)); go('setView', id);
-  } catch (e) { loading(false); toast(aiError(e)); }
+    s.qs.push(...d.qs); save(); loading(false); sfx('ok'); toast(t('moreAdded', d.qs.length)); go('setView', id);
+  } catch (e) { loading(false); refund(tk); toast(aiError(e)); }
 }
 
 /* ---------------- الملخص ---------------- */
@@ -1565,7 +1638,7 @@ function renderChat() {
 function tQuick(i) { $('#tIn').value = t('tutorS')[i]; tSend(); }
 async function tSend() {
   const inp = $('#tIn'); const text = inp.value.trim(); if (!text || T.wait) return;
-  if (!S.activated && S.tutorUses >= CONFIG.FREE_TUTOR) { toast(t('tutorLim')); go('activate'); return; }
+  try { await getTicket('chat'); } catch (e) { return toast(aiError(e)); }
   inp.value = ''; T.msgs.push({ role: 'user', text }); T.wait = true; renderChat();
   const s = getSet(T.id);
   const stg = S.user.stage === 'uni' ? 'طالب جامعي' : S.user.stage === 'tawjihi' ? 'طالب توجيهي' : 'طالب مدرسة';
@@ -1576,7 +1649,7 @@ ${s.src ? 'نص المادة:\n' + s.src.slice(0, 10000) : ''}
 بعض أسئلة الدرس:\n${s.qs.slice(0, 15).map(q => '- ' + q.q + ' ← ' + q.o[q.a]).join('\n')}`;
   const contents = [{ role: 'user', parts: [{ text: ctx }] }, { role: 'model', parts: [{ text: 'OK' }] }]
     .concat(T.msgs.slice(-12).map(m => ({ role: m.role === 'user' ? 'user' : 'model', parts: [{ text: m.text }] })));
-  try { const r = await ai(contents, false); T.msgs.push({ role: 'model', text: r.trim() || '...' }); if (!S.activated) S.tutorUses++; addXP(3); }
+  try { const r = await ai(contents, false); T.msgs.push({ role: 'model', text: r.trim() || '...' }); addXP(3); }
   catch (e) { T.msgs.push({ role: 'model', text: '⚠️ ' + aiError(e) }); }
   T.wait = false; save(); renderChat();
 }
@@ -1602,7 +1675,7 @@ function badgesView() {
 function profileView() {
   const sw = (k, l) => `<div class="list-row"><span>${t(l)}</span><button class="switch ${S.settings[k] ? 'on' : ''}" onclick="S.settings['${k}']=!S.settings['${k}'];applyTheme();save();go('profileView')"></button></div>`;
   $('#app').innerHTML = `<div class="top"><div class="h1">${t('prof')}</div>${langBtn()}</div>
-  ${trialChip()}
+  ${accCard()}
   <div class="card col mt">
     <div><div class="label">${t('langL')}</div>${langPills("go('profileView')")}</div>
     <div><div class="label">${t('name')}</div><input type="text" value="${esc(S.user.name)}" maxlength="25" onchange="S.user.name=this.value.trim()||S.user.name;save();toast(t('saved'))"></div>
@@ -1610,7 +1683,6 @@ function profileView() {
     <div><div class="label">${t('goalL')}</div><div class="pills">${[30, 50, 100, 200].map((n, i) => `<button class="pill ${S.settings.goal === n ? 'on' : ''}" onclick="S.settings.goal=${n};save();go('profileView')">${t('goals')[i]} ${n}</button>`).join('')}</div></div>
   </div>
   <div class="card mt">${sw('sound', 'sound')}${sw('dark', 'dark')}
-    <div class="list-row" onclick="go('activate')" style="cursor:pointer"><span>${S.activated ? t('activated') : t('actBtn')}</span><span>${back() === '→' ? '←' : '→'}</span></div>
     <div class="list-row" onclick="shareApp()" style="cursor:pointer"><span>${t('shareApp')}</span><span>${back() === '→' ? '←' : '→'}</span></div>
     <div class="list-row" onclick="resetAll()" style="cursor:pointer;color:var(--r)"><span>${t('reset')}</span><span>${back() === '→' ? '←' : '→'}</span></div>
   </div>
@@ -1618,16 +1690,23 @@ function profileView() {
     <div style="font-size:30px">🧠</div>
     <div class="h3" style="color:var(--t)">${appName()}</div>
     <div>${t('version')}</div>
-    <div class="small" dir="ltr">${esc(S.deviceId)}</div>
     <div class="mt">${t('dev')} <a href="${CONFIG.SITE}" target="_blank">Dahshan Soft</a></div>
     <a class="wa" href="https://wa.me/${CONFIG.WHATSAPP}" target="_blank">${t('wa')}</a>
     <div class="mt"><a href="${CONFIG.INSTAGRAM}" target="_blank">${t('insta')}</a></div>
   </div>`;
 }
+function accCard() {
+  const m = meNow();
+  if (!m) return `<div class="card acc-card"><div class="h3">🔐 ${t('accT')}</div><p class="muted small mt">${t('accSub')}</p><div class="grid2 mt"><button class="btn btn-p" onclick="ACC_TAB='reg';ACC_NEXT=['profileView'];go('account')">${t('tabReg')}</button><button class="btn btn-o" onclick="ACC_TAB='log';ACC_NEXT=['profileView'];go('account')">${t('tabLog')}</button></div></div>`;
+  return `<div class="card acc-card"><div class="row between"><div><div class="muted small">${t('loggedAs')}</div><div class="h2" dir="ltr" style="text-align:start">${esc(m.u)}</div></div><span class="chip">${m.active ? '✅ PRO' : '🎁 ' + m.left + '/' + m.free}</span></div>
+    <div class="mt small" style="font-weight:600">${m.active ? (m.until ? t('activeUntil', fmtDate(m.until)) : t('activeForever')) : m.expired ? t('expiredT') : t('trialLeft', m.left, m.free)}</div>
+    <div class="muted small">${t('devicesL', m.devices, m.maxDevices)}</div>
+    <div class="grid2 mt">${m.active ? `<button class="btn btn-o btn-s" style="width:100%" onclick="refreshMe(true).then(()=>go('profileView'))">${t('refresh')}</button>` : `<button class="btn btn-g btn-s" style="width:100%" onclick="go('activate')">${t('actBtn')}</button>`}<button class="btn btn-o btn-s" style="width:100%" onclick="logout()">${t('logout')}</button></div></div>`;
+}
 function shareApp() { shareText(t('shApp', appName()), baseUrl()); }
 function resetAll() {
   if (!confirmBox(t('resetQ'))) return;
-  const keep = { deviceId: S.deviceId, uses: S.uses, tutorUses: S.tutorUses, activated: S.activated, actCode: S.actCode, lang: S.lang };
+  const keep = { deviceId: S.deviceId, auth: S.auth, lang: S.lang };
   S = Object.assign(defState(), keep); save(); onboarding();
 }
 function applyTheme() { document.body.classList.toggle('dark', !!S.settings.dark); }
@@ -1641,6 +1720,7 @@ async function boot() {
     history.replaceState(null, '', location.pathname + location.search);
   }
   S.sets.forEach(x => { if (x.demo && !x.lesson) { const d = x.id === 'demo-ar' ? demoAr() : demoEn(); Object.assign(x, { lesson: d.lesson, glossary: d.glossary, mm: d.mm, written: d.written }); } });
+  if (S.auth) refreshMe(false);
   if (!S.user) return onboarding();
   if (PENDING_CH) { const c = PENDING_CH; PENDING_CH = null; return openChallenge(c); }
   go('home');

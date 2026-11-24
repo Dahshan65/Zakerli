@@ -316,6 +316,7 @@ const TR = {
     needImg: 'أضف صورة واحدة على الأقل 📸', needPdf: 'اختر ملف PDF أولاً 📄', shortText: 'النص قصير جداً، أضف المزيد ✍️', needTopic: 'اكتب الموضوع أولاً 💡',
     ready: '✨ جاهزة! {0} سؤال و{1} بطاقة',
     ld: ['أقرأ المادة بتركيز...', 'أستخرج الأفكار المهمة...', 'أصنع أسئلة ذكية...', 'أكتب الشرح لكل سؤال...', 'أرتّب البطاقات...', 'لحظات وتكون جاهزة ✨'],
+    autoL: '🤖 تلقائي', autoHint: 'سيحدد التطبيق العدد حسب حجم المادة: ≈ {0} سؤالاً و{1} بطاقة', pagesN: '{0} صفحة',
     ldUp: ['أرفع الملف إلى الخادم... 📤', 'أجهّز صفحات الملف...', 'لحظات ونبدأ القراءة ✨'],
     ldBig: ['أقرأ المادة كلها بتركيز...', 'أكتب الشرح التفصيلي للدرس...', 'أصنع بنك الأسئلة مع الشرح...', 'أجهّز البطاقات والمصطلحات...', 'أرسم الخريطة الذهنية...', 'أكتب الأسئلة الكتابية...', 'أراجع الدقة العلمية...', 'لحظات وتكون جاهزة ✨ (قد يستغرق دقيقة)'],
     lessonT: 'الشرح التفصيلي', lessonSub: 'الدرس كاملاً بالأمثلة والتعليل', mmT: 'الخريطة الذهنية', mmSub: 'الدرس في صورة واحدة', wrT: 'أسئلة كتابية', wrSub: 'مع تصحيح ذكي',
@@ -386,6 +387,7 @@ const TR = {
     needImg: 'Add at least one photo 📸', needPdf: 'Choose a PDF first 📄', shortText: 'The text is too short, add more ✍️', needTopic: 'Type a topic first 💡',
     ready: '✨ Ready! {0} questions & {1} cards',
     ld: ['Reading your material...', 'Finding the key ideas...', 'Writing smart questions...', 'Explaining every answer...', 'Building flashcards...', 'Almost ready ✨'],
+    autoL: '🤖 Auto', autoHint: 'The app picks the amount based on your material: ≈ {0} questions & {1} cards', pagesN: '{0} pages',
     ldUp: ['Uploading your file... 📤', 'Preparing the pages...', 'Almost ready to read ✨'],
     ldBig: ['Reading all your material...', 'Writing the full lesson explanation...', 'Building the question bank...', 'Preparing flashcards & glossary...', 'Drawing the mind map...', 'Writing written questions...', 'Double-checking accuracy...', 'Almost ready ✨ (may take a minute)'],
     lessonT: 'Full explanation', lessonSub: 'The whole lesson with examples', mmT: 'Mind map', mmSub: 'The lesson at a glance', wrT: 'Written questions', wrSub: 'with AI grading',
@@ -870,7 +872,7 @@ function libList() {
 }
 
 /* ---------------- إنشاء مجموعة ---------------- */
-const CR = { src: 'image', text: '', topic: '', title: '', images: [], pdf: null, n: 30, diff: 'med', lang: 'auto' };
+const CR = { src: 'image', text: '', topic: '', title: '', images: [], pdf: null, n: 'auto', diff: 'med', lang: 'auto' };
 function create() {
   const tb = k => `<button class="${CR.src === k ? 'on' : ''}" onclick="crSave();CR.src='${k}';go('create')">${t('tb_' + k)}</button>`;
   let input = '';
@@ -890,13 +892,15 @@ function create() {
   <div class="mt">${input}</div>
   <div class="card col mt">
     <div><div class="label">${t('setName')}</div><input type="text" id="crTitle" dir="auto" placeholder="${t('setNamePh')}" value="${esc(CR.title)}"></div>
-    <div><div class="label">${t('numQ')}</div><div class="pills">${[20, 30, 45, 60].map(n => `<button class="pill ${CR.n === n ? 'on' : ''}" onclick="crSave();CR.n=${n};go('create')">${n}</button>`).join('')}</div></div>
+    <div><div class="label">${t('numQ')}</div><div class="pills"><button class="pill ${CR.n === 'auto' ? 'on' : ''}" onclick="crSave();CR.n='auto';go('create')">${t('autoL')}</button>${[20, 30, 45, 60].map(n => `<button class="pill ${CR.n === n ? 'on' : ''}" onclick="crSave();CR.n=${n};go('create')">${n}</button>`).join('')}</div>
+      ${CR.n === 'auto' ? `<div class="tip mt" id="autoHint"></div>` : ''}</div>
     <div><div class="label">${t('diffL')}</div><div class="pills">${[['easy', t('d_easy')], ['med', t('d_med')], ['hard', t('d_hard')], ['exam', examLbl]].map(([k, l]) => `<button class="pill ${CR.diff === k ? 'on' : ''}" onclick="crSave();CR.diff='${k}';go('create')">${l}</button>`).join('')}</div></div>
     <div><div class="label">${t('qLang')}</div><div class="pills">${['auto', 'ar', 'en'].map(k => `<button class="pill ${CR.lang === k ? 'on' : ''}" onclick="crSave();CR.lang='${k}';go('create')">${t('l_' + k)}</button>`).join('')}</div></div>
   </div>
   <button class="btn btn-p mt2" onclick="generate()">${t('make')}</button>`;
   if (CR.src === 'image') renderThumbs();
-  if (CR.src === 'text') { const ta = $('#crText'); const up = () => $('#cnt').textContent = t('chars', ta.value.length); ta.oninput = up; up(); }
+  if (CR.src === 'text') { const ta = $('#crText'); const up = () => { $('#cnt').textContent = t('chars', ta.value.length); CR.text = ta.value; autoHint(); }; ta.oninput = up; up(); }
+  autoHint();
 }
 function crSave() {
   const g = id => { const e = $(id); return e ? e.value : null; };
@@ -931,7 +935,7 @@ async function onImages(files) {
     if (CR.images.length >= 6) { toast(t('maxImg')); break; }
     try { CR.images.push(await shrinkImage(f)); } catch (e) { toast(t('imgErr')); }
   }
-  renderThumbs();
+  renderThumbs(); autoHint();
 }
 $('#fCam').onchange = e => { onImages([...e.target.files]); e.target.value = ''; };
 $('#fGal').onchange = e => { onImages([...e.target.files]); e.target.value = ''; };
@@ -940,8 +944,9 @@ $('#fPdf').onchange = e => {
   if (!f) return;
   if (f.size > 50 * 1024 * 1024) { toast(t('pdfBig')); return; }
   crSave();
-  CR.pdf = { name: f.name, file: f, size: f.size, uri: null };
+  CR.pdf = { name: f.name, file: f, size: f.size, uri: null, pages: 0 };
   go('create');
+  countPdfPages(f).then(n => { if (CR.pdf && CR.pdf.file === f) { CR.pdf.pages = n; autoHint(); } });
 };
 async function uploadPdf(p) {
   if (p.uri) return p.uri;
@@ -962,7 +967,39 @@ function langTxt(src) {
 function srcTxt(src, topic) {
   return src === 'topic' ? 'المطلوب: اعمل على الموضوع التالي بدقة علمية كاملة: «' + topic + '».' : 'المطلوب: اعتمد على المادة المرفقة فقط، ولا تضف معلومات من خارجها، وتجاهل أرقام الصفحات والعناوين الجانبية غير المفيدة.';
 }
-const cardsFor = n => Math.min(40, Math.max(15, Math.round(n * .7)));
+const cardsFor = n => Math.min(60, Math.max(15, Math.round(n * .65)));
+/* ---------- العدد التلقائي حسب حجم المادة ---------- */
+async function countPdfPages(file) {
+  try {
+    const CH = 4 * 1024 * 1024, dec = new TextDecoder('latin1');
+    let pages = 0, maxCount = 0, tail = '';
+    for (let i = 0; i < file.size; i += CH) {
+      const txt = tail + dec.decode(await file.slice(i, i + CH).arrayBuffer());
+      pages += (txt.slice(tail.length ? 0 : 0).match(/\/Type\s*\/Page(?!s)/g) || []).length;
+      for (const m of txt.matchAll(/\/Type\s*\/Pages[\s\S]{0,200}?\/Count\s+(\d+)/g)) maxCount = Math.max(maxCount, +m[1]);
+      tail = txt.slice(-64);
+    }
+    return Math.max(maxCount, pages) || 0;
+  } catch (e) { return 0; }
+}
+const round5 = x => Math.round(x / 5) * 5;
+const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+function autoCount() {
+  if (CR.src === 'text') return clamp(round5(CR.text.trim().length / 220), 15, 80);
+  if (CR.src === 'image') return clamp(round5(Math.max(1, CR.images.length) * 12), 15, 70);
+  if (CR.src === 'pdf') {
+    if (!CR.pdf) return 30;
+    const pg = CR.pdf.pages || Math.max(1, Math.round(CR.pdf.size / 120000));
+    return clamp(round5(pg <= 3 ? pg * 12 : 30 + (pg - 3) * 4), 15, 100);
+  }
+  return { easy: 25, med: 30, hard: 35, exam: 40 }[CR.diff] || 30;
+}
+const qCount = () => CR.n === 'auto' ? autoCount() : CR.n;
+function autoHint() {
+  const el = $('#autoHint'); if (!el) return;
+  const n = autoCount(), pg = CR.src === 'pdf' && CR.pdf && CR.pdf.pages ? t('pagesN', CR.pdf.pages) + ' · ' : '';
+  el.textContent = '🤖 ' + pg + t('autoHint', n, cardsFor(n));
+}
 function contentPrompt(nCards, src, topic) {
   return `أنت معلّم خبير جداً ومؤلف كتب دراسية. المتعلّم: ${stageTxt()}.
 ${srcTxt(src, topic)}
@@ -1052,7 +1089,7 @@ async function generate() {
     try { media.push({ file_data: { mime_type: 'application/pdf', file_uri: await uploadPdf(CR.pdf) } }); }
     catch (e) { loading(false); sfx('no'); return toast(aiError(e)); }
   }
-  const src = CR.src, topic = CR.topic.trim(), n = CR.n, batches = splitN(n, 20);
+  const src = CR.src, topic = CR.topic.trim(), n = qCount(), batches = splitN(n, 20);
   const call = (text, tok) => ai([{ role: 'user', parts: [...media, { text }] }], true, tok).then(parseJSON);
   loading(true, t('ldBig'));
   try {

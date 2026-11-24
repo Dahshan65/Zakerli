@@ -198,6 +198,7 @@ body.dark .badge-t{color:#9DB8FF;background:rgba(125,160,255,.12)}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:65}
 .empty{text-align:center;padding:30px 10px}
 .empty .e{font-size:50px}
+.visits{text-align:center;margin:16px auto 4px;font-size:13px;font-weight:700;color:var(--m);min-height:18px}
 .credit{text-align:center;margin-top:20px;font-size:13px;color:var(--m);font-weight:500}
 .credit a{color:var(--p);text-decoration:none;font-weight:600}
 body.dark .credit a{color:#9DB8FF}
@@ -400,7 +401,7 @@ const TR = {
     bTitle: '🏆 إنجازاتي', curStreak: 'السلسلة الحالية', perfect: 'علامة كاملة', cardsN: 'بطاقة', setsL: 'درس', examsL: 'امتحان', chL: 'تحدّي', badgesL: 'الأوسمة', newBadge: '🏅 وسام جديد: ',
     prof: '👤 حسابي', name: 'الاسم', saved: 'تم الحفظ ✅', goalL: 'الهدف اليومي', goals: ['خفيف', 'عادي', 'جاد', 'وحش 🔥'],
     sound: '🔊 المؤثرات الصوتية', dark: '🌙 الوضع الليلي', shareApp: '📤 شارك التطبيق مع أصحابك', reset: '🗑️ حذف كل البيانات', resetQ: 'سيتم حذف كل دروسك ونقاطك. متأكد؟',
-    version: 'الإصدار 1.1', dev: 'تطوير:', wa: '💬 تواصل عبر واتساب', insta: '📸 تابعنا على إنستغرام',
+    version: 'الإصدار 1.1', visitors: '{0} زائر لذاكرلي حتى الآن', dev: 'تطوير:', wa: '💬 تواصل عبر واتساب', insta: '📸 تابعنا على إنستغرام',
     lvUp: '🎉 مبروك! وصلت المستوى {0} – {1}', goalDone: '🎯 حققت هدفك اليومي! استمر 🔥', full: '⚠️ ذاكرة الجهاز ممتلئة، احذف بعض الدروس', noTts: 'القراءة الصوتية غير مدعومة على هذا الجهاز',
     trialLeft: '🎁 التجربة المجانية: بقي {0} من {1}', activated: '✅ النسخة الكاملة مفعّلة', actTitle: 'انتهت التجربة المجانية',
     actDesc: 'استخدمت {0} طلبات مجانية 🎉 لتكمل بلا حدود، أرسل رقم جهازك للمطوّر عبر واتساب ليرسل لك رمز التفعيل.',
@@ -493,7 +494,7 @@ const TR = {
     bTitle: '🏆 My awards', curStreak: 'Current streak', perfect: 'Perfect scores', cardsN: 'Cards', setsL: 'Lessons', examsL: 'Exams', chL: 'Challenges', badgesL: 'Badges', newBadge: '🏅 New badge: ',
     prof: '👤 Profile', name: 'Name', saved: 'Saved ✅', goalL: 'Daily goal', goals: ['Light', 'Regular', 'Serious', 'Beast 🔥'],
     sound: '🔊 Sound effects', dark: '🌙 Dark mode', shareApp: '📤 Share the app with friends', reset: '🗑️ Delete all data', resetQ: 'All your lessons and points will be deleted. Are you sure?',
-    version: 'Version 1.1', dev: 'Developed by', wa: '💬 Contact on WhatsApp', insta: '📸 Follow us on Instagram',
+    version: 'Version 1.1', visitors: '{0} visitors to Zakerli so far', dev: 'Developed by', wa: '💬 Contact on WhatsApp', insta: '📸 Follow us on Instagram',
     lvUp: '🎉 Congrats! You reached level {0} – {1}', goalDone: '🎯 Daily goal reached! Keep going 🔥', full: '⚠️ Device storage is full, delete some lessons', noTts: 'Text-to-speech is not supported on this device',
     trialLeft: '🎁 Free trial: {0} of {1} left', activated: '✅ Full version activated', actTitle: 'Your free trial has ended',
     actDesc: "You've used your {0} free requests 🎉 To keep going without limits, send your device code to the developer on WhatsApp to get your activation code.",
@@ -1012,7 +1013,19 @@ function home() {
     <div class="card stat"><b>${S.stats.answered}</b><span>${t('solved')}</span></div>
     <div class="card stat"><b>${S.stats.answered ? Math.round(S.stats.correct / S.stats.answered * 100) : 0}%</b><span>${t('accuracy')}</span></div>
     <div class="card stat"><b>${S.best || 0}</b><span>${t('bestStreak')}</span></div>
-  </div>`;
+  </div>
+  <div class="visits" id="visits">${VISITS ? visitsHtml() : ''}</div>`;
+}
+let VISITS = 0;
+const visitsHtml = () => `👥 ${t('visitors', VISITS.toLocaleString('en-US'))}`;
+async function countVisit() {
+  try {
+    let isNew = false;
+    try { if (!localStorage.getItem('zk_seen')) { isNew = true; localStorage.setItem('zk_seen', '1'); } } catch (e) {}
+    const d = await callApi({ action: 'visit', isNew });
+    VISITS = +d.visits || 0;
+    const el = document.getElementById('visits'); if (el && VISITS) el.innerHTML = visitsHtml();
+  } catch (e) {}
 }
 function examChips() {
   const today = dayKey();
@@ -1820,7 +1833,7 @@ function applyTheme() { document.body.classList.toggle('dark', !!S.settings.dark
 
 /* ---------------- التشغيل ---------------- */
 async function boot() {
-  applyLang(); applyTheme();
+  applyLang(); applyTheme(); countVisit();
   const m = location.hash.match(/#c=([\w-]+)/);
   if (m) {
     try { PENDING_CH = await unpack(m[1]); } catch (e) { toast(t('chBad')); }

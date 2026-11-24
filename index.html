@@ -345,8 +345,8 @@ const TR = {
     subT: '⭐ الاشتراك', subscribe: 'اشترك', myPlan: '⭐ باقتي', choosePlan: 'اختر باقتك', renewT: 'جدّد أو رقِّ باقتك', subDesc: 'اختر الباقة المناسبة، وادفع بالطريقة الأسهل لك، ثم أرسل صورة التحويل عبر واتساب ليُفعَّل حسابك على كل أجهزتك.',
     pl_basic: 'أساسي', pl_student: 'الطالب', pl_yearly: 'سنة كاملة', mostChosen: '⭐ الأكثر اختياراً', bestValue: '👑 الأوفر', perMonth: ' / شهرياً', perYear: ' / سنوياً',
     jod: '{0} د.أ', usd: '${0}', lessonsMo: '{0} درساً شهرياً', chatMo: '{0} رسالة للمعلّم', months12: '12 شهراً بسعر 6',
-    planLeft: 'بقي {0} من {1} درساً · يتجدد بعد {2} يوم',
-    planLine: '⭐ {0} · بقي {1} من {2} درساً · يتجدد بعد {3} يوم', chatLeftL: '🤖 بقي {0} رسالة للمعلّم',
+    planLeft: 'بقي {0} من {1} درساً هذا الشهر · يتجدد بعد {2} يوم',
+    planLine: '{4} {0} · بقي {1} من {2} درساً هذا الشهر · يتجدد بعد {3} يوم', chatLeftL: '🤖 بقي {0} رسالة للمعلّم',
     bigRule: '📚 الملف الكبير (أكثر من 20 صفحة) يُحسب 3 دروس. والمراجعة والاختبارات على دروسك المحفوظة مجانية دائماً.', costs3: '📚 ملف كبير: يُحسب 3 دروس',
     planOver: 'انتهت دروس باقتك لهذا الشهر 📚 تتجدد بعد {0} يوم، أو رقِّ باقتك', planNeed3: 'هذا ملف كبير ويحتاج 3 دروس، وبقي لك {0}. قسّمه أو رقِّ باقتك', planChatOver: 'انتهت رسائل المعلّم لهذا الشهر',
     payT: '💳 ادفع {0} – {1}', pm_cliq: '🇯🇴 كليك', pm_bank: '🏦 بنكي', pm_paypal: '🅿️ PayPal', pm_wu: '🌍 حوالة', accNo: 'رقم الحساب', ppEmail: 'البريد', ppUser: 'اسم المستخدم', ppOpen: '🅿️ افتح PayPal', ppHow: 'أرسل {0} عبر PayPal إلى البريد أعلاه، واختر «لصديق أو قريب» (Friends & Family) إن أمكن.',
@@ -438,8 +438,8 @@ const TR = {
     subT: '⭐ Subscription', subscribe: 'Subscribe', myPlan: '⭐ My plan', choosePlan: 'Choose your plan', renewT: 'Renew or upgrade', subDesc: 'Pick a plan, pay the easiest way for you, then send the transfer receipt on WhatsApp to activate your account on all your devices.',
     pl_basic: 'Basic', pl_student: 'Student', pl_yearly: 'Full year', mostChosen: '⭐ Most popular', bestValue: '👑 Best value', perMonth: ' / month', perYear: ' / year',
     jod: '{0} JOD', usd: '${0}', lessonsMo: '{0} lessons per month', chatMo: '{0} tutor messages', months12: '12 months for the price of 6',
-    planLeft: '{0} of {1} lessons left · renews in {2} days',
-    planLine: '⭐ {0} · {1} of {2} lessons left · renews in {3} days', chatLeftL: '🤖 {0} tutor messages left',
+    planLeft: '{0} of {1} lessons left this month · renews in {2} days',
+    planLine: '{4} {0} · {1} of {2} lessons left this month · renews in {3} days', chatLeftL: '🤖 {0} tutor messages left',
     bigRule: '📚 A large file (over 20 pages) counts as 3 lessons. Reviewing and quizzing your saved lessons is always free.', costs3: '📚 Large file: counts as 3 lessons',
     planOver: "You've used this month's lessons 📚 They renew in {0} days, or upgrade your plan", planNeed3: 'This large file needs 3 lessons and you have {0}. Split it or upgrade', planChatOver: "You've used this month's tutor messages",
     payT: '💳 Pay {0} – {1}', pm_cliq: '🇯🇴 CliQ', pm_bank: '🏦 Bank', pm_paypal: '🅿️ PayPal', pm_wu: '🌍 Transfer', accNo: 'Account no.', ppEmail: 'Email', ppUser: 'Username', ppOpen: '🅿️ Open PayPal', ppHow: 'Send {0} via PayPal to the email above, choosing "Friends & Family" if possible.',
@@ -774,9 +774,10 @@ let CUR = null, SEL_PLAN = 'student', PAY_TAB = null;
 const curNow = () => CUR || (LANG === 'ar' ? 'jod' : 'usd');
 const priceTxt = p => curNow() === 'jod' ? t('jod', p.jod) : t('usd', p.usd);
 const planName = id => t('pl_' + id);
+const planIcon = id => id === 'yearly' ? '👑' : id === 'basic' ? '🟢' : '⭐';
 function planStatus(m) {
   const days = m.resetAt ? Math.max(0, Math.ceil((m.resetAt - Date.now()) / 864e5)) : 30;
-  return t('planLine', planName(m.plan), m.pLeft, m.pLessons, days);
+  return t('planLine', planName(m.plan), m.pLeft, m.pLessons, days, planIcon(m.plan));
 }
 function trialChip() {
   const m = meNow();

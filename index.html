@@ -889,7 +889,7 @@ async function doAccount() {
   if (reg && p !== $('#aP2').value) return toast(t('passMismatch'));
   const b = $('#aBtn'); b.disabled = true;
   try {
-    const r = await callApi(reg ? { action: 'register', u, p, name: S.user ? S.user.name : '', phone: $('#aPh').value.trim(), device: S.deviceId } : { action: 'login', u, p, device: S.deviceId });
+    const r = await callApi(reg ? { action: 'register', u, p, name: S.user ? S.user.name : '', phone: $('#aPh').value.trim(), device: S.deviceId, ref: getRef() } : { action: 'login', u, p, device: S.deviceId });
     S.auth = { u, token: r.token, me: r.me };
     if (S.user && !S.user.name) S.user.name = (r.me && r.me.name) || u;
     if (!S.user) { S.user = { name: (r.me && r.me.name) || u, stage: ONB.stage }; if (!S.sets.length) S.sets.push(LANG === 'ar' ? demoAr() : demoEn()); }
@@ -1184,6 +1184,9 @@ function onboarding() {
     <div class="lg-foot">${t('dev')} <b>Dahshan Soft</b> · <a href="${CONFIG.SITE}" target="_blank" rel="noopener">dahshansoft.com</a></div>
   </div>`;
 }
+/* رابط المسوّق: zakerlee.com/?ref=الكود – يُحفظ 60 يوماً ويُرسل عند التسجيل */
+(function () { try { const r = new URLSearchParams(location.search).get('ref'); if (r && /^[a-z0-9]{3,15}$/i.test(r)) localStorage.setItem('zk_ref', JSON.stringify({ c: r.toLowerCase(), t: Date.now() })); } catch (e) {} })();
+function getRef() { try { const x = JSON.parse(localStorage.getItem('zk_ref') || 'null'); return x && Date.now() - x.t < 60 * 864e5 ? x.c : ''; } catch (e) { return ''; } }
 function isAppMode() {
   return /ZakerliApp/.test(navigator.userAgent) || navigator.standalone === true || !!(window.matchMedia && matchMedia('(display-mode: standalone)').matches);
 }
@@ -1223,7 +1226,7 @@ async function doOnb(mode) {
   if (p.length < 6) { $('#oP').focus(); return toast(t('e_short_pass')); }
   const bl = $('#oLog'), br = $('#oReg'); bl.disabled = br.disabled = true;
   try {
-    const r = await callApi(reg ? { action: 'register', u, p, name: u, phone: '', device: S.deviceId } : { action: 'login', u, p, device: S.deviceId });
+    const r = await callApi(reg ? { action: 'register', u, p, name: u, phone: '', device: S.deviceId, ref: getRef() } : { action: 'login', u, p, device: S.deviceId });
     S.auth = { u, token: r.token, me: r.me }; S.lastU = u;
     S.user = { name: (r.me && r.me.name) || u, stage: ONB.stage }; S.lang = LANG;
     if (!S.sets.length) S.sets.push(LANG === 'ar' ? demoAr() : demoEn());

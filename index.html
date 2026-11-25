@@ -243,6 +243,50 @@ html[lang=ar] .fld input:placeholder-shown{direction:rtl;text-align:right}
 body.dark .lg-btn2{color:#9db4ff;border-color:#3b5bbf}
 .lg-foot{text-align:center;color:var(--m);font-size:13px;margin-top:4px}
 .lg-foot b{color:var(--p);font-family:'Poppins',sans-serif;font-weight:600}
+#app.wide{max-width:1160px}
+.lg-grid{display:grid;gap:16px;margin-top:-38px;position:relative;z-index:2}
+.lg-grid .lg-card{margin:0 8px}
+.lg-box{background:var(--card);border:1px solid var(--b);border-radius:22px;padding:18px;box-shadow:var(--sh)}
+.lg-h{font-size:19px;font-weight:700;margin-bottom:12px;text-align:center}
+.lg-h.big{font-size:24px;margin:30px 0 16px}
+.lg-vid video{width:100%;border-radius:14px;background:#0B1F3A;aspect-ratio:16/9;display:block}
+.lg-steps{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.lg-steps div{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:12px;padding:9px 12px;font-size:14.5px}
+.lg-steps b{flex:0 0 28px;height:28px;border-radius:50%;background:var(--navy);color:#E8C766;display:grid;place-items:center;font-family:'Poppins',sans-serif;font-size:14px}
+.lg-free{background:rgba(187,25,44,.08);border:1px dashed rgba(187,25,44,.45);color:#9f1d2d;border-radius:12px;padding:8px 12px;text-align:center;font-weight:700;font-size:14px;margin-bottom:10px}
+body.dark .lg-free{color:#ff8a98}
+.lg-plan{display:grid;grid-template-columns:38px 1fr auto;grid-template-areas:"i n p" "i l l";align-items:center;gap:2px 10px;border:1.5px solid var(--b);border-radius:16px;padding:10px 12px;margin-top:8px;position:relative}
+.lg-plan.best{border-color:var(--p);box-shadow:0 6px 16px rgba(30,58,138,.12)}
+.lg-plan-i{grid-area:i;font-size:24px;text-align:center}
+.lg-plan-n{grid-area:n;display:flex;flex-direction:column;line-height:1.5}
+.lg-plan-n small,.lg-plan-p small{color:var(--m);font-size:12px}
+.lg-plan-p{grid-area:p;text-align:end;display:flex;flex-direction:column;line-height:1.4}
+.lg-plan-p b{font-size:19px;color:var(--p);font-family:'Poppins','Noto Naskh Arabic',sans-serif}
+.lg-plan .per-lesson{grid-area:l;margin:4px 0 0;display:flex;justify-content:center;gap:6px;align-items:baseline}
+.lg-plan .per-lesson small,.lg-plan .per-lesson b{display:inline}
+.lg-cat-g{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.lg-ci{background:var(--card);border:1px solid var(--b);border-radius:20px;padding:10px 10px 14px;box-shadow:var(--sh);display:flex;flex-direction:column;gap:6px;text-align:center}
+.lg-shot{border-radius:14px;overflow:hidden;background:var(--bg);aspect-ratio:5/6;border:1px solid var(--b)}
+.lg-shot img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.lg-ci b{font-size:16px;margin-top:4px}
+.lg-ci span{font-size:13px;color:var(--m);line-height:1.7}
+.lg-cta{background:linear-gradient(155deg,#0B1F3A,#1E3A8A);border-radius:24px;padding:4px 18px 20px;margin-top:30px;color:#fff;text-align:center}
+.lg-cta .lg-h{color:#fff}
+.lg-cta-b{display:flex;flex-direction:column;gap:10px;max-width:420px;margin:0 auto}
+.lg-cta .lg-btn{background:#C9A227;color:#0B1F3A;border-bottom-color:#9a7a14}
+.lg-cta .lg-btn2{text-decoration:none}
+.lg-wa{background:#25D366;color:#fff;text-decoration:none;font-weight:700;border-radius:15px;padding:13px}
+.lg-foot a{color:var(--m)}
+.lg .lg-foot{margin:18px 0 6px}
+@media(min-width:960px){
+  .lg-hero{padding:26px 24px 70px}
+  .lg-grid{grid-template-columns:1fr 400px 1fr;grid-template-areas:"vid log pr";align-items:start;margin-top:-52px}
+  .lg-grid .lg-card{grid-area:log;margin:0}
+  .lg-vid{grid-area:vid}.lg-pr{grid-area:pr}
+  .lg-cat-g{grid-template-columns:repeat(6,1fr)}
+  .lg-cta-b{flex-direction:row;max-width:none;justify-content:center}.lg-cta-b .btn{width:auto;padding-inline:26px}
+}
+@media(min-width:600px) and (max-width:959px){.lg-cat-g{grid-template-columns:repeat(3,1fr)}}
 .credit{text-align:center;margin-top:20px;font-size:13px;color:var(--m);font-weight:500}
 .credit a{color:var(--p);text-decoration:none;font-weight:600}
 body.dark .credit a{color:#9DB8FF}
@@ -364,7 +408,7 @@ const TR = {
   ar: {
     tag: 'ادرس بذكاء', welcome: 'أهلاً بك في {0}',
     onbDesc: 'صوّر درسك أو الصق ملخصك، وأنا أصنع لك أسئلة وبطاقات حفظ وامتحانات وتحديات مع أصحابك 🚀',
-    yourName: 'شو اسمك؟', namePh: 'اكتب اسمك', stageL: 'مرحلتك الدراسية', langL: 'اللغة', start: 'يلّا نبدأ 🚀', fbL1: 'دروس', fbL2: 'مجانية', lgTag: 'ادرس بالذكاء الاصطناعي – من المدرسة إلى الجامعة', lgF1: '📸 صوّر درسك', lgF2: '📝 أسئلة وامتحانات', lgF3: '🧠 خرائط ذهنية', lgF4: '🤖 معلّم ذكي', lgTitle: 'أهلاً بك 👋', lgSub: 'سجّل دخولك لتكمل دراستك', onbLogBtn: '🔑 تسجيل الدخول', onbReg: 'إنشاء حساب جديد', onbLog: 'عندي حساب – تسجيل الدخول', onbOr: 'أو', onbGuest: 'تصفّح التطبيق أولاً بدون حساب ←', enterName: 'اكتب اسمك أولاً 😊',
+    yourName: 'شو اسمك؟', namePh: 'اكتب اسمك', stageL: 'مرحلتك الدراسية', langL: 'اللغة', start: 'يلّا نبدأ 🚀', fbL1: 'دروس', fbL2: 'مجانية', lgTag: 'ادرس بالذكاء الاصطناعي – من المدرسة إلى الجامعة', lgVidT: 'شاهد كيف يعمل ذاكرلي', lgS1: '📸 صوّر صفحة أو ارفع ملف PDF', lgS2: '⚡ خلال دقيقة يجهّز لك الشرح والأسئلة', lgS3: '🎯 ذاكر واختبر نفسك وتابع تقدّمك', lgPrT: 'الباقات والأسعار', lgFree: '3 دروس مجانية لكل طالب جديد – بدون دفع', lgYear: '12 شهراً بسعر 5', lgPay: 'الدفع عبر CliQ أو تحويل بنكي أو PayPal أو ويسترن يونيون – ويتم التفعيل خلال دقائق', lgCatT: 'ماذا يقدّم لك ذاكرلي؟', ct_lesson: 'شرح تفصيلي', cd_lesson: 'شرح مرتّب بعناوين وأمثلة محلولة، ويقرؤه لك بصوت', ct_quiz: 'أسئلة واختبارات', cd_quiz: 'أسئلة كثيرة بمستويات مختلفة مع شرح كل إجابة', ct_cards: 'بطاقات حفظ', cd_cards: 'بطاقات ذكية تكرّر عليك ما تنساه حتى تحفظه', ct_mindmap: 'خريطة ذهنية', cd_mindmap: 'الدرس كله في خريطة واحدة تراجعه في دقيقة', ct_written: 'أسئلة مقالية', cd_written: 'اكتب إجابتك ويصحّحها لك ويعطيك علامة من 10', ct_tutor: 'المعلّم الذكي', cd_tutor: 'اسأله أي سؤال عن درسك في أي وقت', lgCtaT: 'ابدأ الآن – أول 3 دروس مجاناً 🎁', lgApk: 'تحميل للأندرويد', lgWa: 'تواصل معنا على واتساب', lgF1: '📸 صوّر درسك', lgF2: '📝 أسئلة وامتحانات', lgF3: '🧠 خرائط ذهنية', lgF4: '🤖 معلّم ذكي', lgTitle: 'أهلاً بك 👋', lgSub: 'سجّل دخولك لتكمل دراستك', onbLogBtn: '🔑 تسجيل الدخول', onbReg: 'إنشاء حساب جديد', onbLog: 'عندي حساب – تسجيل الدخول', onbOr: 'أو', onbGuest: 'تصفّح التطبيق أولاً بدون حساب ←', enterName: 'اكتب اسمك أولاً 😊',
     st_tawjihi: 'توجيهي', st_school: 'مدرسة', st_uni: 'جامعة',
     gm: 'صباح الخير', ga: 'مساء النور', ge: 'مساء الخير',
     level: 'المستوى {0}', toNext: '{0} / {1} XP للمستوى التالي', today: 'اليوم {0}/{1}',
@@ -457,7 +501,7 @@ const TR = {
   en: {
     tag: 'Study smarter', welcome: 'Welcome to {0}',
     onbDesc: 'Snap your lesson or paste your notes, and I\'ll turn them into questions, flashcards, exams and challenges with your friends 🚀',
-    yourName: "What's your name?", namePh: 'Your name', stageL: 'Your level', langL: 'Language', start: "Let's go 🚀", fbL1: 'free', fbL2: 'lessons', lgTag: 'Study with AI – from school to university', lgF1: '📸 Snap your lesson', lgF2: '📝 Quizzes & exams', lgF3: '🧠 Mind maps', lgF4: '🤖 AI tutor', lgTitle: 'Welcome 👋', lgSub: 'Log in to continue studying', onbLogBtn: '🔑 Log in', onbReg: 'Create a new account', onbLog: 'I have an account – Log in', onbOr: 'or', onbGuest: 'Look around first without an account →', enterName: 'Please enter your name 😊',
+    yourName: "What's your name?", namePh: 'Your name', stageL: 'Your level', langL: 'Language', start: "Let's go 🚀", fbL1: 'free', fbL2: 'lessons', lgTag: 'Study with AI – from school to university', lgVidT: 'See how Zakerlee works', lgS1: '📸 Snap a page or upload a PDF', lgS2: '⚡ In a minute you get the lesson and questions', lgS3: '🎯 Study, test yourself and track progress', lgPrT: 'Plans & prices', lgFree: '3 free lessons for every new student – no payment', lgYear: '12 months for the price of 5', lgPay: 'Pay by CliQ, bank transfer, PayPal or Western Union – activated within minutes', lgCatT: 'What does Zakerlee give you?', ct_lesson: 'Detailed lesson', cd_lesson: 'Organised explanation with headings and solved examples, read aloud for you', ct_quiz: 'Quizzes & tests', cd_quiz: 'Lots of questions at different levels, each answer explained', ct_cards: 'Flashcards', cd_cards: 'Smart cards that repeat what you forget until you know it', ct_mindmap: 'Mind map', cd_mindmap: 'The whole lesson in one map you can review in a minute', ct_written: 'Written answers', cd_written: 'Write your answer and get it graded out of 10', ct_tutor: 'AI tutor', cd_tutor: 'Ask anything about your lesson, any time', lgCtaT: 'Start now – first 3 lessons free 🎁', lgApk: 'Download for Android', lgWa: 'Contact us on WhatsApp', lgF1: '📸 Snap your lesson', lgF2: '📝 Quizzes & exams', lgF3: '🧠 Mind maps', lgF4: '🤖 AI tutor', lgTitle: 'Welcome 👋', lgSub: 'Log in to continue studying', onbLogBtn: '🔑 Log in', onbReg: 'Create a new account', onbLog: 'I have an account – Log in', onbOr: 'or', onbGuest: 'Look around first without an account →', enterName: 'Please enter your name 😊',
     st_tawjihi: 'Tawjihi', st_school: 'School', st_uni: 'University',
     gm: 'Good morning', ga: 'Good afternoon', ge: 'Good evening',
     level: 'Level {0}', toNext: '{0} / {1} XP to next level', today: 'Today {0}/{1}',
@@ -1007,7 +1051,10 @@ function onboarding() {
   VIEW = 'onb'; renderNav();
   const u = $('#oU') ? $('#oU').value : (S.lastU || ''), pw = $('#oP') ? $('#oP').value : '';
   const other = LANG === 'ar' ? CONFIG.APP_NAME.en : CONFIG.APP_NAME.ar;
-  $('#app').innerHTML = `<div class="lg fade">
+  const cat = [['lesson', '📖'], ['quiz', '📝'], ['cards', '🃏'], ['mindmap', '🧠'], ['written', '✍️'], ['tutor', '🤖']];
+  const inApp = /ZakerliApp/.test(navigator.userAgent);   // داخل تطبيق الهاتف: الشاشة المختصرة القديمة
+  const app = $('#app'); app.className = inApp ? '' : 'wide';
+  app.innerHTML = `<div class="lg fade">
     <div class="lg-hero">
       <div class="free-badge"><b>3</b><span>${t('fbL1')}</span><span>${t('fbL2')}</span></div>
       ${langBtn()}
@@ -1017,19 +1064,63 @@ function onboarding() {
       <div class="lg-tag">${t('lgTag')}</div>
       <div class="lg-feats"><span>${t('lgF1')}</span><span>${t('lgF2')}</span><span>${t('lgF3')}</span><span>${t('lgF4')}</span></div>
     </div>
-    <div class="lg-card">
-      <div class="lg-title">${t('lgTitle')}</div>
-      <div class="lg-sub">${t('lgSub')}</div>
-      <div><div class="label">${t('user')}</div><div class="fld"><span class="ic">👤</span><input type="text" id="oU" dir="ltr" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="username" placeholder="${t('userPh')}" value="${esc(u)}" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9._]/g,'')"></div></div>
-      <div><div class="label">${t('pass')}</div><div class="fld"><span class="ic">🔒</span><input type="password" id="oP" dir="ltr" autocomplete="current-password" placeholder="${t('passPh')}" value="${esc(pw)}" onkeydown="if(event.key==='Enter')doOnb('log')"><button type="button" class="pw-eye" onclick="const i=$('#oP');i.type=i.type==='password'?'text':'password'">👁️</button></div></div>
-      <button class="btn lg-btn" id="oLog" onclick="doOnb('log')">${t('onbLogBtn')}</button>
-      <div class="onb-or"><span>${t('onbOr')}</span></div>
-      <button class="btn lg-btn2" id="oReg" onclick="doOnb('reg')">✨ ${t('onbReg')}</button>
-      <div class="muted small" style="text-align:center;line-height:1.7">${t('userHint')}</div>
+
+    <div class="lg-grid">
+      <div class="lg-card" id="lgLogin">
+        <div class="lg-title">${t('lgTitle')}</div>
+        <div class="lg-sub">${t('lgSub')}</div>
+        <div><div class="label">${t('user')}</div><div class="fld"><span class="ic">👤</span><input type="text" id="oU" dir="ltr" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="username" placeholder="${t('userPh')}" value="${esc(u)}" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9._]/g,'')"></div></div>
+        <div><div class="label">${t('pass')}</div><div class="fld"><span class="ic">🔒</span><input type="password" id="oP" dir="ltr" autocomplete="current-password" placeholder="${t('passPh')}" value="${esc(pw)}" onkeydown="if(event.key==='Enter')doOnb('log')"><button type="button" class="pw-eye" onclick="const i=$('#oP');i.type=i.type==='password'?'text':'password'">👁️</button></div></div>
+        <button class="btn lg-btn" id="oLog" onclick="doOnb('log')">${t('onbLogBtn')}</button>
+        <div class="onb-or"><span>${t('onbOr')}</span></div>
+        <button class="btn lg-btn2" id="oReg" onclick="doOnb('reg')">✨ ${t('onbReg')}</button>
+        <div class="muted small" style="text-align:center;line-height:1.7">${t('userHint')}</div>
+        <button class="onb-guest" onclick="finishOnb()">${t('onbGuest')}</button>
+      </div>
+
+      ${inApp ? '' : `<section class="lg-box lg-vid">
+        <div class="lg-h">🎬 ${t('lgVidT')}</div>
+        <video controls playsinline preload="none" poster="zakerli-poster.jpg"><source src="zakerli.mp4" type="video/mp4"></video>
+        <div class="lg-steps">
+          <div><b>1</b><span>${t('lgS1')}</span></div>
+          <div><b>2</b><span>${t('lgS2')}</span></div>
+          <div><b>3</b><span>${t('lgS3')}</span></div>
+        </div>
+      </section>
+
+      <section class="lg-box lg-pr">
+        <div class="lg-h">💳 ${t('lgPrT')}</div>
+        <div class="lg-free">🎁 ${t('lgFree')}</div>
+        ${PLANS.map(p => `<div class="lg-plan ${p.best ? 'best' : ''}">
+          <div class="lg-plan-i">${planIcon(p.id)}</div>
+          <div class="lg-plan-n"><b>${planName(p.id)}</b><small>${t('lessonsMo', p.lessons)}${p.per === 'year' ? ' · ' + t('lgYear') : ''}</small></div>
+          <div class="lg-plan-p"><b>${t('jod', p.jod)}</b><small>$${p.usd}${p.per === 'year' ? t('perYear') : t('perMonth')}</small></div>
+          <div class="per-lesson">${perLessonBoth(p)}</div>
+        </div>`).join('')}
+        <div class="muted small" style="text-align:center;line-height:1.8;margin-top:4px">${t('lgPay')}</div>
+      </section>`}
     </div>
-    <button class="onb-guest" onclick="finishOnb()">${t('onbGuest')}</button>
-    <div class="lg-foot">${t('dev')} <b>Dahshan Soft</b></div>
+
+    ${inApp ? '' : `<section class="lg-cat">
+      <div class="lg-h big">📚 ${t('lgCatT')}</div>
+      <div class="lg-cat-g">${cat.map(([k, e]) => `<div class="lg-ci"><div class="lg-shot"><img src="shot-${k}.webp" alt="" loading="lazy"></div><b>${e} ${t('ct_' + k)}</b><span>${t('cd_' + k)}</span></div>`).join('')}</div>
+    </section>
+
+    <section class="lg-cta">
+      <div class="lg-h big">${t('lgCtaT')}</div>
+      <div class="lg-cta-b">
+        <button class="btn lg-btn" onclick="lgToLogin()">${t('onbLogBtn')}</button>
+        ${/ZakerliApp/.test(navigator.userAgent) ? '' : `<a class="btn lg-btn2" href="https://github.com/Dahshan65/Zakerli/releases/latest/download/zakerli.apk" target="_blank" rel="noopener">🤖 ${t('lgApk')}</a>`}
+        <a class="btn lg-wa" href="https://wa.me/${CONFIG.WHATSAPP}" target="_blank" rel="noopener">💬 ${t('lgWa')}</a>
+      </div>
+    </section>`}
+    <div class="lg-foot">${t('dev')} <b>Dahshan Soft</b> · <a href="${CONFIG.SITE}" target="_blank" rel="noopener">dahshansoft.com</a></div>
   </div>`;
+}
+function lgToLogin() { const c = $('#lgLogin'); if (c) { c.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => $('#oU') && $('#oU').focus(), 450); } }
+function perLessonBoth(p) {
+  const n = p.lessons * (p.per === 'year' ? 12 : 1), q = Math.round(p.jod / n * 100);
+  return `<small>${t('plOne')}</small><b>${t('plQirsh', q)} · $${(p.usd / n).toFixed(2)}</b>`;
 }
 function finishOnb() {
   S.user = { name: '', stage: ONB.stage }; S.lang = LANG;

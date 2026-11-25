@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0B1F3A">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-512.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="ذاكرلي">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="description" content="ذاكرلي – صوّر درسك أو الصق ملخصك ويصنع لك الذكاء الاصطناعي أسئلة وبطاقات ومراجعة وتحديات مع أصدقائك. من التوجيهي إلى الجامعة.">
 <title>ذاكرلي – Zakerlee</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -287,6 +293,16 @@ body.dark .lg-free{color:#ff8a98}
   .lg-cta-b{flex-direction:row;max-width:none;justify-content:center}.lg-cta-b .btn{width:auto;padding-inline:26px}
 }
 @media(min-width:600px) and (max-width:959px){.lg-cat-g{grid-template-columns:repeat(3,1fr)}}
+.lg-get{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;border-top:1px dashed var(--b);padding-top:12px;font-size:14px;color:var(--m)}
+.lg-get a,.lg-get button{border:1.5px solid var(--b);background:var(--bg);border-radius:999px;padding:6px 14px;font-weight:700;color:var(--t);text-decoration:none;font-size:14px;cursor:pointer;font-family:inherit}
+.lg-get a:hover,.lg-get button:hover{border-color:var(--p)}
+.ios-box{max-width:390px;text-align:center}
+.ios-ic img{width:72px;height:72px;border-radius:18px;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.ios-warn{background:rgba(30,58,138,.08);border:1px solid rgba(30,58,138,.25);border-radius:12px;padding:8px 10px;font-size:13.5px;font-weight:600;margin-bottom:10px}
+.ios-steps{display:flex;flex-direction:column;gap:7px;text-align:start}
+.ios-steps div{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:12px;padding:9px 12px;font-size:14.5px}
+.ios-steps b{flex:0 0 26px;height:26px;border-radius:50%;background:var(--navy);color:#E8C766;display:grid;place-items:center;font-family:'Poppins',sans-serif;font-size:13px}
+@media (display-mode: standalone){#app{padding-top:calc(16px + env(safe-area-inset-top))}}
 .credit{text-align:center;margin-top:20px;font-size:13px;color:var(--m);font-weight:500}
 .credit a{color:var(--p);text-decoration:none;font-weight:600}
 body.dark .credit a{color:#9DB8FF}
@@ -408,7 +424,7 @@ const TR = {
   ar: {
     tag: 'ادرس بذكاء', welcome: 'أهلاً بك في {0}',
     onbDesc: 'صوّر درسك أو الصق ملخصك، وأنا أصنع لك أسئلة وبطاقات حفظ وامتحانات وتحديات مع أصحابك 🚀',
-    yourName: 'شو اسمك؟', namePh: 'اكتب اسمك', stageL: 'مرحلتك الدراسية', langL: 'اللغة', start: 'يلّا نبدأ 🚀', fbL1: 'دروس', fbL2: 'مجانية', lgTag: 'ادرس بالذكاء الاصطناعي – من المدرسة إلى الجامعة', lgVidT: 'شاهد كيف يعمل ذاكرلي', lgS1: '📸 صوّر صفحة أو ارفع ملف PDF', lgS2: '⚡ خلال دقيقة يجهّز لك الشرح والأسئلة', lgS3: '🎯 ذاكر واختبر نفسك وتابع تقدّمك', lgPrT: 'الباقات والأسعار', lgFree: '3 دروس مجانية لكل طالب جديد – بدون دفع', lgYear: '12 شهراً بسعر 5', lgPay: 'الدفع عبر CliQ أو تحويل بنكي أو PayPal أو ويسترن يونيون – ويتم التفعيل خلال دقائق', lgCatT: 'ماذا يقدّم لك ذاكرلي؟', ct_lesson: 'شرح تفصيلي', cd_lesson: 'شرح مرتّب بعناوين وأمثلة محلولة، ويقرؤه لك بصوت', ct_quiz: 'أسئلة واختبارات', cd_quiz: 'أسئلة كثيرة بمستويات مختلفة مع شرح كل إجابة', ct_cards: 'بطاقات حفظ', cd_cards: 'بطاقات ذكية تكرّر عليك ما تنساه حتى تحفظه', ct_mindmap: 'خريطة ذهنية', cd_mindmap: 'الدرس كله في خريطة واحدة تراجعه في دقيقة', ct_written: 'أسئلة مقالية', cd_written: 'اكتب إجابتك ويصحّحها لك ويعطيك علامة من 10', ct_tutor: 'المعلّم الذكي', cd_tutor: 'اسأله أي سؤال عن درسك في أي وقت', lgCtaT: 'ابدأ الآن – أول 3 دروس مجاناً 🎁', lgApk: 'تحميل للأندرويد', lgWa: 'تواصل معنا على واتساب', lgF1: '📸 صوّر درسك', lgF2: '📝 أسئلة وامتحانات', lgF3: '🧠 خرائط ذهنية', lgF4: '🤖 معلّم ذكي', lgTitle: 'أهلاً بك 👋', lgSub: 'سجّل دخولك لتكمل دراستك', onbLogBtn: '🔑 تسجيل الدخول', onbReg: 'إنشاء حساب جديد', onbLog: 'عندي حساب – تسجيل الدخول', onbOr: 'أو', onbGuest: 'تصفّح التطبيق أولاً بدون حساب ←', enterName: 'اكتب اسمك أولاً 😊',
+    yourName: 'شو اسمك؟', namePh: 'اكتب اسمك', stageL: 'مرحلتك الدراسية', langL: 'اللغة', start: 'يلّا نبدأ 🚀', fbL1: 'دروس', fbL2: 'مجانية', lgTag: 'ادرس بالذكاء الاصطناعي – من المدرسة إلى الجامعة', lgVidT: 'شاهد كيف يعمل ذاكرلي', lgS1: '📸 صوّر صفحة أو ارفع ملف PDF', lgS2: '⚡ خلال دقيقة يجهّز لك الشرح والأسئلة', lgS3: '🎯 ذاكر واختبر نفسك وتابع تقدّمك', lgPrT: 'الباقات والأسعار', lgFree: '3 دروس مجانية لكل طالب جديد – بدون دفع', lgYear: '12 شهراً بسعر 5', lgPay: 'الدفع عبر CliQ أو تحويل بنكي أو PayPal أو ويسترن يونيون – ويتم التفعيل خلال دقائق', lgCatT: 'ماذا يقدّم لك ذاكرلي؟', ct_lesson: 'شرح تفصيلي', cd_lesson: 'شرح مرتّب بعناوين وأمثلة محلولة، ويقرؤه لك بصوت', ct_quiz: 'أسئلة واختبارات', cd_quiz: 'أسئلة كثيرة بمستويات مختلفة مع شرح كل إجابة', ct_cards: 'بطاقات حفظ', cd_cards: 'بطاقات ذكية تكرّر عليك ما تنساه حتى تحفظه', ct_mindmap: 'خريطة ذهنية', cd_mindmap: 'الدرس كله في خريطة واحدة تراجعه في دقيقة', ct_written: 'أسئلة مقالية', cd_written: 'اكتب إجابتك ويصحّحها لك ويعطيك علامة من 10', ct_tutor: 'المعلّم الذكي', cd_tutor: 'اسأله أي سؤال عن درسك في أي وقت', lgCtaT: 'ابدأ الآن – أول 3 دروس مجاناً 🎁', lgApk: 'تحميل للأندرويد', lgIosBtn: 'تطبيق الآيفون', lgGet: '📲 حمّل التطبيق:', lgAnd: 'أندرويد', lgIos: 'آيفون', iosT: '🍎 ذاكرلي على الآيفون', iosOk: 'فهمت 👍', iosSub: 'ثبّته على شاشتك الرئيسية خلال 10 ثوانٍ – بدون App Store', iosOpen: 'افتح الرابط zakerlee.com من الآيفون في متصفح Safari', iosS1: 'افتح zakerlee.com في متصفح Safari 🧭', iosS2: 'اضغط زر المشاركة ⬆️ أسفل الشاشة', iosS3: 'اختر «إضافة إلى الشاشة الرئيسية» ➕', iosS4: 'اضغط «إضافة» في الأعلى', iosNote: 'ستظهر أيقونة ذاكرلي على شاشتك مثل أي تطبيق، وتفتح بشاشة كاملة مثل تطبيق الأندرويد', lgWa: 'تواصل معنا على واتساب', lgF1: '📸 صوّر درسك', lgF2: '📝 أسئلة وامتحانات', lgF3: '🧠 خرائط ذهنية', lgF4: '🤖 معلّم ذكي', lgTitle: 'أهلاً بك 👋', lgSub: 'سجّل دخولك لتكمل دراستك', onbLogBtn: '🔑 تسجيل الدخول', onbReg: 'إنشاء حساب جديد', onbLog: 'عندي حساب – تسجيل الدخول', onbOr: 'أو', onbGuest: 'تصفّح التطبيق أولاً بدون حساب ←', enterName: 'اكتب اسمك أولاً 😊',
     st_tawjihi: 'توجيهي', st_school: 'مدرسة', st_uni: 'جامعة',
     gm: 'صباح الخير', ga: 'مساء النور', ge: 'مساء الخير',
     level: 'المستوى {0}', toNext: '{0} / {1} XP للمستوى التالي', today: 'اليوم {0}/{1}',
@@ -501,7 +517,7 @@ const TR = {
   en: {
     tag: 'Study smarter', welcome: 'Welcome to {0}',
     onbDesc: 'Snap your lesson or paste your notes, and I\'ll turn them into questions, flashcards, exams and challenges with your friends 🚀',
-    yourName: "What's your name?", namePh: 'Your name', stageL: 'Your level', langL: 'Language', start: "Let's go 🚀", fbL1: 'free', fbL2: 'lessons', lgTag: 'Study with AI – from school to university', lgVidT: 'See how Zakerlee works', lgS1: '📸 Snap a page or upload a PDF', lgS2: '⚡ In a minute you get the lesson and questions', lgS3: '🎯 Study, test yourself and track progress', lgPrT: 'Plans & prices', lgFree: '3 free lessons for every new student – no payment', lgYear: '12 months for the price of 5', lgPay: 'Pay by CliQ, bank transfer, PayPal or Western Union – activated within minutes', lgCatT: 'What does Zakerlee give you?', ct_lesson: 'Detailed lesson', cd_lesson: 'Organised explanation with headings and solved examples, read aloud for you', ct_quiz: 'Quizzes & tests', cd_quiz: 'Lots of questions at different levels, each answer explained', ct_cards: 'Flashcards', cd_cards: 'Smart cards that repeat what you forget until you know it', ct_mindmap: 'Mind map', cd_mindmap: 'The whole lesson in one map you can review in a minute', ct_written: 'Written answers', cd_written: 'Write your answer and get it graded out of 10', ct_tutor: 'AI tutor', cd_tutor: 'Ask anything about your lesson, any time', lgCtaT: 'Start now – first 3 lessons free 🎁', lgApk: 'Download for Android', lgWa: 'Contact us on WhatsApp', lgF1: '📸 Snap your lesson', lgF2: '📝 Quizzes & exams', lgF3: '🧠 Mind maps', lgF4: '🤖 AI tutor', lgTitle: 'Welcome 👋', lgSub: 'Log in to continue studying', onbLogBtn: '🔑 Log in', onbReg: 'Create a new account', onbLog: 'I have an account – Log in', onbOr: 'or', onbGuest: 'Look around first without an account →', enterName: 'Please enter your name 😊',
+    yourName: "What's your name?", namePh: 'Your name', stageL: 'Your level', langL: 'Language', start: "Let's go 🚀", fbL1: 'free', fbL2: 'lessons', lgTag: 'Study with AI – from school to university', lgVidT: 'See how Zakerlee works', lgS1: '📸 Snap a page or upload a PDF', lgS2: '⚡ In a minute you get the lesson and questions', lgS3: '🎯 Study, test yourself and track progress', lgPrT: 'Plans & prices', lgFree: '3 free lessons for every new student – no payment', lgYear: '12 months for the price of 5', lgPay: 'Pay by CliQ, bank transfer, PayPal or Western Union – activated within minutes', lgCatT: 'What does Zakerlee give you?', ct_lesson: 'Detailed lesson', cd_lesson: 'Organised explanation with headings and solved examples, read aloud for you', ct_quiz: 'Quizzes & tests', cd_quiz: 'Lots of questions at different levels, each answer explained', ct_cards: 'Flashcards', cd_cards: 'Smart cards that repeat what you forget until you know it', ct_mindmap: 'Mind map', cd_mindmap: 'The whole lesson in one map you can review in a minute', ct_written: 'Written answers', cd_written: 'Write your answer and get it graded out of 10', ct_tutor: 'AI tutor', cd_tutor: 'Ask anything about your lesson, any time', lgCtaT: 'Start now – first 3 lessons free 🎁', lgApk: 'Download for Android', lgIosBtn: 'iPhone app', lgGet: '📲 Get the app:', lgAnd: 'Android', lgIos: 'iPhone', iosT: '🍎 Zakerlee on iPhone', iosOk: 'Got it 👍', iosSub: 'Add it to your home screen in 10 seconds – no App Store needed', iosOpen: 'Open zakerlee.com on your iPhone in Safari', iosS1: 'Open zakerlee.com in Safari 🧭', iosS2: 'Tap the Share button ⬆️ at the bottom', iosS3: 'Choose “Add to Home Screen” ➕', iosS4: 'Tap “Add” at the top', iosNote: 'The Zakerlee icon appears on your screen like any app and opens full-screen just like the Android app', lgWa: 'Contact us on WhatsApp', lgF1: '📸 Snap your lesson', lgF2: '📝 Quizzes & exams', lgF3: '🧠 Mind maps', lgF4: '🤖 AI tutor', lgTitle: 'Welcome 👋', lgSub: 'Log in to continue studying', onbLogBtn: '🔑 Log in', onbReg: 'Create a new account', onbLog: 'I have an account – Log in', onbOr: 'or', onbGuest: 'Look around first without an account →', enterName: 'Please enter your name 😊',
     st_tawjihi: 'Tawjihi', st_school: 'School', st_uni: 'University',
     gm: 'Good morning', ga: 'Good afternoon', ge: 'Good evening',
     level: 'Level {0}', toNext: '{0} / {1} XP to next level', today: 'Today {0}/{1}',
@@ -1052,7 +1068,7 @@ function onboarding() {
   const u = $('#oU') ? $('#oU').value : (S.lastU || ''), pw = $('#oP') ? $('#oP').value : '';
   const other = LANG === 'ar' ? CONFIG.APP_NAME.en : CONFIG.APP_NAME.ar;
   const cat = [['lesson', '📖'], ['quiz', '📝'], ['cards', '🃏'], ['mindmap', '🧠'], ['written', '✍️'], ['tutor', '🤖']];
-  const inApp = /ZakerliApp/.test(navigator.userAgent);   // داخل تطبيق الهاتف: الشاشة المختصرة القديمة
+  const inApp = isAppMode();   // داخل تطبيق الهاتف (أندرويد أو أيقونة الآيفون): الشاشة المختصرة
   const app = $('#app'); app.className = inApp ? '' : 'wide';
   app.innerHTML = `<div class="lg fade">
     <div class="lg-hero">
@@ -1076,6 +1092,7 @@ function onboarding() {
         <button class="btn lg-btn2" id="oReg" onclick="doOnb('reg')">✨ ${t('onbReg')}</button>
         <div class="muted small" style="text-align:center;line-height:1.7">${t('userHint')}</div>
         <button class="onb-guest" onclick="finishOnb()">${t('onbGuest')}</button>
+        ${inApp ? '' : `<div class="lg-get"><span>${t('lgGet')}</span><a href="https://github.com/Dahshan65/Zakerli/releases/latest/download/zakerli.apk" target="_blank" rel="noopener">🤖 ${t('lgAnd')}</a><button type="button" onclick="iosHelp()">🍎 ${t('lgIos')}</button></div>`}
       </div>
 
       ${inApp ? '' : `<section class="lg-box lg-vid">
@@ -1111,11 +1128,34 @@ function onboarding() {
       <div class="lg-cta-b">
         <button class="btn lg-btn" onclick="lgToLogin()">${t('onbLogBtn')}</button>
         ${/ZakerliApp/.test(navigator.userAgent) ? '' : `<a class="btn lg-btn2" href="https://github.com/Dahshan65/Zakerli/releases/latest/download/zakerli.apk" target="_blank" rel="noopener">🤖 ${t('lgApk')}</a>`}
+        <button class="btn lg-btn2" onclick="iosHelp()">🍎 ${t('lgIosBtn')}</button>
         <a class="btn lg-wa" href="https://wa.me/${CONFIG.WHATSAPP}" target="_blank" rel="noopener">💬 ${t('lgWa')}</a>
       </div>
     </section>`}
     <div class="lg-foot">${t('dev')} <b>Dahshan Soft</b> · <a href="${CONFIG.SITE}" target="_blank" rel="noopener">dahshansoft.com</a></div>
   </div>`;
+}
+function isAppMode() {
+  return /ZakerliApp/.test(navigator.userAgent) || navigator.standalone === true || !!(window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+}
+function iosHelp() {
+  const o = document.createElement('div'); o.className = 'overlay'; o.onclick = e => { if (e.target === o) o.remove(); };
+  const ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
+  o.innerHTML = `<div class="loader-box ios-box">
+    <div class="ios-ic"><img src="apple-touch-icon.png" alt=""></div>
+    <div class="h2" style="margin:8px 0 4px">${t('iosT')}</div>
+    <div class="muted small" style="margin-bottom:12px">${t('iosSub')}</div>
+    ${ios ? '' : `<div class="ios-warn">📱 ${t('iosOpen')}</div>`}
+    <div class="ios-steps">
+      <div><b>1</b><span>${t('iosS1')}</span></div>
+      <div><b>2</b><span>${t('iosS2')}</span></div>
+      <div><b>3</b><span>${t('iosS3')}</span></div>
+      <div><b>4</b><span>${t('iosS4')}</span></div>
+    </div>
+    <div class="tip" style="margin-top:12px;text-align:start">✅ ${t('iosNote')}</div>
+    <button class="btn btn-p" style="margin-top:14px" onclick="this.closest('.overlay').remove()">${t('iosOk')}</button>
+  </div>`;
+  document.body.appendChild(o);
 }
 function lgToLogin() { const c = $('#lgLogin'); if (c) { c.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => $('#oU') && $('#oU').focus(), 450); } }
 function perLessonBoth(p) {

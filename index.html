@@ -232,7 +232,7 @@ body.dark .badge-t{color:#9DB8FF;background:rgba(125,160,255,.12)}
 .pw-eye{position:absolute;top:50%;transform:translateY(-50%);right:8px;background:none;border:0;font-size:18px;cursor:pointer;padding:6px}
 .chip,.lang-btn{white-space:nowrap}
 @media(max-width:390px){.top .row{gap:5px}.top .chip,.top .lang-btn{padding:4px 8px;font-size:12.5px}}
-.out-chip{cursor:pointer;color:var(--r);padding:5px 9px;font-family:inherit}
+.out-btn{display:block;margin-top:10px;cursor:pointer;color:#fff;background:rgba(180,35,24,.9);border:1.5px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 14px;font-family:inherit;font-weight:700;font-size:13.5px}
 .per-lesson{display:block;margin:6px 0 4px;padding:5px 2px;white-space:nowrap;border-radius:12px;background:rgba(22,163,74,.12);color:#15803d;line-height:1.35}.per-lesson small{display:block;font-size:10.5px;font-weight:700;opacity:.85}.per-lesson b{display:block;font-size:13.5px;font-weight:800}
 body.dark .per-lesson{color:#4ade80}
 html[lang=ar] body{line-height:1.75}
@@ -505,7 +505,7 @@ const TR = {
     e_devices: 'وصلت للحد الأقصى من الأجهزة ({0}). تواصل مع المطوّر ليصفّرها لك', e_no_db: 'الخادم غير مهيّأ بعد (قاعدة البيانات)', e_auth: 'انتهت جلستك، سجّل الدخول مرة أخرى',
     trialNoAcc: '🔐 أنشئ حساباً مجانياً واحصل على {0} محاولات', activeUntil: '✅ مفعّل حتى {0}', activeForever: '♾️ اشتراك دائم', expiredT: '⛔ انتهى اشتراكك',
     actDesc2: 'لتكمل بلا حدود على كل أجهزتك، أرسل اسم المستخدم للمطوّر عبر واتساب، وبعد أن يفعّله اضغط «تحديث الحالة».', yourUser: 'اسم المستخدم (أرسله للمطوّر)', refresh: '🔄 تحديث الحالة', stillTrial: 'لم يُفعَّل بعد، حاول بعد قليل ⏳',
-    waMsg2: 'مرحباً، أريد تفعيل تطبيق {0}\nاسم المستخدم: {1}\nالاسم: {2}', logout: '🚪 خروج', logoutQ: 'تسجيل الخروج من هذا الجهاز؟', loggedOut: '👋 تم تسجيل الخروج', logoutT: 'تسجيل الخروج', devicesL: '📱 الأجهزة التي دخلت منها: {0}', loggedAs: 'مسجّل باسم', featDevices: 'نفس الحساب على الهاتف واللابتوب والتابلت',
+    waMsg2: 'مرحباً، أريد تفعيل تطبيق {0}\nاسم المستخدم: {1}\nالاسم: {2}', logout: '🚪 خروج', logoutQ: 'تسجيل الخروج من هذا الجهاز؟', loggedOut: '👋 تم تسجيل الخروج', logoutT: 'تسجيل الخروج', logoutS: 'خروج', devicesL: '📱 الأجهزة التي دخلت منها: {0}', loggedAs: 'مسجّل باسم', featDevices: 'نفس الحساب على الهاتف واللابتوب والتابلت',
     autoL: '🤖 تلقائي', autoHint: 'سيحدد التطبيق العدد حسب حجم المادة: ≈ {0} سؤالاً و{1} بطاقة', pagesN: '{0} صفحة',
     ldUp: ['أرفع الملف إلى الخادم... 📤', 'أجهّز صفحات الملف...', 'لحظات ونبدأ القراءة ✨'],
     ldBig: ['أقرأ المادة كلها بتركيز...', 'أكتب الشرح التفصيلي للدرس...', 'أصنع بنك الأسئلة مع الشرح...', 'أجهّز البطاقات والمصطلحات...', 'أرسم الخريطة الذهنية...', 'أكتب الأسئلة الكتابية...', 'أراجع الدقة العلمية...', 'لحظات وتكون جاهزة ✨ (قد يستغرق دقيقة)'],
@@ -598,7 +598,7 @@ const TR = {
     e_devices: 'Device limit reached ({0}). Contact the developer to reset it', e_no_db: 'Server not set up yet (database)', e_auth: 'Session expired, please log in again',
     trialNoAcc: '🔐 Create a free account and get {0} tries', activeUntil: '✅ Active until {0}', activeForever: '♾️ Lifetime access', expiredT: '⛔ Your subscription has expired',
     actDesc2: 'To keep going without limits on all your devices, send your username to the developer on WhatsApp, then tap "Refresh status" once activated.', yourUser: 'Your username (send it to the developer)', refresh: '🔄 Refresh status', stillTrial: 'Not activated yet, try again shortly ⏳',
-    waMsg2: 'Hello, I want to activate {0}\nUsername: {1}\nName: {2}', logout: '🚪 Log out', logoutQ: 'Log out from this device?', loggedOut: '👋 Logged out', logoutT: 'Log out', devicesL: '📱 Devices signed in: {0}', loggedAs: 'Logged in as', featDevices: 'One account on phone, laptop and tablet',
+    waMsg2: 'Hello, I want to activate {0}\nUsername: {1}\nName: {2}', logout: '🚪 Log out', logoutQ: 'Log out from this device?', loggedOut: '👋 Logged out', logoutT: 'Log out', logoutS: 'Logout', devicesL: '📱 Devices signed in: {0}', loggedAs: 'Logged in as', featDevices: 'One account on phone, laptop and tablet',
     autoL: '🤖 Auto', autoHint: 'The app picks the amount based on your material: ≈ {0} questions & {1} cards', pagesN: '{0} pages',
     ldUp: ['Uploading your file... 📤', 'Preparing the pages...', 'Almost ready to read ✨'],
     ldBig: ['Reading all your material...', 'Writing the full lesson explanation...', 'Building the question bank...', 'Preparing flashcards & glossary...', 'Drawing the mind map...', 'Writing written questions...', 'Double-checking accuracy...', 'Almost ready ✨ (may take a minute)'],
@@ -1254,11 +1254,11 @@ function home() {
   $('#app').innerHTML = `
   <div class="top">
     <div class="logo"><i>🎓</i>${appName()}</div>
-    <div class="row">${langBtn()}<span class="chip">🔥 ${streakAlive()}</span><span class="chip">💎 ${S.xp}</span>${S.auth && S.auth.token ? `<button class="chip out-chip" onclick="logout()" title="${t('logoutT')}">🚪</button>` : ''}</div>
+    <div class="row">${langBtn()}<span class="chip">🔥 ${streakAlive()}</span><span class="chip">💎 ${S.xp}</span></div>
   </div>
   <div class="hero">
     <div class="row between" style="position:relative;z-index:1">
-      <div><div class="small" style="opacity:.9">${greet} 👋</div><div class="h1">${esc(S.user.name)}</div><span class="lvl">${t('level', lv)} · ${titleOf(lv)}</span></div>
+      <div><div class="small" style="opacity:.9">${greet} 👋</div><div class="h1">${esc(S.user.name)}</div><span class="lvl">${t('level', lv)} · ${titleOf(lv)}</span>${S.auth && S.auth.token ? `<button class="out-btn" onclick="logout()">🚪 ${t('logoutT')}</button>` : ''}</div>
       <div class="goal" style="--v:${goalPct}"><span>${goalPct >= 100 ? '✅' : '🎯'}</span></div>
     </div>
     <div class="mt" style="position:relative;z-index:1">

@@ -351,6 +351,10 @@ body.dark .credit a{color:#9DB8FF}
 .trial{margin-top:12px;padding:10px 14px;border-radius:12px;background:var(--card);border:1px solid var(--b);border-inline-start:4px solid var(--gold);font-weight:600;font-size:14px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;color:var(--t)}
 .trial.end{border-inline-start-color:var(--r);color:var(--r)}
 .trial.ok{border-inline-start-color:var(--g);color:var(--g)}
+.trial.hurry{border-inline-start-color:#F59E0B;background:#FFFBEB;color:#92400E;animation:hurryP 1.6s ease-in-out infinite}
+@keyframes hurryP{50%{box-shadow:0 0 0 4px rgba(245,158,11,.18)}}
+body.dark .trial.hurry{background:rgba(245,158,11,.12);color:#FCD34D}
+.lg-best{font-size:11px;background:var(--p);color:#fff;border-radius:99px;padding:1px 8px;margin-inline-start:4px;white-space:nowrap}
 .devid{font-size:34px;font-weight:700;letter-spacing:6px;direction:ltr;margin:6px 0;color:var(--p);font-family:'IBM Plex Mono',monospace}
 body.dark .devid{color:#9DB8FF}
 .code-in{text-align:center;font-size:30px!important;font-weight:700;letter-spacing:14px;direction:ltr;max-width:160px;margin:0 auto}
@@ -407,7 +411,7 @@ body.dark .mm-name{filter:brightness(1.6)}
 .acc-card{border-top:4px solid var(--gold)}
 .pw-in{width:100%;border:1.5px solid var(--b);background:var(--card);border-radius:12px;padding:12px 14px;outline:none;font-family:inherit;font-size:16px;color:var(--t)}
 .pw-in:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(30,58,138,.12)}
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.plans{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .plan{position:relative;background:var(--card);border:1.5px solid var(--b);border-radius:14px;padding:22px 8px 12px;text-align:center;color:var(--t);transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:4px}
 .plan.on{border-color:var(--p);box-shadow:0 0 0 3px rgba(30,58,138,.15);transform:translateY(-2px)}
 .plan.best{border-width:2px}
@@ -445,7 +449,7 @@ const CONFIG = {
   FREE_TUTOR: 15,          // رسائل المعلّم المجانية قبل التفعيل
   /* ===== بيانات الدفع: اكتبها هنا. أي خانة فارغة يظهر بدلها زر «اطلب البيانات عبر واتساب» ===== */
   PAY: {
-    cliq:   { alias: 'DAHSHAN65', name: 'وائل أحمد دهشان', bank: 'البنك الإسلامي الأردني' },
+    cliq:   { alias: 'ZAKERLEE', name: 'وائل أحمد حسين', bank: 'البنك الإسلامي الأردني' },
     bank:   { bank: 'البنك العربي الإسلامي الدولي', bankEn: 'Arab Islamic International Bank', name: 'Wael Ahmad Dahshan', acc: '1050001253500', iban: 'JO64IIBA1050000001050001253500', swift: 'IIBAJOAM200' },
     paypal: { email: 'waeldahshan@gmail.com', user: '@WaelDahshan', link: '' },   // link اختياري: ضع رابط paypal.me بعد التأكد منه
     wu:     { name: 'Wael Ahmad Dahshan', country: 'Jordan – الأردن', city: '' }  // Western Union / MoneyGram
@@ -646,6 +650,48 @@ const TR = {
   }
 };
 let LANG = 'ar';
+/* ---- الباقات الجديدة (3.0): نصوص ---- */
+Object.assign(TR.ar, {
+  pl_month: 'الشهر', pl_term: 'الفصل', pl_school: 'السنة الدراسية', pl_open: 'السنوي المفتوح',
+  dur_month: '30 يوماً', dur_term: '4 أشهر', dur_school: 'حتى 31 آب', dur_open: '12 شهراً',
+  nLessons: '{0} درساً', unlim: 'دروس بلا حدود', plUnlimB: 'ادرس بلا عدّ', bestValue: '♾️ للمجتهدين', mostChosen: '⭐ الأكثر طلباً',
+  planBal: '{2} {0} · بقي {1} درساً', planOpenL: '{1} {0} · دروس بلا حدود', balLeft: 'بقي {0} من {1} درساً',
+  stackRule: '💡 نفدت دروسك قبل انتهاء باقتك؟ اشترِ أي باقة وتُضاف دروسها إلى رصيدك المتبقي، ولا تخسر شيئاً من مدتك.',
+  bigRule: '📚 الملف الكبير (أكثر من 20 صفحة) يُحسب 3 دروس. والمراجعة والاختبارات على دروسك المحفوظة مجانية دائماً.',
+  planOver: 'انتهت دروسك 📚 اختر باقة جديدة وستُضاف دروسها إلى رصيدك',
+  planNeed3: 'هذا ملف كبير ويحتاج 3 دروس، وبقي لك {0}. قسّمه أو اشترِ باقة تُضاف لرصيدك',
+  dailyOver: 'وصلت حد الاستخدام اليومي ⏳ تابع غداً بإذن الله',
+  chatDaily: 'وصلت حد رسائل المعلّم لليوم ⏳ تابع غداً',
+  trialExpired: '⌛ انتهت مدة التجربة المجانية (7 أيام) – اشترك لتكمل الدراسة',
+  trialDays: '🎁 التجربة المجانية: بقي {0} من {1} دروس · تنتهي بعد {2}',
+  trialEndT: '⌛ انتهت التجربة المجانية',
+  dLeft: '{0} أيام', dLeft1: 'يوم واحد', dLeftH: 'أقل من يوم',
+  hurry: 'سارع! ',
+  trialNoAcc: '🔐 أنشئ حساباً مجانياً واحصل على {0} دروس مجانية',
+  regOk: '🎉 تم إنشاء حسابك!',
+  welT: 'أهلاً بك في ذاكرلي 🎉', welB: 'لديك <b>{0} دروس مجانية</b> صالحة لمدة <b>7 أيام فقط</b> من اليوم.', welS: 'صوّر صفحة من كتابك الآن وجرّب الشرح والأسئلة والبطاقات قبل أن تنتهي المدة ⏳', welOk: '📸 ابدأ أول درس',
+  lgFree: '3 دروس مجانية لكل طالب جديد – صالحة لمدة 7 أيام', lgPay: 'الدفع عبر CliQ أو تحويل بنكي أو PayPal – ويتم التفعيل خلال دقائق',
+  activeUntil: '✅ فعّال حتى {0}'
+});
+Object.assign(TR.en, {
+  pl_month: 'Month', pl_term: 'Semester', pl_school: 'School year', pl_open: 'Open yearly',
+  dur_month: '30 days', dur_term: '4 months', dur_school: 'until 31 Aug', dur_open: '12 months',
+  nLessons: '{0} lessons', unlim: 'Unlimited lessons', plUnlimB: 'Study without counting', bestValue: '♾️ For hard workers', mostChosen: '⭐ Most popular',
+  planBal: '{2} {0} · {1} lessons left', planOpenL: '{1} {0} · unlimited lessons', balLeft: '{0} of {1} lessons left',
+  stackRule: "💡 Ran out of lessons before your plan ends? Buy any plan and its lessons are added to your remaining balance – you lose nothing.",
+  planOver: "You're out of lessons 📚 Pick a new plan and its lessons are added to your balance",
+  planNeed3: 'This large file needs 3 lessons and you have {0}. Split it or buy a plan to add lessons',
+  dailyOver: "You've reached today's usage limit ⏳ Continue tomorrow",
+  chatDaily: "You've reached today's tutor limit ⏳ Continue tomorrow",
+  trialExpired: '⌛ Your 7-day free trial has ended – subscribe to keep studying',
+  trialDays: '🎁 Free trial: {0} of {1} lessons left · ends in {2}',
+  trialEndT: '⌛ Free trial ended',
+  dLeft: '{0} days', dLeft1: '1 day', dLeftH: 'less than a day', hurry: 'Hurry! ',
+  trialNoAcc: '🔐 Create a free account and get {0} free lessons',
+  regOk: '🎉 Account created!',
+  welT: 'Welcome to Zakerli 🎉', welB: 'You have <b>{0} free lessons</b> valid for <b>7 days only</b> from today.', welS: 'Snap a page from your book now and try the explanation, quiz and cards before it ends ⏳', welOk: '📸 Start my first lesson',
+  lgFree: '3 free lessons for every new student – valid for 7 days', lgPay: 'Pay by CliQ, bank transfer or PayPal – activated within minutes'
+});
 function t(k, ...a) { let s = (TR[LANG][k] ?? TR.ar[k] ?? k); if (typeof s === 'string') a.forEach((v, i) => { s = s.split('{' + i + '}').join(v); }); return s; }
 const appName = () => CONFIG.APP_NAME[LANG];
 
@@ -836,7 +882,8 @@ function aiError(e) {
 let CUR_TICKET = '', ACC_NEXT = null, ACC_TAB = 'reg';
 const meNow = () => {
   const m = S.auth && S.auth.me ? S.auth.me : null;
-  if (m && m.active && !m.plan) Object.assign(m, { plan: 'student', pLessons: m.pLessons || 30, pLeft: m.pLeft ?? 30, pChat: m.pChat || 300, pChatLeft: m.pChatLeft ?? 300, resetAt: m.resetAt || 0 });
+  if (m && m.active && !planById(m.plan)) Object.assign(m, { plan: m.open ? 'open' : 'month' });
+  if (m && m.active) { if (m.bal === undefined) m.bal = m.pLeft || 0; if (!m.bt) m.bt = Math.max(m.bal, 1); }
   return m;
 };
 const isPro = () => !!(meNow() && meNow().active);
@@ -848,12 +895,14 @@ async function getTicket(kind, cost) {
     S.auth.me = r.me; save(); CUR_TICKET = r.ticket; return r.ticket;
   } catch (e) {
     if (e.message === 'auth') { S.auth = null; save(); ACC_NEXT = [VIEW, VARG]; go('account'); throw new Error('STOP'); }
-    if (['trial_over', 'trial_device', 'chat_over', 'plan_over', 'plan_chat_over'].includes(e.message)) {
+    if (['trial_over', 'trial_device', 'trial_expired', 'chat_over', 'plan_over', 'plan_chat_over', 'daily_over', 'chat_daily'].includes(e.message)) {
+      if (e.message === 'daily_over' || e.message === 'chat_daily') { if (e.data && e.data.me) { S.auth.me = e.data.me; save(); } toast(t(e.message === 'daily_over' ? 'dailyOver' : 'chatDaily')); throw new Error('STOP'); }
+      if (e.message === 'trial_expired') toast(t('trialExpired'));
       if (e.message === 'trial_device') toast(t('trialDevice'));
       if (e.data && e.data.me) { S.auth.me = e.data.me; save(); }
       if (e.message === 'chat_over') toast(t('tutorLim'));
       if (e.message === 'plan_chat_over') toast(t('planChatOver'));
-      if (e.message === 'plan_over') { const m = S.auth.me; const d = m && m.resetAt ? Math.max(1, Math.ceil((m.resetAt - Date.now()) / 864e5)) : 30; toast(e.data && e.data.need === 3 && m && m.pLeft > 0 ? t('planNeed3', m.pLeft) : t('planOver', d)); SEL_PLAN = 'topup'; }
+      if (e.message === 'plan_over') { const m = S.auth.me; toast(e.data && e.data.need === 3 && m && m.bal > 0 ? t('planNeed3', m.bal) : t('planOver')); }
       go('activate'); throw new Error('STOP');
     }
     throw e;
@@ -895,8 +944,8 @@ async function doAccount() {
     if (S.user && !S.user.name) S.user.name = (r.me && r.me.name) || u;
     if (!S.user) { S.user = { name: (r.me && r.me.name) || u, stage: ONB.stage }; if (!S.sets.length) S.sets.push(LANG === 'ar' ? demoAr() : demoEn()); }
     save(); sfx('win');
-    toast(reg ? t('regOk', r.me.left) : t('logOk'));
-    if (reg) confetti();
+    toast(reg ? t('regOk') : t('logOk'));
+    if (reg) { confetti(); setTimeout(welcomeTrial, 700); }
     const nx = ACC_NEXT; ACC_NEXT = null;
     if (nx && nx[0] && !['account', 'activate', 'onb'].includes(nx[0])) go(nx[0], nx[1]); else go('home');
   } catch (e) {
@@ -914,40 +963,59 @@ function logout() {
 
 /* ---------------- الباقات وطرق الدفع ---------------- */
 const PLANS = [
-  { id: 'basic', jod: 7, usd: 10, lessons: 10, chat: 100, per: 'month' },
-  { id: 'student', jod: 14, usd: 20, lessons: 30, chat: 300, per: 'month', best: true },
-  { id: 'yearly', jod: 70, usd: 100, lessons: 30, chat: 300, per: 'year', save: true }
+  { id: 'month', jod: 7, usd: 10, lessons: 15 },
+  { id: 'term', jod: 25, usd: 35, lessons: 80, best: true },
+  { id: 'school', jod: 45, usd: 63, lessons: 200 },
+  { id: 'open', jod: 70, usd: 99, lessons: 0, open: true, save: true }
 ];
-const TOPUP = { id: 'topup', jod: 7, usd: 10, lessons: 10 };   // شحن إضافي – لا ينتهي مع الشهر
-const planById = id => id === 'topup' ? TOPUP : PLANS.find(p => p.id === id);
-let CUR = null, SEL_PLAN = 'student', PAY_TAB = null;
-const curNow = () => CUR || (LANG === 'ar' ? 'jod' : 'usd');
+const planById = id => PLANS.find(p => p.id === id);
+let SEL_PLAN = 'term', PAY_TAB = null, CUR = null;
+const curNow = () => PAY_TAB === 'paypal' ? 'usd' : CUR || (LANG === 'ar' ? 'jod' : 'usd');
 const priceTxt = p => curNow() === 'jod' ? t('jod', p.jod) : t('usd', p.usd);
+const bothPrice = p => `${t('jod', p.jod)} · $${p.usd}`;
 const planName = id => t('pl_' + id);
+const planFeat = p => p.open ? '♾️ ' + t('unlim') : '📚 ' + t('nLessons', p.lessons);
 /* تكلفة الدرس الواحد – خانة تشجيعية */
 function perLesson(p) {
-  const n = p.lessons * (p.per === 'year' ? 12 : 1);
-  if (curNow() === 'jod') {
-    const q = Math.round(p.jod / n * 100);              // بالقرش
-    return `<small>${t('plOne')}</small><b>${q === 50 ? t('plHalf') : t('plQirsh', q)}</b>`;
-  }
-  return `<small>${t('plOne')}</small><b>${t('plUsd', (p.usd / n).toFixed(2))}</b>`;
+  if (p.open) return `<small>${t('plOne')}</small><b>${t('plUnlimB')}</b>`;
+  return `<small>${t('plOne')}</small><b>${curNow() === 'jod' ? t('plQirsh', Math.round(p.jod / p.lessons * 100)) : t('plUsd', (p.usd / p.lessons).toFixed(2))}</b>`;
 }
-const planIcon = id => id === 'yearly' ? '👑' : id === 'basic' ? '🟢' : '⭐';
+const planIcon = id => ({ month: '🟢', term: '⭐', school: '👑', open: '♾️' })[id] || '⭐';
 function planStatus(m) {
-  const days = m.resetAt ? Math.max(0, Math.ceil((m.resetAt - Date.now()) / 864e5)) : 30;
-  return t('planLine', planName(m.plan), m.pLeft, m.pLessons, days, planIcon(m.plan)) + (m.extra ? ' · ' + t('tuShort', m.extra) : '');
+  return m.open ? t('planOpenL', planName(m.plan), planIcon(m.plan)) : t('planBal', planName(m.plan), m.bal, planIcon(m.plan));
+}
+function daysTxt(ts) {
+  const d = (ts - Date.now()) / 864e5;
+  return d < 1 ? t('dLeftH') : d < 2 ? t('dLeft1') : t('dLeft', Math.floor(d));
+}
+function trialTxt(m) {
+  if (m.expired) return t('expiredT');
+  if (m.tOver) return t('trialEndT');
+  if (!m.left) return '🔒 ' + t('actTitle');
+  return (m.tEnd && m.tEnd - Date.now() < 3 * 864e5 ? t('hurry') : '') + t('trialDays', m.left, m.free, daysTxt(m.tEnd || Date.now() + 7 * 864e5));
 }
 function trialChip() {
   const m = meNow();
   if (!m) return `<div class="trial" onclick="ACC_NEXT=null;go('account')">${t('trialNoAcc', CONFIG.FREE_USES)} <b>${back() === '→' ? '←' : '→'}</b></div>`;
-  if (m.active) return `<div class="trial ${m.pLeft ? 'ok' : 'end'}" onclick="go('activate')">${planStatus(m)}</div>`;
-  return `<div class="trial ${m.left ? '' : 'end'}" onclick="go('activate')">${m.expired ? t('expiredT') : m.left ? t('trialLeft', m.left, m.free) : '🔒 ' + t('actTitle')} <b>${m.left && !m.expired ? '' : t('subscribe') + ' ←'}</b></div>`;
+  if (m.active) return `<div class="trial ${m.open || m.bal ? 'ok' : 'end'}" onclick="go('activate')">${planStatus(m)}</div>`;
+  const live = m.left && !m.expired && !m.tOver;
+  return `<div class="trial ${live ? (m.tEnd - Date.now() < 3 * 864e5 ? 'hurry' : '') : 'end'}" onclick="go('activate')">${trialTxt(m)} <b>${live ? '' : t('subscribe') + ' ←'}</b></div>`;
+}
+function welcomeTrial() {
+  const o = document.createElement('div'); o.className = 'overlay'; o.onclick = e => { if (e.target === o) o.remove(); };
+  o.innerHTML = `<div class="loader-box" style="text-align:center;max-width:360px">
+    <div style="font-size:52px">🎁</div>
+    <div class="h2" style="margin:6px 0">${t('welT')}</div>
+    <div style="line-height:1.9;font-size:16px">${t('welB', CONFIG.FREE_USES)}</div>
+    <div class="tip" style="margin-top:10px">${t('welS')}</div>
+    <button class="btn btn-p" style="margin-top:14px" onclick="this.closest('.overlay').remove()">${t('welOk')}</button></div>`;
+  document.body.appendChild(o);
 }
 function copyTxt(x) { try { navigator.clipboard.writeText(x); toast(t('copiedX')); } catch (e) { toast(x); } }
 function payBox() {
   if (!PAY_TAB) PAY_TAB = LANG === 'ar' ? 'cliq' : 'paypal';
   const P = CONFIG.PAY, m = meNow(), plan = planById(SEL_PLAN) || PLANS[1];
+  if (!['cliq', 'bank', 'paypal'].includes(PAY_TAB)) PAY_TAB = LANG === 'ar' ? 'cliq' : 'paypal';
   const row = (label, val) => val ? `<div class="pay-row"><span class="muted small">${label}</span><b dir="auto">${esc(val)}</b><button class="btn btn-o btn-s" onclick="copyTxt(${J(val)})">📋</button></div>` : '';
   const askWa = method => `<a class="btn btn-o mt" style="text-decoration:none" target="_blank" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(t('waAsk', appName(), t('pm_' + method), m.u))}">${t('askDetails')}</a>`;
   let body = '';
@@ -958,7 +1026,7 @@ function payBox() {
   const msg = t('waPaid', appName(), m.u, planName(plan.id), priceTxt(plan), t('pm_' + PAY_TAB));
   return `<div class="card mt pay">
     <div class="h3">${t('payT', planName(plan.id), priceTxt(plan))}</div>
-    <div class="tabs mt pay-tabs">${['cliq', 'bank', 'paypal', 'wu'].map(k => `<button class="${PAY_TAB === k ? 'on' : ''}" onclick="PAY_TAB='${k}';activateView()">${t('pm_' + k)}</button>`).join('')}</div>
+    <div class="tabs mt pay-tabs">${['cliq', 'bank', 'paypal'].map(k => `<button class="${PAY_TAB === k ? 'on' : ''}" onclick="PAY_TAB='${k}';if('${k}'!=='paypal'&&CUR==='usd'&&LANG==='ar')CUR='jod';activateView()">${t('pm_' + k)}</button>`).join('')}</div>
     <div class="mt">${body}</div>
     <a class="btn mt" style="background:#25D366;color:#fff;text-decoration:none" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(msg)}" target="_blank">${t('sentPay')}</a>
     <p class="muted small mt" style="text-align:center">${t('afterPay')}</p>
@@ -969,37 +1037,29 @@ function activateView() {
   const m = meNow();
   if (!m) { ACC_NEXT = null; return accountView(); }
   const head = m.active
-    ? `<div class="card" style="text-align:center;border-top:4px solid var(--gold)"><div style="font-size:46px">${m.plan === 'yearly' ? '👑' : m.plan === 'basic' ? '🟢' : '⭐'}</div><div class="h1">${planName(m.plan)}</div>
-       <div class="mt" style="font-weight:600">${t('planLeft', m.pLeft, m.pLessons, m.resetAt ? Math.max(0, Math.ceil((m.resetAt - Date.now()) / 864e5)) : 30)}</div>
-       <div class="bar mt"><div style="width:${m.pLessons ? (m.pLeft / m.pLessons * 100) : 0}%;background:linear-gradient(90deg,var(--a),var(--g))"></div></div>
-       <p class="muted small mt">${m.until ? t('activeUntil', fmtDate(m.until)) : t('activeForever')} · ${t('chatLeftL', m.pChatLeft)}</p>
+    ? `<div class="card" style="text-align:center;border-top:4px solid var(--gold)"><div style="font-size:46px">${planIcon(m.plan)}</div><div class="h1">${planName(m.plan)}</div>
+       <div class="mt" style="font-weight:600">${m.open ? '♾️ ' + t('unlim') + (m.bal ? ' · ' + t('balLeft', m.bal, m.bt) : '') : t('balLeft', m.bal, m.bt)}</div>
+       ${m.open ? '' : `<div class="bar mt"><div style="width:${m.bt ? Math.min(100, m.bal / m.bt * 100) : 0}%;background:linear-gradient(90deg,var(--a),var(--g))"></div></div>`}
+       <p class="muted small mt">${m.until ? t('activeUntil', fmtDate(m.until)) : t('activeForever')}</p>
        <div class="devid" style="font-size:20px;letter-spacing:1px">${esc(m.u)}</div></div>`
-    : `<div class="hero" style="text-align:center"><div style="font-size:46px;position:relative;z-index:1">${m.left && !m.expired ? '🎁' : '🔒'}</div>
-       <div class="h1" style="position:relative;z-index:1">${m.expired ? t('expiredT') : m.left ? t('trialLeft', m.left, m.free) : t('actTitle')}</div>
+    : `<div class="hero" style="text-align:center"><div style="font-size:46px;position:relative;z-index:1">${m.left && !m.expired && !m.tOver ? '🎁' : '🔒'}</div>
+       <div class="h1" style="position:relative;z-index:1">${trialTxt(m)}</div>
        <p style="position:relative;z-index:1;line-height:1.9;margin-top:6px;opacity:.95">${t('subDesc')}</p></div>`;
   const cards = PLANS.map(p => `<button class="plan ${SEL_PLAN === p.id ? 'on' : ''} ${p.best ? 'best' : ''}" onclick="SEL_PLAN='${p.id}';activateView()">
       ${p.best ? `<span class="ribbon">${t('mostChosen')}</span>` : p.save ? `<span class="ribbon gold">${t('bestValue')}</span>` : ''}
-      <div class="plan-ic">${p.id === 'yearly' ? '👑' : p.id === 'basic' ? '🟢' : '⭐'}</div>
+      <div class="plan-ic">${planIcon(p.id)}</div>
       <div class="plan-n">${planName(p.id)}</div>
-      <div class="plan-p">${priceTxt(p)}<small>${p.per === 'year' ? t('perYear') : t('perMonth')}</small></div>
+      <div class="plan-p">${priceTxt(p)}</div>
       <div class="per-lesson">${perLesson(p)}</div>
-      <div class="plan-f">📚 ${t('lessonsMo', p.lessons)}<br>🤖 ${t('chatMo', p.chat)}${p.per === 'year' ? '<br>📅 ' + t('months12') : ''}</div>
+      <div class="plan-f">${planFeat(p)}<br>📅 ${t('dur_' + p.id)}</div>
     </button>`).join('');
-  const ex = m.extra || 0;
-  const topup = `<button class="topup ${SEL_PLAN === 'topup' ? 'on' : ''}" onclick="SEL_PLAN='topup';activateView()">
-      <div class="tu-ic">➕</div>
-      <div class="tu-tx"><b>${t('tuT', TOPUP.lessons)}</b><small>${t('tuD')}</small></div>
-      <div class="tu-p">${priceTxt(TOPUP)}</div>
-    </button>`;
   $('#app').innerHTML = `
   <div class="top"><button class="icon-btn" onclick="go('home')">${back()}</button><div class="h2">${t('subT')}</div>
-    <button class="lang-btn" onclick="CUR=curNow()==='jod'?'usd':'jod';activateView()">${curNow() === 'jod' ? '$ USD' : 'د.أ JOD'}</button></div>
+    <button class="lang-btn" onclick="CUR=curNow()==='jod'?'usd':'jod';PAY_TAB=CUR==='usd'?'paypal':(PAY_TAB==='paypal'?'cliq':PAY_TAB);activateView()">${curNow() === 'jod' ? '$ USD' : 'د.أ JOD'}</button></div>
   ${head}
-  ${ex ? `<div class="tu-bal mt">➕ ${t('tuBal', ex)}</div>` : ''}
   <div class="h2 mt2">${m.active ? t('renewT') : t('choosePlan')}</div>
   <div class="plans mt">${cards}</div>
-  <div class="h3 mt2">${t('tuH')}</div>
-  ${topup}
+  <div class="tip mt">${t('stackRule')}</div>
   <div class="tip mt">${t('bigRule')}</div>
   ${payBox()}
   <button class="btn btn-o mt" id="rfBtn" onclick="this.disabled=true;refreshMe(true).then(()=>activateView())">${t('refresh')}</button>
@@ -1159,11 +1219,11 @@ function onboarding() {
         <div class="lg-free">🎁 ${t('lgFree')}</div>
         ${PLANS.map(p => `<div class="lg-plan ${p.best ? 'best' : ''}">
           <div class="lg-plan-i">${planIcon(p.id)}</div>
-          <div class="lg-plan-n"><b>${planName(p.id)}</b><small>${t('lessonsMo', p.lessons)}${p.per === 'year' ? ' · ' + t('lgYear') : ''}</small></div>
-          <div class="lg-plan-p"><b>${t('jod', p.jod)}</b><small>$${p.usd}${p.per === 'year' ? t('perYear') : t('perMonth')}</small></div>
-          <div class="per-lesson">${perLessonBoth(p)}</div>
+          <div class="lg-plan-n"><b>${planName(p.id)}${p.best ? ' <span class="lg-best">' + t('mostChosen') + '</span>' : ''}</b><small>${p.open ? t('unlim') : t('nLessons', p.lessons)} · ${t('dur_' + p.id)}</small></div>
+          <div class="lg-plan-p"><b>${t('jod', p.jod)}</b><small>$${p.usd}</small></div>
+          <div class="per-lesson">${perLesson(p)}</div>
         </div>`).join('')}
-        <div class="lg-tu">➕ ${t('lgTu')} <b>${t('jod', TOPUP.jod)} · $${TOPUP.usd}</b></div>
+        <div class="lg-tu">${t('stackRule')}</div>
         <div class="muted small" style="text-align:center;line-height:1.8;margin-top:4px">${t('lgPay')}</div>
       </section>`}
     </div>
@@ -1224,10 +1284,6 @@ function iosHelp() {
   document.body.appendChild(o);
 }
 function lgToLogin() { const c = $('#lgLogin'); if (c) { c.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => $('#oU') && $('#oU').focus(), 450); } }
-function perLessonBoth(p) {
-  const n = p.lessons * (p.per === 'year' ? 12 : 1), q = Math.round(p.jod / n * 100);
-  return `<small>${t('plOne')}</small><b>${t('plQirsh', q)} · $${(p.usd / n).toFixed(2)}</b>`;
-}
 function finishOnb() {
   S.user = { name: '', stage: ONB.stage }; S.lang = LANG;
   if (!S.sets.length) S.sets.push(LANG === 'ar' ? demoAr() : demoEn());
@@ -1245,8 +1301,8 @@ async function doOnb(mode) {
     S.user = { name: (r.me && r.me.name) || u, stage: ONB.stage }; S.lang = LANG;
     if (!S.sets.length) S.sets.push(LANG === 'ar' ? demoAr() : demoEn());
     save(); sfx('win');
-    toast(reg ? t('regOk', r.me.left) : t('logOk'));
-    if (reg) confetti();
+    toast(reg ? t('regOk') : t('logOk'));
+    if (reg) { confetti(); setTimeout(welcomeTrial, 700); }
     if (PENDING_CH) { const c = PENDING_CH; PENDING_CH = null; openChallenge(c); } else go('home');
   } catch (e) {
     sfx('no'); bl.disabled = br.disabled = false;

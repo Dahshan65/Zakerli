@@ -8,7 +8,7 @@
 <title>ذاكرلي – Zakerlee</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=IBM+Plex+Mono:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --navy:#0B1F3A;--p:#1E3A8A;--p2:#2B4FB3;--a:#0F766E;--gold:#C9A227;--y:#B7791F;--r:#B42318;--g:#15803D;
@@ -21,7 +21,7 @@
 body.dark{--bg:#0A1220;--card:#111B2E;--t:#E5E9F0;--m:#94A3B8;--b:#1F2C44;--p:#2B4FB3;--sh:0 4px 18px rgba(0,0,0,.4)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{background:var(--bg)}
-body{font-family:'IBM Plex Sans Arabic','Cairo',Tahoma,Arial,sans-serif;color:var(--t);min-height:100vh;transition:background .3s;-webkit-font-smoothing:antialiased}
+body{font-family:'Poppins','Noto Naskh Arabic','Segoe UI',Tahoma,Arial,sans-serif;color:var(--t);min-height:100vh;transition:background .3s;-webkit-font-smoothing:antialiased}
 button,input,textarea,select{font-family:inherit;font-size:inherit;color:inherit}
 button{cursor:pointer;border:none;background:none}
 #app{max-width:560px;margin:0 auto;padding:16px 16px 100px;min-height:100vh}
@@ -211,6 +211,38 @@ body.dark .badge-t{color:#9DB8FF;background:rgba(125,160,255,.12)}
 .out-chip{cursor:pointer;color:var(--r);padding:5px 9px;font-family:inherit}
 .per-lesson{display:block;margin:6px 0 4px;padding:5px 2px;white-space:nowrap;border-radius:12px;background:rgba(22,163,74,.12);color:#15803d;line-height:1.35}.per-lesson small{display:block;font-size:10.5px;font-weight:700;opacity:.85}.per-lesson b{display:block;font-size:13.5px;font-weight:800}
 body.dark .per-lesson{color:#4ade80}
+html[lang=ar] body{line-height:1.75}
+.lg{display:flex;flex-direction:column;min-height:calc(100vh - 40px);justify-content:center;padding-bottom:6px}
+.lg-hero{position:relative;background:radial-gradient(circle at 85% -10%,rgba(232,199,102,.28),transparent 42%),radial-gradient(circle at 0% 110%,rgba(43,79,179,.55),transparent 50%),linear-gradient(155deg,#0B1F3A 0%,#13295A 55%,#1E3A8A 100%);color:#fff;border-radius:28px;padding:22px 16px 58px;text-align:center;overflow:hidden;box-shadow:0 20px 44px rgba(11,31,58,.35)}
+.lg-hero:after{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.5px);background-size:18px 18px;pointer-events:none}
+.lg-hero>*{position:relative;z-index:1}
+.lg-hero .free-badge{position:absolute;top:14px;inset-inline-start:14px;width:76px;height:76px;flex-basis:76px;font-size:11px;z-index:2}
+.lg-hero .free-badge b{font-size:25px}
+.lg-hero .lang-btn{position:absolute;top:16px;inset-inline-end:14px;background:rgba(255,255,255,.12);color:#fff;border-color:rgba(232,199,102,.75);backdrop-filter:blur(4px);z-index:2}
+.lg-logo{width:86px;height:86px;margin:44px auto 10px;border-radius:26px;background:linear-gradient(145deg,#24479E,#0B1F3A);border:2px solid rgba(232,199,102,.85);display:grid;place-items:center;font-size:48px;box-shadow:0 12px 26px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.15)}
+.lg-name{font-size:42px;font-weight:700;line-height:1.35;letter-spacing:.3px;text-shadow:0 3px 14px rgba(0,0,0,.3)}
+html[lang=en] .lg-name{font-size:36px;letter-spacing:1px}
+.lg-en{color:#E8C766;font-size:14px;font-weight:600;letter-spacing:2.5px;margin-top:-2px}
+html[lang=ar] .lg-en{font-family:'Poppins',sans-serif;text-transform:uppercase}
+.lg-tag{margin-top:10px;opacity:.92;font-size:16px;line-height:1.8}
+.lg-feats{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-top:14px}
+.lg-feats span{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);padding:5px 11px;border-radius:999px;font-size:13px;white-space:nowrap}
+.lg-card{margin:-38px 8px 0;position:relative;z-index:2;background:var(--card);border-radius:24px;padding:20px 18px 18px;box-shadow:0 16px 38px rgba(15,23,42,.15);border:1px solid var(--b);display:flex;flex-direction:column;gap:13px}
+.lg-title{font-size:23px;font-weight:700;text-align:center;line-height:1.4}
+.lg-sub{text-align:center;color:var(--m);font-size:14.5px;margin-top:-10px}
+.fld{position:relative}
+.fld .ic{position:absolute;top:50%;transform:translateY(-50%);inset-inline-start:14px;font-size:17px;opacity:.7;pointer-events:none}
+.fld input{width:100%;border:1.5px solid var(--b);background:var(--bg);border-radius:14px;padding:14px 46px;font-size:16px;outline:none;transition:border .2s,box-shadow .2s,background .2s;font-family:'Poppins',sans-serif}
+.fld input::placeholder{font-family:'Poppins','Noto Naskh Arabic',sans-serif;color:#94a3b8}
+.fld input:focus{border-color:var(--p);background:var(--card);box-shadow:0 0 0 4px rgba(30,58,138,.12)}
+.fld .pw-eye{right:auto;inset-inline-end:8px}
+html[lang=ar] .fld input:placeholder-shown{direction:rtl;text-align:right}
+.fld .ic,.lg-logo{font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif}
+.lg-btn{background:linear-gradient(135deg,#1E3A8A,#0B1F3A);color:#fff;border-bottom:3px solid var(--gold);padding:15px;font-size:17.5px;font-weight:700;border-radius:15px;box-shadow:0 8px 20px rgba(30,58,138,.3)}
+.lg-btn2{background:var(--card);color:var(--p);border:1.8px solid var(--p);padding:13px;font-size:16.5px;font-weight:700;border-radius:15px}
+body.dark .lg-btn2{color:#9db4ff;border-color:#3b5bbf}
+.lg-foot{text-align:center;color:var(--m);font-size:13px;margin-top:4px}
+.lg-foot b{color:var(--p);font-family:'Poppins',sans-serif;font-weight:600}
 .credit{text-align:center;margin-top:20px;font-size:13px;color:var(--m);font-weight:500}
 .credit a{color:var(--p);text-decoration:none;font-weight:600}
 body.dark .credit a{color:#9DB8FF}
@@ -332,7 +364,7 @@ const TR = {
   ar: {
     tag: 'ادرس بذكاء', welcome: 'أهلاً بك في {0}',
     onbDesc: 'صوّر درسك أو الصق ملخصك، وأنا أصنع لك أسئلة وبطاقات حفظ وامتحانات وتحديات مع أصحابك 🚀',
-    yourName: 'شو اسمك؟', namePh: 'اكتب اسمك', stageL: 'مرحلتك الدراسية', langL: 'اللغة', start: 'يلّا نبدأ 🚀', fbL1: 'دروس', fbL2: 'مجانية', onbLogBtn: '🔑 تسجيل الدخول', onbReg: 'إنشاء حساب جديد', onbLog: 'عندي حساب – تسجيل الدخول', onbOr: 'أو', onbGuest: 'تصفّح التطبيق أولاً بدون حساب ←', enterName: 'اكتب اسمك أولاً 😊',
+    yourName: 'شو اسمك؟', namePh: 'اكتب اسمك', stageL: 'مرحلتك الدراسية', langL: 'اللغة', start: 'يلّا نبدأ 🚀', fbL1: 'دروس', fbL2: 'مجانية', lgTag: 'ادرس بالذكاء الاصطناعي – من المدرسة إلى الجامعة', lgF1: '📸 صوّر درسك', lgF2: '📝 أسئلة وامتحانات', lgF3: '🧠 خرائط ذهنية', lgF4: '🤖 معلّم ذكي', lgTitle: 'أهلاً بك 👋', lgSub: 'سجّل دخولك لتكمل دراستك', onbLogBtn: '🔑 تسجيل الدخول', onbReg: 'إنشاء حساب جديد', onbLog: 'عندي حساب – تسجيل الدخول', onbOr: 'أو', onbGuest: 'تصفّح التطبيق أولاً بدون حساب ←', enterName: 'اكتب اسمك أولاً 😊',
     st_tawjihi: 'توجيهي', st_school: 'مدرسة', st_uni: 'جامعة',
     gm: 'صباح الخير', ga: 'مساء النور', ge: 'مساء الخير',
     level: 'المستوى {0}', toNext: '{0} / {1} XP للمستوى التالي', today: 'اليوم {0}/{1}',
@@ -425,7 +457,7 @@ const TR = {
   en: {
     tag: 'Study smarter', welcome: 'Welcome to {0}',
     onbDesc: 'Snap your lesson or paste your notes, and I\'ll turn them into questions, flashcards, exams and challenges with your friends 🚀',
-    yourName: "What's your name?", namePh: 'Your name', stageL: 'Your level', langL: 'Language', start: "Let's go 🚀", fbL1: 'free', fbL2: 'lessons', onbLogBtn: '🔑 Log in', onbReg: 'Create a new account', onbLog: 'I have an account – Log in', onbOr: 'or', onbGuest: 'Look around first without an account →', enterName: 'Please enter your name 😊',
+    yourName: "What's your name?", namePh: 'Your name', stageL: 'Your level', langL: 'Language', start: "Let's go 🚀", fbL1: 'free', fbL2: 'lessons', lgTag: 'Study with AI – from school to university', lgF1: '📸 Snap your lesson', lgF2: '📝 Quizzes & exams', lgF3: '🧠 Mind maps', lgF4: '🤖 AI tutor', lgTitle: 'Welcome 👋', lgSub: 'Log in to continue studying', onbLogBtn: '🔑 Log in', onbReg: 'Create a new account', onbLog: 'I have an account – Log in', onbOr: 'or', onbGuest: 'Look around first without an account →', enterName: 'Please enter your name 😊',
     st_tawjihi: 'Tawjihi', st_school: 'School', st_uni: 'University',
     gm: 'Good morning', ga: 'Good afternoon', ge: 'Good evening',
     level: 'Level {0}', toNext: '{0} / {1} XP to next level', today: 'Today {0}/{1}',
@@ -974,20 +1006,29 @@ let ONB = { stage: 'tawjihi' };
 function onboarding() {
   VIEW = 'onb'; renderNav();
   const u = $('#oU') ? $('#oU').value : (S.lastU || ''), pw = $('#oP') ? $('#oP').value : '';
-  $('#app').innerHTML = `<div class="onb fade">
-    <div class="row between"><div class="free-badge"><b>3</b><span>${t('fbL1')}</span><span>${t('fbL2')}</span></div>${langBtn()}</div>
-    <div class="big">🎓</div>
-    <div class="h1" style="text-align:center">${t('welcome', appName())}</div>
-    <p class="muted" style="text-align:center;line-height:1.9">${t('onbDesc')}</p>
-    <div class="card col">
-      <div><div class="label">${t('user')}</div><input type="text" id="oU" dir="ltr" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="username" placeholder="${t('userPh')}" value="${esc(u)}" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9._]/g,'')"></div>
-      <div><div class="label">${t('pass')}</div><div class="pw-wrap"><input type="password" id="oP" dir="ltr" class="pw-in" autocomplete="current-password" placeholder="${t('passPh')}" value="${esc(pw)}" onkeydown="if(event.key==='Enter')doOnb('log')"><button type="button" class="pw-eye" onclick="const i=$('#oP');i.type=i.type==='password'?'text':'password'">👁️</button></div></div>
+  const other = LANG === 'ar' ? CONFIG.APP_NAME.en : CONFIG.APP_NAME.ar;
+  $('#app').innerHTML = `<div class="lg fade">
+    <div class="lg-hero">
+      <div class="free-badge"><b>3</b><span>${t('fbL1')}</span><span>${t('fbL2')}</span></div>
+      ${langBtn()}
+      <div class="lg-logo">🎓</div>
+      <div class="lg-name">${appName()}</div>
+      <div class="lg-en">${other}</div>
+      <div class="lg-tag">${t('lgTag')}</div>
+      <div class="lg-feats"><span>${t('lgF1')}</span><span>${t('lgF2')}</span><span>${t('lgF3')}</span><span>${t('lgF4')}</span></div>
     </div>
-    <button class="btn btn-p" id="oLog" onclick="doOnb('log')">${t('onbLogBtn')}</button>
-    <div class="onb-or"><span>${t('onbOr')}</span></div>
-    <button class="btn btn-o" id="oReg" onclick="doOnb('reg')">✨ ${t('onbReg')}</button>
-    <div class="muted small" style="text-align:center">${t('userHint')}</div>
+    <div class="lg-card">
+      <div class="lg-title">${t('lgTitle')}</div>
+      <div class="lg-sub">${t('lgSub')}</div>
+      <div><div class="label">${t('user')}</div><div class="fld"><span class="ic">👤</span><input type="text" id="oU" dir="ltr" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="username" placeholder="${t('userPh')}" value="${esc(u)}" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9._]/g,'')"></div></div>
+      <div><div class="label">${t('pass')}</div><div class="fld"><span class="ic">🔒</span><input type="password" id="oP" dir="ltr" autocomplete="current-password" placeholder="${t('passPh')}" value="${esc(pw)}" onkeydown="if(event.key==='Enter')doOnb('log')"><button type="button" class="pw-eye" onclick="const i=$('#oP');i.type=i.type==='password'?'text':'password'">👁️</button></div></div>
+      <button class="btn lg-btn" id="oLog" onclick="doOnb('log')">${t('onbLogBtn')}</button>
+      <div class="onb-or"><span>${t('onbOr')}</span></div>
+      <button class="btn lg-btn2" id="oReg" onclick="doOnb('reg')">✨ ${t('onbReg')}</button>
+      <div class="muted small" style="text-align:center;line-height:1.7">${t('userHint')}</div>
+    </div>
     <button class="onb-guest" onclick="finishOnb()">${t('onbGuest')}</button>
+    <div class="lg-foot">${t('dev')} <b>Dahshan Soft</b></div>
   </div>`;
 }
 function finishOnb() {

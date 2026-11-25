@@ -973,7 +973,7 @@ const langPills = (after) => `<div class="pills">${[['ar', '🇯🇴 العرب�
 let ONB = { stage: 'tawjihi' };
 function onboarding() {
   VIEW = 'onb'; renderNav();
-  const u = $('#oU') ? $('#oU').value : '', pw = $('#oP') ? $('#oP').value : '';
+  const u = $('#oU') ? $('#oU').value : (S.lastU || ''), pw = $('#oP') ? $('#oP').value : '';
   $('#app').innerHTML = `<div class="onb fade">
     <div class="row between"><div class="free-badge"><b>3</b><span>${t('fbL1')}</span><span>${t('fbL2')}</span></div>${langBtn()}</div>
     <div class="big">🎓</div>
@@ -1003,7 +1003,7 @@ async function doOnb(mode) {
   const bl = $('#oLog'), br = $('#oReg'); bl.disabled = br.disabled = true;
   try {
     const r = await callApi(reg ? { action: 'register', u, p, name: u, phone: '', device: S.deviceId } : { action: 'login', u, p, device: S.deviceId });
-    S.auth = { u, token: r.token, me: r.me };
+    S.auth = { u, token: r.token, me: r.me }; S.lastU = u;
     S.user = { name: (r.me && r.me.name) || u, stage: ONB.stage }; S.lang = LANG;
     if (!S.sets.length) S.sets.push(LANG === 'ar' ? demoAr() : demoEn());
     save(); sfx('win');
@@ -1879,7 +1879,9 @@ function applyTheme() { document.body.classList.toggle('dark', !!S.settings.dark
 
 /* ---------------- التشغيل ---------------- */
 async function boot() {
-  S.lang = 'ar'; save();   // يفتح دائماً بالعربية
+  S.lang = 'ar';   // يفتح دائماً بالعربية
+  if (S.auth && S.auth.u) S.lastU = S.auth.u;
+  S.auth = null; S.user = null; save();   // يطلب اسم المستخدم وكلمة المرور في كل فتح
   applyLang(); applyTheme(); countVisit();
   const m = location.hash.match(/#c=([\w-]+)/);
   if (m) {

@@ -313,6 +313,15 @@ body.dark .lg-free{color:#ff8a98}
 .ios-steps div{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:12px;padding:9px 12px;font-size:14.5px}
 .ios-steps b{flex:0 0 26px;height:26px;border-radius:50%;background:var(--navy);color:#E8C766;display:grid;place-items:center;font-family:'Poppins',sans-serif;font-size:13px}
 @media (display-mode: standalone){#app{padding-top:calc(16px + env(safe-area-inset-top))}}
+.topup{display:flex;align-items:center;gap:12px;width:100%;margin-top:10px;background:var(--card);border:1.8px dashed #7c3aed;border-radius:16px;padding:12px 14px;text-align:start;cursor:pointer;font-family:inherit;color:var(--t)}
+.topup.on{border-style:solid;box-shadow:0 0 0 3px rgba(124,58,237,.15);background:rgba(124,58,237,.05)}
+.tu-ic{flex:0 0 42px;height:42px;border-radius:12px;background:#7c3aed;color:#fff;display:grid;place-items:center;font-size:22px;font-weight:700}
+.tu-tx{flex:1;display:flex;flex-direction:column;line-height:1.6}.tu-tx small{color:var(--m);font-size:12.5px}
+.tu-p{font-weight:800;color:#7c3aed;font-size:18px;white-space:nowrap;font-family:'Poppins','Noto Naskh Arabic',sans-serif}
+.tu-bal{background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.3);color:#6d28d9;border-radius:12px;padding:10px 14px;font-weight:700;text-align:center}
+body.dark .tu-bal,body.dark .tu-p{color:#c4b5fd}
+.lg-tu{margin-top:8px;border:1.5px dashed #7c3aed;border-radius:14px;padding:8px 12px;text-align:center;font-size:13.5px;color:var(--t);line-height:1.8}
+.lg-tu b{color:#7c3aed;white-space:nowrap}
 .credit{text-align:center;margin-top:20px;font-size:13px;color:var(--m);font-weight:500}
 .credit a{color:var(--p);text-decoration:none;font-weight:600}
 body.dark .credit a{color:#9DB8FF}
@@ -434,7 +443,7 @@ const TR = {
   ar: {
     tag: 'ادرس بذكاء', welcome: 'أهلاً بك في {0}',
     onbDesc: 'صوّر درسك أو الصق ملخصك، وأنا أصنع لك أسئلة وبطاقات حفظ وامتحانات وتحديات مع أصحابك 🚀',
-    yourName: 'شو اسمك؟', namePh: 'اكتب اسمك', stageL: 'مرحلتك الدراسية', langL: 'اللغة', start: 'يلّا نبدأ 🚀', fbL1: 'دروس', fbL2: 'مجانية', lgTag: 'ادرس بالذكاء الاصطناعي – من المدرسة إلى الجامعة', lgVidT: 'شاهد كيف يعمل ذاكرلي', lgS1: '📸 صوّر صفحة أو ارفع ملف PDF', lgS2: '⚡ خلال دقيقة يجهّز لك الشرح والأسئلة', lgS3: '🎯 ذاكر واختبر نفسك وتابع تقدّمك', lgPrT: 'الباقات والأسعار', lgFree: '3 دروس مجانية لكل طالب جديد – بدون دفع', lgYear: '12 شهراً بسعر 5', lgPay: 'الدفع عبر CliQ أو تحويل بنكي أو PayPal أو ويسترن يونيون – ويتم التفعيل خلال دقائق', lgCatT: 'ماذا يقدّم لك ذاكرلي؟', ct_lesson: 'شرح تفصيلي', cd_lesson: 'شرح مرتّب بعناوين وأمثلة محلولة، ويقرؤه لك بصوت', ct_quiz: 'أسئلة واختبارات', cd_quiz: 'أسئلة كثيرة بمستويات مختلفة مع شرح كل إجابة', ct_cards: 'بطاقات حفظ', cd_cards: 'بطاقات ذكية تكرّر عليك ما تنساه حتى تحفظه', ct_mindmap: 'خريطة ذهنية', cd_mindmap: 'الدرس كله في خريطة واحدة تراجعه في دقيقة', ct_written: 'أسئلة مقالية', cd_written: 'اكتب إجابتك ويصحّحها لك ويعطيك علامة من 10', ct_tutor: 'المعلّم الذكي', cd_tutor: 'اسأله أي سؤال عن درسك في أي وقت', lgCtaT: 'ابدأ الآن – أول 3 دروس مجاناً 🎁', lgApk: 'تحميل للأندرويد', lgIosBtn: 'تطبيق الآيفون', lgGet: '📲 حمّل التطبيق:', lgAnd: 'أندرويد', lgIos: 'آيفون', iosT: '🍎 ذاكرلي على الآيفون', iosOk: 'فهمت 👍', iosSub: 'ثبّته على شاشتك الرئيسية خلال 10 ثوانٍ – بدون App Store', iosOpen: 'افتح الرابط zakerlee.com من الآيفون في متصفح Safari', iosS1: 'افتح zakerlee.com في متصفح Safari 🧭', iosS2: 'اضغط زر المشاركة ⬆️ أسفل الشاشة', iosS3: 'اختر «إضافة إلى الشاشة الرئيسية» ➕', iosS4: 'اضغط «إضافة» في الأعلى', iosNote: 'ستظهر أيقونة ذاكرلي على شاشتك مثل أي تطبيق، وتفتح بشاشة كاملة مثل تطبيق الأندرويد', lgWa: 'تواصل معنا على واتساب', lgF1: '📸 صوّر درسك', lgF2: '📝 أسئلة وامتحانات', lgF3: '🧠 خرائط ذهنية', lgF4: '🤖 معلّم ذكي', lgTitle: 'أهلاً بك 👋', lgSub: 'سجّل دخولك لتكمل دراستك', onbLogBtn: '🔑 تسجيل الدخول', onbReg: 'إنشاء حساب جديد', onbLog: 'عندي حساب – تسجيل الدخول', onbOr: 'أو', onbGuest: 'تصفّح التطبيق أولاً بدون حساب ←', enterName: 'اكتب اسمك أولاً 😊',
+    yourName: 'شو اسمك؟', namePh: 'اكتب اسمك', stageL: 'مرحلتك الدراسية', langL: 'اللغة', start: 'يلّا نبدأ 🚀', fbL1: 'دروس', fbL2: 'مجانية', lgTag: 'ادرس بالذكاء الاصطناعي – من المدرسة إلى الجامعة', lgVidT: 'شاهد كيف يعمل ذاكرلي', lgS1: '📸 صوّر صفحة أو ارفع ملف PDF', lgS2: '⚡ خلال دقيقة يجهّز لك الشرح والأسئلة', lgS3: '🎯 ذاكر واختبر نفسك وتابع تقدّمك', lgPrT: 'الباقات والأسعار', lgFree: '3 دروس مجانية لكل طالب جديد – بدون دفع', lgYear: '12 شهراً بسعر 5', lgTu: 'نفدت دروسك؟ اشحن 10 دروس إضافية لا تنتهي:', lgPay: 'الدفع عبر CliQ أو تحويل بنكي أو PayPal أو ويسترن يونيون – ويتم التفعيل خلال دقائق', lgCatT: 'ماذا يقدّم لك ذاكرلي؟', ct_lesson: 'شرح تفصيلي', cd_lesson: 'شرح مرتّب بعناوين وأمثلة محلولة، ويقرؤه لك بصوت', ct_quiz: 'أسئلة واختبارات', cd_quiz: 'أسئلة كثيرة بمستويات مختلفة مع شرح كل إجابة', ct_cards: 'بطاقات حفظ', cd_cards: 'بطاقات ذكية تكرّر عليك ما تنساه حتى تحفظه', ct_mindmap: 'خريطة ذهنية', cd_mindmap: 'الدرس كله في خريطة واحدة تراجعه في دقيقة', ct_written: 'أسئلة مقالية', cd_written: 'اكتب إجابتك ويصحّحها لك ويعطيك علامة من 10', ct_tutor: 'المعلّم الذكي', cd_tutor: 'اسأله أي سؤال عن درسك في أي وقت', lgCtaT: 'ابدأ الآن – أول 3 دروس مجاناً 🎁', lgApk: 'تحميل للأندرويد', lgIosBtn: 'تطبيق الآيفون', lgGet: '📲 حمّل التطبيق:', lgAnd: 'أندرويد', lgIos: 'آيفون', iosT: '🍎 ذاكرلي على الآيفون', iosOk: 'فهمت 👍', iosSub: 'ثبّته على شاشتك الرئيسية خلال 10 ثوانٍ – بدون App Store', iosOpen: 'افتح الرابط zakerlee.com من الآيفون في متصفح Safari', iosS1: 'افتح zakerlee.com في متصفح Safari 🧭', iosS2: 'اضغط زر المشاركة ⬆️ أسفل الشاشة', iosS3: 'اختر «إضافة إلى الشاشة الرئيسية» ➕', iosS4: 'اضغط «إضافة» في الأعلى', iosNote: 'ستظهر أيقونة ذاكرلي على شاشتك مثل أي تطبيق، وتفتح بشاشة كاملة مثل تطبيق الأندرويد', lgWa: 'تواصل معنا على واتساب', lgF1: '📸 صوّر درسك', lgF2: '📝 أسئلة وامتحانات', lgF3: '🧠 خرائط ذهنية', lgF4: '🤖 معلّم ذكي', lgTitle: 'أهلاً بك 👋', lgSub: 'سجّل دخولك لتكمل دراستك', onbLogBtn: '🔑 تسجيل الدخول', onbReg: 'إنشاء حساب جديد', onbLog: 'عندي حساب – تسجيل الدخول', onbOr: 'أو', onbGuest: 'تصفّح التطبيق أولاً بدون حساب ←', enterName: 'اكتب اسمك أولاً 😊',
     st_tawjihi: 'توجيهي', st_school: 'مدرسة', st_uni: 'جامعة',
     gm: 'صباح الخير', ga: 'مساء النور', ge: 'مساء الخير',
     level: 'المستوى {0}', toNext: '{0} / {1} XP للمستوى التالي', today: 'اليوم {0}/{1}',
@@ -463,7 +472,7 @@ const TR = {
     planLeft: 'بقي {0} من {1} درساً هذا الشهر · يتجدد بعد {2} يوم',
     planLine: '{4} {0} · بقي {1} من {2} درساً هذا الشهر · يتجدد بعد {3} يوم', chatLeftL: '🤖 بقي {0} رسالة للمعلّم',
     bigRule: '📚 الملف الكبير (أكثر من 20 صفحة) يُحسب 3 دروس. والمراجعة والاختبارات على دروسك المحفوظة مجانية دائماً.', costs3: '📚 ملف كبير: يُحسب 3 دروس',
-    planOver: 'انتهت دروس باقتك لهذا الشهر 📚 تتجدد بعد {0} يوم، أو رقِّ باقتك', planNeed3: 'هذا ملف كبير ويحتاج 3 دروس، وبقي لك {0}. قسّمه أو رقِّ باقتك', planChatOver: 'انتهت رسائل المعلّم لهذا الشهر',
+    planOver: 'انتهت دروس باقتك لهذا الشهر 📚 تتجدد بعد {0} يوم، أو اشحن 10 دروس إضافية الآن ➕', tuT: 'شحن إضافي – {0} دروس', tuD: 'تُضاف لرصيدك فوراً ولا تنتهي مع نهاية الشهر', tuH: '➕ نفدت دروسك قبل نهاية الشهر؟', tuBal: 'رصيد الشحن الإضافي: {0} دروس (لا ينتهي)', tuShort: '➕ {0} دروس إضافية', pl_topup: 'شحن إضافي 10 دروس', planNeed3: 'هذا ملف كبير ويحتاج 3 دروس، وبقي لك {0}. قسّمه أو رقِّ باقتك', planChatOver: 'انتهت رسائل المعلّم لهذا الشهر',
     payT: '💳 ادفع {0} – {1}', pm_cliq: '🇯🇴 كليك', pm_bank: '🏦 بنكي', pm_paypal: '🅿️ PayPal', pm_wu: '🌍 حوالة', accNo: 'رقم الحساب', ppEmail: 'البريد', ppUser: 'اسم المستخدم', ppOpen: '🅿️ افتح PayPal', ppHow: 'أرسل {0} عبر PayPal إلى البريد أعلاه، واختر «لصديق أو قريب» (Friends & Family) إن أمكن.',
     cliqAlias: 'الاسم المستعار (CliQ Alias)', cliqHow: 'افتح تطبيق بنكك ← كليك ← تحويل إلى اسم مستعار، والصق الاسم أعلاه.', bankName: 'البنك', accName: 'اسم صاحب الحساب',
     wuName: 'اسم المستلم', wuCountry: 'الدولة', wuCity: 'المدينة', wuHow: 'عبر Western Union أو MoneyGram. بعد التحويل أرسل رقم الحوالة (MTCN) مع صورة الإيصال.',
@@ -527,7 +536,7 @@ const TR = {
   en: {
     tag: 'Study smarter', welcome: 'Welcome to {0}',
     onbDesc: 'Snap your lesson or paste your notes, and I\'ll turn them into questions, flashcards, exams and challenges with your friends 🚀',
-    yourName: "What's your name?", namePh: 'Your name', stageL: 'Your level', langL: 'Language', start: "Let's go 🚀", fbL1: 'free', fbL2: 'lessons', lgTag: 'Study with AI – from school to university', lgVidT: 'See how Zakerlee works', lgS1: '📸 Snap a page or upload a PDF', lgS2: '⚡ In a minute you get the lesson and questions', lgS3: '🎯 Study, test yourself and track progress', lgPrT: 'Plans & prices', lgFree: '3 free lessons for every new student – no payment', lgYear: '12 months for the price of 5', lgPay: 'Pay by CliQ, bank transfer, PayPal or Western Union – activated within minutes', lgCatT: 'What does Zakerlee give you?', ct_lesson: 'Detailed lesson', cd_lesson: 'Organised explanation with headings and solved examples, read aloud for you', ct_quiz: 'Quizzes & tests', cd_quiz: 'Lots of questions at different levels, each answer explained', ct_cards: 'Flashcards', cd_cards: 'Smart cards that repeat what you forget until you know it', ct_mindmap: 'Mind map', cd_mindmap: 'The whole lesson in one map you can review in a minute', ct_written: 'Written answers', cd_written: 'Write your answer and get it graded out of 10', ct_tutor: 'AI tutor', cd_tutor: 'Ask anything about your lesson, any time', lgCtaT: 'Start now – first 3 lessons free 🎁', lgApk: 'Download for Android', lgIosBtn: 'iPhone app', lgGet: '📲 Get the app:', lgAnd: 'Android', lgIos: 'iPhone', iosT: '🍎 Zakerlee on iPhone', iosOk: 'Got it 👍', iosSub: 'Add it to your home screen in 10 seconds – no App Store needed', iosOpen: 'Open zakerlee.com on your iPhone in Safari', iosS1: 'Open zakerlee.com in Safari 🧭', iosS2: 'Tap the Share button ⬆️ at the bottom', iosS3: 'Choose “Add to Home Screen” ➕', iosS4: 'Tap “Add” at the top', iosNote: 'The Zakerlee icon appears on your screen like any app and opens full-screen just like the Android app', lgWa: 'Contact us on WhatsApp', lgF1: '📸 Snap your lesson', lgF2: '📝 Quizzes & exams', lgF3: '🧠 Mind maps', lgF4: '🤖 AI tutor', lgTitle: 'Welcome 👋', lgSub: 'Log in to continue studying', onbLogBtn: '🔑 Log in', onbReg: 'Create a new account', onbLog: 'I have an account – Log in', onbOr: 'or', onbGuest: 'Look around first without an account →', enterName: 'Please enter your name 😊',
+    yourName: "What's your name?", namePh: 'Your name', stageL: 'Your level', langL: 'Language', start: "Let's go 🚀", fbL1: 'free', fbL2: 'lessons', lgTag: 'Study with AI – from school to university', lgVidT: 'See how Zakerlee works', lgS1: '📸 Snap a page or upload a PDF', lgS2: '⚡ In a minute you get the lesson and questions', lgS3: '🎯 Study, test yourself and track progress', lgPrT: 'Plans & prices', lgFree: '3 free lessons for every new student – no payment', lgYear: '12 months for the price of 5', lgTu: 'Out of lessons? Top up 10 extra lessons that never expire:', lgPay: 'Pay by CliQ, bank transfer, PayPal or Western Union – activated within minutes', lgCatT: 'What does Zakerlee give you?', ct_lesson: 'Detailed lesson', cd_lesson: 'Organised explanation with headings and solved examples, read aloud for you', ct_quiz: 'Quizzes & tests', cd_quiz: 'Lots of questions at different levels, each answer explained', ct_cards: 'Flashcards', cd_cards: 'Smart cards that repeat what you forget until you know it', ct_mindmap: 'Mind map', cd_mindmap: 'The whole lesson in one map you can review in a minute', ct_written: 'Written answers', cd_written: 'Write your answer and get it graded out of 10', ct_tutor: 'AI tutor', cd_tutor: 'Ask anything about your lesson, any time', lgCtaT: 'Start now – first 3 lessons free 🎁', lgApk: 'Download for Android', lgIosBtn: 'iPhone app', lgGet: '📲 Get the app:', lgAnd: 'Android', lgIos: 'iPhone', iosT: '🍎 Zakerlee on iPhone', iosOk: 'Got it 👍', iosSub: 'Add it to your home screen in 10 seconds – no App Store needed', iosOpen: 'Open zakerlee.com on your iPhone in Safari', iosS1: 'Open zakerlee.com in Safari 🧭', iosS2: 'Tap the Share button ⬆️ at the bottom', iosS3: 'Choose “Add to Home Screen” ➕', iosS4: 'Tap “Add” at the top', iosNote: 'The Zakerlee icon appears on your screen like any app and opens full-screen just like the Android app', lgWa: 'Contact us on WhatsApp', lgF1: '📸 Snap your lesson', lgF2: '📝 Quizzes & exams', lgF3: '🧠 Mind maps', lgF4: '🤖 AI tutor', lgTitle: 'Welcome 👋', lgSub: 'Log in to continue studying', onbLogBtn: '🔑 Log in', onbReg: 'Create a new account', onbLog: 'I have an account – Log in', onbOr: 'or', onbGuest: 'Look around first without an account →', enterName: 'Please enter your name 😊',
     st_tawjihi: 'Tawjihi', st_school: 'School', st_uni: 'University',
     gm: 'Good morning', ga: 'Good afternoon', ge: 'Good evening',
     level: 'Level {0}', toNext: '{0} / {1} XP to next level', today: 'Today {0}/{1}',
@@ -556,7 +565,7 @@ const TR = {
     planLeft: '{0} of {1} lessons left this month · renews in {2} days',
     planLine: '{4} {0} · {1} of {2} lessons left this month · renews in {3} days', chatLeftL: '🤖 {0} tutor messages left',
     bigRule: '📚 A large file (over 20 pages) counts as 3 lessons. Reviewing and quizzing your saved lessons is always free.', costs3: '📚 Large file: counts as 3 lessons',
-    planOver: "You've used this month's lessons 📚 They renew in {0} days, or upgrade your plan", planNeed3: 'This large file needs 3 lessons and you have {0}. Split it or upgrade', planChatOver: "You've used this month's tutor messages",
+    planOver: "You've used this month's lessons 📚 They renew in {0} days, or top up 10 extra lessons now ➕", tuT: 'Top-up – {0} lessons', tuD: 'Added to your balance instantly and never expire at month end', tuH: '➕ Ran out of lessons before month end?', tuBal: 'Top-up balance: {0} lessons (never expire)', tuShort: '➕ {0} extra lessons', pl_topup: 'Top-up 10 lessons', planNeed3: 'This large file needs 3 lessons and you have {0}. Split it or upgrade', planChatOver: "You've used this month's tutor messages",
     payT: '💳 Pay {0} – {1}', pm_cliq: '🇯🇴 CliQ', pm_bank: '🏦 Bank', pm_paypal: '🅿️ PayPal', pm_wu: '🌍 Transfer', accNo: 'Account no.', ppEmail: 'Email', ppUser: 'Username', ppOpen: '🅿️ Open PayPal', ppHow: 'Send {0} via PayPal to the email above, choosing "Friends & Family" if possible.',
     cliqAlias: 'CliQ alias', cliqHow: 'Open your bank app → CliQ → send to alias, and paste the alias above.', bankName: 'Bank', accName: 'Account holder',
     wuName: 'Receiver name', wuCountry: 'Country', wuCity: 'City', wuHow: 'Via Western Union or MoneyGram. After sending, share the MTCN / reference number with a photo of the receipt.',
@@ -825,13 +834,13 @@ async function getTicket(kind, cost) {
       if (e.data && e.data.me) { S.auth.me = e.data.me; save(); }
       if (e.message === 'chat_over') toast(t('tutorLim'));
       if (e.message === 'plan_chat_over') toast(t('planChatOver'));
-      if (e.message === 'plan_over') { const m = S.auth.me; const d = m && m.resetAt ? Math.max(1, Math.ceil((m.resetAt - Date.now()) / 864e5)) : 30; toast(e.data && e.data.need === 3 && m && m.pLeft > 0 ? t('planNeed3', m.pLeft) : t('planOver', d)); }
+      if (e.message === 'plan_over') { const m = S.auth.me; const d = m && m.resetAt ? Math.max(1, Math.ceil((m.resetAt - Date.now()) / 864e5)) : 30; toast(e.data && e.data.need === 3 && m && m.pLeft > 0 ? t('planNeed3', m.pLeft) : t('planOver', d)); SEL_PLAN = 'topup'; }
       go('activate'); throw new Error('STOP');
     }
     throw e;
   }
 }
-async function refund(ticket) { try { if (ticket && !isPro()) { const r = await callApi({ action: 'refund', token: S.auth.token, ticket }); if (r.me) { S.auth.me = r.me; save(); } } } catch (e) {} }
+async function refund(ticket) { try { if (ticket && S.auth && S.auth.token) { const r = await callApi({ action: 'refund', token: S.auth.token, ticket }); if (r.me) { S.auth.me = r.me; save(); } } } catch (e) {} }
 async function refreshMe(showMsg) {
   if (!S.auth) return;
   try { const r = await callApi({ action: 'me', token: S.auth.token }); S.auth.me = r.me; save(); if (showMsg) toast(r.me.active ? t('actOk') : t('stillTrial')); if (r.me.active && showMsg) { sfx('win'); confetti(); } }
@@ -890,6 +899,8 @@ const PLANS = [
   { id: 'student', jod: 14, usd: 20, lessons: 30, chat: 300, per: 'month', best: true },
   { id: 'yearly', jod: 70, usd: 100, lessons: 30, chat: 300, per: 'year', save: true }
 ];
+const TOPUP = { id: 'topup', jod: 7, usd: 10, lessons: 10 };   // شحن إضافي – لا ينتهي مع الشهر
+const planById = id => id === 'topup' ? TOPUP : PLANS.find(p => p.id === id);
 let CUR = null, SEL_PLAN = 'student', PAY_TAB = null;
 const curNow = () => CUR || (LANG === 'ar' ? 'jod' : 'usd');
 const priceTxt = p => curNow() === 'jod' ? t('jod', p.jod) : t('usd', p.usd);
@@ -906,7 +917,7 @@ function perLesson(p) {
 const planIcon = id => id === 'yearly' ? '👑' : id === 'basic' ? '🟢' : '⭐';
 function planStatus(m) {
   const days = m.resetAt ? Math.max(0, Math.ceil((m.resetAt - Date.now()) / 864e5)) : 30;
-  return t('planLine', planName(m.plan), m.pLeft, m.pLessons, days, planIcon(m.plan));
+  return t('planLine', planName(m.plan), m.pLeft, m.pLessons, days, planIcon(m.plan)) + (m.extra ? ' · ' + t('tuShort', m.extra) : '');
 }
 function trialChip() {
   const m = meNow();
@@ -917,7 +928,7 @@ function trialChip() {
 function copyTxt(x) { try { navigator.clipboard.writeText(x); toast(t('copiedX')); } catch (e) { toast(x); } }
 function payBox() {
   if (!PAY_TAB) PAY_TAB = LANG === 'ar' ? 'cliq' : 'paypal';
-  const P = CONFIG.PAY, m = meNow(), plan = PLANS.find(p => p.id === SEL_PLAN);
+  const P = CONFIG.PAY, m = meNow(), plan = planById(SEL_PLAN) || PLANS[1];
   const row = (label, val) => val ? `<div class="pay-row"><span class="muted small">${label}</span><b dir="auto">${esc(val)}</b><button class="btn btn-o btn-s" onclick="copyTxt(${J(val)})">📋</button></div>` : '';
   const askWa = method => `<a class="btn btn-o mt" style="text-decoration:none" target="_blank" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(t('waAsk', appName(), t('pm_' + method), m.u))}">${t('askDetails')}</a>`;
   let body = '';
@@ -955,12 +966,21 @@ function activateView() {
       <div class="per-lesson">${perLesson(p)}</div>
       <div class="plan-f">📚 ${t('lessonsMo', p.lessons)}<br>🤖 ${t('chatMo', p.chat)}${p.per === 'year' ? '<br>📅 ' + t('months12') : ''}</div>
     </button>`).join('');
+  const ex = m.extra || 0;
+  const topup = `<button class="topup ${SEL_PLAN === 'topup' ? 'on' : ''}" onclick="SEL_PLAN='topup';activateView()">
+      <div class="tu-ic">➕</div>
+      <div class="tu-tx"><b>${t('tuT', TOPUP.lessons)}</b><small>${t('tuD')}</small></div>
+      <div class="tu-p">${priceTxt(TOPUP)}</div>
+    </button>`;
   $('#app').innerHTML = `
   <div class="top"><button class="icon-btn" onclick="go('home')">${back()}</button><div class="h2">${t('subT')}</div>
     <button class="lang-btn" onclick="CUR=curNow()==='jod'?'usd':'jod';activateView()">${curNow() === 'jod' ? '$ USD' : 'د.أ JOD'}</button></div>
   ${head}
+  ${ex ? `<div class="tu-bal mt">➕ ${t('tuBal', ex)}</div>` : ''}
   <div class="h2 mt2">${m.active ? t('renewT') : t('choosePlan')}</div>
   <div class="plans mt">${cards}</div>
+  <div class="h3 mt2">${t('tuH')}</div>
+  ${topup}
   <div class="tip mt">${t('bigRule')}</div>
   ${payBox()}
   <button class="btn btn-o mt" id="rfBtn" onclick="this.disabled=true;refreshMe(true).then(()=>activateView())">${t('refresh')}</button>
@@ -1124,6 +1144,7 @@ function onboarding() {
           <div class="lg-plan-p"><b>${t('jod', p.jod)}</b><small>$${p.usd}${p.per === 'year' ? t('perYear') : t('perMonth')}</small></div>
           <div class="per-lesson">${perLessonBoth(p)}</div>
         </div>`).join('')}
+        <div class="lg-tu">➕ ${t('lgTu')} <b>${t('jod', TOPUP.jod)} · $${TOPUP.usd}</b></div>
         <div class="muted small" style="text-align:center;line-height:1.8;margin-top:4px">${t('lgPay')}</div>
       </section>`}
     </div>

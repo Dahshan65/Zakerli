@@ -199,6 +199,13 @@ body.dark .badge-t{color:#9DB8FF;background:rgba(125,160,255,.12)}
 .empty{text-align:center;padding:30px 10px}
 .empty .e{font-size:50px}
 .visits{text-align:center;margin:16px auto 4px;font-size:13px;font-weight:700;color:var(--m);min-height:18px}
+.onb-or{display:flex;align-items:center;gap:10px;color:var(--m);font-size:13px;font-weight:700;margin:2px 0}.onb-or:before,.onb-or:after{content:'';flex:1;height:1px;background:var(--b)}
+.onb-guest{background:none;border:0;color:var(--m);font:inherit;font-size:14px;font-weight:600;text-decoration:underline;padding:6px;cursor:pointer}
+.free-badge{width:86px;height:86px;border-radius:50%;background:#bb192c;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.15;font-weight:800;font-size:12px;box-shadow:0 6px 18px rgba(187,25,44,.35);animation:fbp 2s infinite;flex:0 0 86px;text-align:center}
+.free-badge b{font-size:28px;line-height:1}
+@keyframes fbp{0%{box-shadow:0 0 0 0 rgba(187,25,44,.55)}70%{box-shadow:0 0 0 14px rgba(187,25,44,0)}100%{box-shadow:0 0 0 0 rgba(187,25,44,0)}}
+.pw-wrap{position:relative}.pw-wrap .pw-in{padding-inline-end:46px}
+.pw-eye{position:absolute;top:50%;transform:translateY(-50%);right:8px;background:none;border:0;font-size:18px;cursor:pointer;padding:6px}
 .credit{text-align:center;margin-top:20px;font-size:13px;color:var(--m);font-weight:500}
 .credit a{color:var(--p);text-decoration:none;font-weight:600}
 body.dark .credit a{color:#9DB8FF}
@@ -320,7 +327,7 @@ const TR = {
   ar: {
     tag: 'ادرس بذكاء', welcome: 'أهلاً بك في {0}',
     onbDesc: 'صوّر درسك أو الصق ملخصك، وأنا أصنع لك أسئلة وبطاقات حفظ وامتحانات وتحديات مع أصحابك 🚀',
-    yourName: 'شو اسمك؟', namePh: 'اكتب اسمك', stageL: 'مرحلتك الدراسية', langL: 'اللغة', start: 'يلّا نبدأ 🚀', enterName: 'اكتب اسمك أولاً 😊',
+    yourName: 'شو اسمك؟', namePh: 'اكتب اسمك', stageL: 'مرحلتك الدراسية', langL: 'اللغة', start: 'يلّا نبدأ 🚀', fbL1: 'دروس', fbL2: 'مجانية', onbLogBtn: '🔑 تسجيل الدخول', onbReg: 'إنشاء حساب جديد', onbLog: 'عندي حساب – تسجيل الدخول', onbOr: 'أو', onbGuest: 'تصفّح التطبيق أولاً بدون حساب ←', enterName: 'اكتب اسمك أولاً 😊',
     st_tawjihi: 'توجيهي', st_school: 'مدرسة', st_uni: 'جامعة',
     gm: 'صباح الخير', ga: 'مساء النور', ge: 'مساء الخير',
     level: 'المستوى {0}', toNext: '{0} / {1} XP للمستوى التالي', today: 'اليوم {0}/{1}',
@@ -364,7 +371,7 @@ const TR = {
     e_devices: 'وصلت للحد الأقصى من الأجهزة ({0}). تواصل مع المطوّر ليصفّرها لك', e_no_db: 'الخادم غير مهيّأ بعد (قاعدة البيانات)', e_auth: 'انتهت جلستك، سجّل الدخول مرة أخرى',
     trialNoAcc: '🔐 أنشئ حساباً مجانياً واحصل على {0} محاولات', activeUntil: '✅ مفعّل حتى {0}', activeForever: '♾️ اشتراك دائم', expiredT: '⛔ انتهى اشتراكك',
     actDesc2: 'لتكمل بلا حدود على كل أجهزتك، أرسل اسم المستخدم للمطوّر عبر واتساب، وبعد أن يفعّله اضغط «تحديث الحالة».', yourUser: 'اسم المستخدم (أرسله للمطوّر)', refresh: '🔄 تحديث الحالة', stillTrial: 'لم يُفعَّل بعد، حاول بعد قليل ⏳',
-    waMsg2: 'مرحباً، أريد تفعيل تطبيق {0}\nاسم المستخدم: {1}\nالاسم: {2}', logout: '🚪 خروج', logoutQ: 'تسجيل الخروج من هذا الجهاز؟', devicesL: '📱 الأجهزة المستخدمة: {0} من {1}', loggedAs: 'مسجّل باسم', featDevices: 'نفس الحساب على الهاتف واللابتوب والتابلت',
+    waMsg2: 'مرحباً، أريد تفعيل تطبيق {0}\nاسم المستخدم: {1}\nالاسم: {2}', logout: '🚪 خروج', logoutQ: 'تسجيل الخروج من هذا الجهاز؟', devicesL: '📱 الأجهزة التي دخلت منها: {0}', loggedAs: 'مسجّل باسم', featDevices: 'نفس الحساب على الهاتف واللابتوب والتابلت',
     autoL: '🤖 تلقائي', autoHint: 'سيحدد التطبيق العدد حسب حجم المادة: ≈ {0} سؤالاً و{1} بطاقة', pagesN: '{0} صفحة',
     ldUp: ['أرفع الملف إلى الخادم... 📤', 'أجهّز صفحات الملف...', 'لحظات ونبدأ القراءة ✨'],
     ldBig: ['أقرأ المادة كلها بتركيز...', 'أكتب الشرح التفصيلي للدرس...', 'أصنع بنك الأسئلة مع الشرح...', 'أجهّز البطاقات والمصطلحات...', 'أرسم الخريطة الذهنية...', 'أكتب الأسئلة الكتابية...', 'أراجع الدقة العلمية...', 'لحظات وتكون جاهزة ✨ (قد يستغرق دقيقة)'],
@@ -413,7 +420,7 @@ const TR = {
   en: {
     tag: 'Study smarter', welcome: 'Welcome to {0}',
     onbDesc: 'Snap your lesson or paste your notes, and I\'ll turn them into questions, flashcards, exams and challenges with your friends 🚀',
-    yourName: "What's your name?", namePh: 'Your name', stageL: 'Your level', langL: 'Language', start: "Let's go 🚀", enterName: 'Please enter your name 😊',
+    yourName: "What's your name?", namePh: 'Your name', stageL: 'Your level', langL: 'Language', start: "Let's go 🚀", fbL1: 'free', fbL2: 'lessons', onbLogBtn: '🔑 Log in', onbReg: 'Create a new account', onbLog: 'I have an account – Log in', onbOr: 'or', onbGuest: 'Look around first without an account →', enterName: 'Please enter your name 😊',
     st_tawjihi: 'Tawjihi', st_school: 'School', st_uni: 'University',
     gm: 'Good morning', ga: 'Good afternoon', ge: 'Good evening',
     level: 'Level {0}', toNext: '{0} / {1} XP to next level', today: 'Today {0}/{1}',
@@ -457,7 +464,7 @@ const TR = {
     e_devices: 'Device limit reached ({0}). Contact the developer to reset it', e_no_db: 'Server not set up yet (database)', e_auth: 'Session expired, please log in again',
     trialNoAcc: '🔐 Create a free account and get {0} tries', activeUntil: '✅ Active until {0}', activeForever: '♾️ Lifetime access', expiredT: '⛔ Your subscription has expired',
     actDesc2: 'To keep going without limits on all your devices, send your username to the developer on WhatsApp, then tap "Refresh status" once activated.', yourUser: 'Your username (send it to the developer)', refresh: '🔄 Refresh status', stillTrial: 'Not activated yet, try again shortly ⏳',
-    waMsg2: 'Hello, I want to activate {0}\nUsername: {1}\nName: {2}', logout: '🚪 Log out', logoutQ: 'Log out from this device?', devicesL: '📱 Devices used: {0} of {1}', loggedAs: 'Logged in as', featDevices: 'One account on phone, laptop and tablet',
+    waMsg2: 'Hello, I want to activate {0}\nUsername: {1}\nName: {2}', logout: '🚪 Log out', logoutQ: 'Log out from this device?', devicesL: '📱 Devices signed in: {0}', loggedAs: 'Logged in as', featDevices: 'One account on phone, laptop and tablet',
     autoL: '🤖 Auto', autoHint: 'The app picks the amount based on your material: ≈ {0} questions & {1} cards', pagesN: '{0} pages',
     ldUp: ['Uploading your file... 📤', 'Preparing the pages...', 'Almost ready to read ✨'],
     ldBig: ['Reading all your material...', 'Writing the full lesson explanation...', 'Building the question bank...', 'Preparing flashcards & glossary...', 'Drawing the mind map...', 'Writing written questions...', 'Double-checking accuracy...', 'Almost ready ✨ (may take a minute)'],
@@ -749,11 +756,14 @@ async function doAccount() {
   const b = $('#aBtn'); b.disabled = true;
   try {
     const r = await callApi(reg ? { action: 'register', u, p, name: S.user ? S.user.name : '', phone: $('#aPh').value.trim(), device: S.deviceId } : { action: 'login', u, p, device: S.deviceId });
-    S.auth = { u, token: r.token, me: r.me }; save(); sfx('win');
+    S.auth = { u, token: r.token, me: r.me };
+    if (S.user && !S.user.name) S.user.name = (r.me && r.me.name) || u;
+    if (!S.user) { S.user = { name: (r.me && r.me.name) || u, stage: ONB.stage }; if (!S.sets.length) S.sets.push(LANG === 'ar' ? demoAr() : demoEn()); }
+    save(); sfx('win');
     toast(reg ? t('regOk', r.me.left) : t('logOk'));
     if (reg) confetti();
     const nx = ACC_NEXT; ACC_NEXT = null;
-    if (nx && nx[0] && !['account', 'activate'].includes(nx[0])) go(nx[0], nx[1]); else go('home');
+    if (nx && nx[0] && !['account', 'activate', 'onb'].includes(nx[0])) go(nx[0], nx[1]); else go('home');
   } catch (e) {
     sfx('no'); b.disabled = false;
     const k = 'e_' + e.message;
@@ -921,7 +931,7 @@ function go(v, arg) {
   if (TIMER) { clearInterval(TIMER); TIMER = null; }
   try { speechSynthesis.cancel(); } catch (e) {}
   VIEW = v; VARG = arg;
-  const views = { home, library, create, setView, summaryView, badgesView, profileView, tutorView, lessonView, mindmapView, writtenView, account: accountView, activate: activateView };
+  const views = { onb: onboarding, home, library, create, setView, summaryView, badgesView, profileView, tutorView, lessonView, mindmapView, writtenView, account: accountView, activate: activateView };
   const app = $('#app'); app.innerHTML = ''; app.className = 'fade'; void app.offsetWidth;
   (views[v] || home)(arg);
   renderNav(); window.scrollTo(0, 0);
@@ -946,29 +956,48 @@ const langPills = (after) => `<div class="pills">${[['ar', '🇯🇴 العرب�
 let ONB = { stage: 'tawjihi' };
 function onboarding() {
   VIEW = 'onb'; renderNav();
-  const nm = $('#onName') ? $('#onName').value : '';
+  const u = $('#oU') ? $('#oU').value : '', pw = $('#oP') ? $('#oP').value : '';
   $('#app').innerHTML = `<div class="onb fade">
-    <div style="display:flex;justify-content:flex-end">${langBtn()}</div>
+    <div class="row between"><div class="free-badge"><b>3</b><span>${t('fbL1')}</span><span>${t('fbL2')}</span></div>${langBtn()}</div>
     <div class="big">🎓</div>
     <div class="h1" style="text-align:center">${t('welcome', appName())}</div>
     <p class="muted" style="text-align:center;line-height:1.9">${t('onbDesc')}</p>
     <div class="card col">
-      <div><div class="label">${t('langL')}</div>${langPills('onboarding()')}</div>
-      <div><div class="label">${t('yourName')}</div><input type="text" id="onName" placeholder="${t('namePh')}" maxlength="25" value="${esc(nm)}"></div>
-      <div><div class="label">${t('stageL')}</div>
-      <div class="pills">${[['tawjihi', '🎓'], ['school', '🏫'], ['uni', '🏛️']].map(([s, e]) => `<button class="pill ${ONB.stage === s ? 'on' : ''}" onclick="ONB.stage='${s}';onboarding()">${e} ${t('st_' + s)}</button>`).join('')}</div></div>
+      <div><div class="label">${t('user')}</div><input type="text" id="oU" dir="ltr" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="username" placeholder="${t('userPh')}" value="${esc(u)}" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9._]/g,'')"></div>
+      <div><div class="label">${t('pass')}</div><div class="pw-wrap"><input type="password" id="oP" dir="ltr" class="pw-in" autocomplete="current-password" placeholder="${t('passPh')}" value="${esc(pw)}" onkeydown="if(event.key==='Enter')doOnb('log')"><button type="button" class="pw-eye" onclick="const i=$('#oP');i.type=i.type==='password'?'text':'password'">👁️</button></div></div>
     </div>
-    <div class="tip">${t('trialLeft', CONFIG.FREE_USES, CONFIG.FREE_USES)}</div>
-    <button class="btn btn-p" onclick="finishOnb()">${t('start')}</button>
+    <button class="btn btn-p" id="oLog" onclick="doOnb('log')">${t('onbLogBtn')}</button>
+    <div class="onb-or"><span>${t('onbOr')}</span></div>
+    <button class="btn btn-o" id="oReg" onclick="doOnb('reg')">✨ ${t('onbReg')}</button>
+    <div class="muted small" style="text-align:center">${t('userHint')}</div>
+    <button class="onb-guest" onclick="finishOnb()">${t('onbGuest')}</button>
   </div>`;
 }
 function finishOnb() {
-  const n = $('#onName').value.trim();
-  if (!n) { toast(t('enterName')); return; }
-  S.user = { name: n, stage: ONB.stage }; S.lang = LANG;
+  S.user = { name: '', stage: ONB.stage }; S.lang = LANG;
   if (!S.sets.length) S.sets.push(LANG === 'ar' ? demoAr() : demoEn());
-  save(); sfx('win'); confetti();
+  save();
   if (PENDING_CH) { const c = PENDING_CH; PENDING_CH = null; openChallenge(c); } else go('home');
+}
+async function doOnb(mode) {
+  const reg = mode === 'reg', u = $('#oU').value.trim().toLowerCase(), p = $('#oP').value;
+  if (!/^[a-z0-9._]{3,20}$/.test(u)) { $('#oU').focus(); return toast(t('e_bad_user')); }
+  if (p.length < 6) { $('#oP').focus(); return toast(t('e_short_pass')); }
+  const bl = $('#oLog'), br = $('#oReg'); bl.disabled = br.disabled = true;
+  try {
+    const r = await callApi(reg ? { action: 'register', u, p, name: u, phone: '', device: S.deviceId } : { action: 'login', u, p, device: S.deviceId });
+    S.auth = { u, token: r.token, me: r.me };
+    S.user = { name: (r.me && r.me.name) || u, stage: ONB.stage }; S.lang = LANG;
+    if (!S.sets.length) S.sets.push(LANG === 'ar' ? demoAr() : demoEn());
+    save(); sfx('win');
+    toast(reg ? t('regOk', r.me.left) : t('logOk'));
+    if (reg) confetti();
+    if (PENDING_CH) { const c = PENDING_CH; PENDING_CH = null; openChallenge(c); } else go('home');
+  } catch (e) {
+    sfx('no'); bl.disabled = br.disabled = false;
+    const k = 'e_' + e.message;
+    toast(TR.ar[k] ? t(k, (e.data && e.data.max) || 3) : aiError(e));
+  }
 }
 
 /* ---------------- الرئيسية ---------------- */
@@ -1833,6 +1862,7 @@ function applyTheme() { document.body.classList.toggle('dark', !!S.settings.dark
 
 /* ---------------- التشغيل ---------------- */
 async function boot() {
+  S.lang = 'ar'; save();   // يفتح دائماً بالعربية
   applyLang(); applyTheme(); countVisit();
   const m = location.hash.match(/#c=([\w-]+)/);
   if (m) {

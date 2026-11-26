@@ -552,6 +552,7 @@ const TR = {
     sound: '🔊 المؤثرات الصوتية', dark: '🌙 الوضع الليلي', shareApp: '📤 شارك التطبيق مع أصحابك', reset: '🗑️ حذف كل البيانات', resetQ: 'سيتم حذف كل دروسك ونقاطك. متأكد؟',
     version: 'الإصدار 1.1', visitors: '{0} زائر لذاكرلي حتى الآن', dev: 'تطوير:', wa: '💬 تواصل عبر واتساب', insta: '📸 تابعنا على إنستغرام',
     lvUp: '🎉 مبروك! وصلت المستوى {0} – {1}', goalDone: '🎯 حققت هدفك اليومي! استمر 🔥', full: '⚠️ ذاكرة الجهاز ممتلئة، احذف بعض الدروس', noTts: 'القراءة الصوتية غير مدعومة على هذا الجهاز',
+    keepOpen: '📱 لا تغلق التطبيق ولا تنتقل لتطبيق آخر حتى ينتهي التحضير', cloudGot: '☁️ تم جلب {0} من دروسك من حسابك',
     trialLeft: '🎁 التجربة المجانية: بقي {0} من {1}', activated: '✅ النسخة الكاملة مفعّلة', actTitle: 'انتهت التجربة المجانية',
     actDesc: 'استخدمت {0} طلبات مجانية 🎉 لتكمل بلا حدود، أرسل رقم جهازك للمطوّر عبر واتساب ليرسل لك رمز التفعيل.',
     actFeat: ['دروس من الصور والـ PDF والنصوص', 'المعلّم الذكي وتصحيح الأسئلة الكتابية', 'توليد أسئلة إضافية لأي درس', 'كل الميزات القادمة'],
@@ -645,6 +646,7 @@ const TR = {
     sound: '🔊 Sound effects', dark: '🌙 Dark mode', shareApp: '📤 Share the app with friends', reset: '🗑️ Delete all data', resetQ: 'All your lessons and points will be deleted. Are you sure?',
     version: 'Version 1.1', visitors: '{0} visitors to Zakerlee so far', dev: 'Developed by', wa: '💬 Contact on WhatsApp', insta: '📸 Follow us on Instagram',
     lvUp: '🎉 Congrats! You reached level {0} – {1}', goalDone: '🎯 Daily goal reached! Keep going 🔥', full: '⚠️ Device storage is full, delete some lessons', noTts: 'Text-to-speech is not supported on this device',
+    keepOpen: '📱 Keep the app open until it finishes', cloudGot: '☁️ {0} of your lessons were loaded from your account',
     trialLeft: '🎁 Free trial: {0} of {1} left', activated: '✅ Full version activated', actTitle: 'Your free trial has ended',
     actDesc: "You've used your {0} free requests 🎉 To keep going without limits, send your device code to the developer on WhatsApp to get your activation code.",
     actFeat: ['Lessons from photos, PDFs and text', 'AI tutor and written-answer grading', 'Extra questions for any lesson', 'All upcoming features'],
@@ -721,12 +723,181 @@ function defState() {
     stats: { answered: 0, correct: 0, perfect: 0, created: 0, challenges: 0, cards: 0, exams: 0 },
     badges: [], settings: { sound: true, dark: false, goal: 50 } };
 }
+/* ---------------- التخزين: كل حساب له دروسه، في IndexedDB على الجهاز + نسخة في الخادم ----------------
+   - بيانات الجهاز (رقم الجهاز، اللغة، آخر مستخدم) في localStorage
+   - بيانات كل طالب (دروسه ونقاطه وإعداداته) في IndexedDB باسم حسابه – مساحتها مئات الميغابايتات
+   - نسخة من الدروس على الخادم مع الحساب: يجدها الطالب على أي جهاز يدخل منه */
+const DEV_KEY = 'zakerli_dev';
+const DEVF = ['deviceId', 'lang', 'lastU', 'activated'];
+const userPart = s => { const o = {}; for (const k in s) if (!DEVF.includes(k) && k !== 'auth') o[k] = s[k]; return o; };
+const devPart = s => { const o = {}; for (const k of DEVF) if (s[k] !== undefined) o[k] = s[k]; return o; };
+let LEGACY = null;   // بيانات النسخة القديمة (قبل فصل الحسابات) – تُنقل لأول حساب صاحبها يدخل
 function load() {
-  try { const d = JSON.parse(localStorage.getItem(KEY)); if (d) { const s = Object.assign(defState(), d); s.stats = Object.assign(defState().stats, d.stats); s.settings = Object.assign(defState().settings, d.settings); if (!/^\d{6}$/.test(s.deviceId) && !s.activated) s.deviceId = newDeviceId(); return s; } } catch (e) {}
-  return defState();
+  const base = defState();
+  try {
+    const old = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (old && ((old.sets && old.sets.some(x => !x.demo)) || old.xp)) LEGACY = old;
+    const dv = JSON.parse(localStorage.getItem(DEV_KEY) || 'null') || (old ? devPart(old) : null);
+    if (dv) Object.assign(base, dv);
+    if (!/^\d{6}$/.test(base.deviceId) && !base.activated) base.deviceId = newDeviceId();
+  } catch (e) {}
+  return base;
 }
 let S = load();
-function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast(t('full')); } }
+
+const IDB = {
+  db: null,
+  open() {
+    if (this.db) return Promise.resolve(this.db);
+    return new Promise((ok, no) => {
+      try {
+        const r = indexedDB.open('zakerlee', 1);
+        r.onupgradeneeded = () => r.result.createObjectStore('kv');
+        r.onsuccess = () => { this.db = r.result; ok(this.db); };
+        r.onerror = () => no(r.error);
+      } catch (e) { no(e); }
+    });
+  },
+  async run(mode, fn) { const db = await this.open(); return new Promise((ok, no) => { const tx = db.transaction('kv', mode), st = tx.objectStore('kv'), q = fn(st); tx.oncomplete = () => ok(q && q.result); tx.onerror = () => no(tx.error); tx.onabort = () => no(tx.error); }); },
+  get(k) { return this.run('readonly', st => st.get(k)); },
+  set(k, v) { return this.run('readwrite', st => st.put(v, k)); },
+  del(k) { return this.run('readwrite', st => st.delete(k)); }
+};
+try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch (e) {}   // لا يمسحها المتصفح عند امتلاء الجهاز
+
+const curU = () => (S.auth && S.auth.u) || (S.user ? (S.lastU || 'guest') : '');
+let SAVE_T = null, SAVE_WARNED = false;
+function save() {
+  try { localStorage.setItem(DEV_KEY, JSON.stringify(devPart(S))); } catch (e) {}
+  if (!curU()) return;
+  clearTimeout(SAVE_T); SAVE_T = setTimeout(flushSave, 250);
+  cloudSoon();
+}
+async function flushSave() {
+  clearTimeout(SAVE_T); SAVE_T = null;
+  const u = curU(); if (!u) return;
+  const data = userPart(S);
+  try { await IDB.set('u:' + u, data); }
+  catch (e) {
+    try { localStorage.setItem(KEY + ':' + u, JSON.stringify(data)); }
+    catch (e2) { if (!SAVE_WARNED) { SAVE_WARNED = true; toast(t('full')); } }
+  }
+}
+/* يُستدعى بعد نجاح تسجيل الدخول أو إنشاء الحساب: يحمّل دروس هذا الحساب فقط */
+async function enterUser(u) {
+  if (SAVE_T) await flushSave();
+  let d = null;
+  try { d = await IDB.get('u:' + u); } catch (e) {}
+  if (!d) { try { d = JSON.parse(localStorage.getItem(KEY + ':' + u) || 'null'); } catch (e) {} }
+  if (!d && LEGACY) {
+    const owner = LEGACY.lastU || (LEGACY.auth && LEGACY.auth.u) || '';
+    if (!owner || owner === u) { d = userPart(LEGACY); LEGACY = null; try { localStorage.removeItem(KEY); } catch (e) {} }
+  }
+  const keepDev = devPart(S), auth = S.auth;
+  const fresh = defState();
+  for (const k of Object.keys(S)) delete S[k];
+  Object.assign(S, userPart(fresh), d || {}, keepDev, { auth });
+  S.stats = Object.assign(fresh.stats, d && d.stats);
+  S.settings = Object.assign(fresh.settings, d && d.settings);
+  S.sets = Array.isArray(S.sets) ? S.sets : [];
+  S.sync = S.sync || { sig: {}, p: '' };
+  S.lastU = u;
+  await flushSave();
+  applyTheme();
+  cloudPull();   // في الخلفية
+}
+/* عند الخروج: تُحفظ دروس الحساب ثم تُمسح من الشاشة حتى لا يراها غيره */
+async function leaveUser() {
+  if (SAVE_T || curU()) await flushSave();
+  await cloudPush().catch(() => {});
+  const keepDev = devPart(S), fresh = defState();
+  for (const k of Object.keys(S)) delete S[k];
+  Object.assign(S, userPart(fresh), keepDev, { auth: null, user: null });
+  try { localStorage.setItem(DEV_KEY, JSON.stringify(devPart(S))); } catch (e) {}
+}
+
+/* ---- المزامنة مع الخادم ---- */
+const hashStr = s => { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0).toString(36) + s.length.toString(36); };
+const profOf = () => ({ user: S.user, xp: S.xp, streak: S.streak, best: S.best, lastDay: S.lastDay, stats: S.stats, badges: S.badges, settings: S.settings });
+const canCloud = () => S.auth && S.auth.token && apiReady() && navigator.onLine;
+let CLOUD_T = null, CLOUD_BUSY = false;
+function cloudSoon() { if (!canCloud()) return; clearTimeout(CLOUD_T); CLOUD_T = setTimeout(() => cloudPush().catch(() => {}), 15000); }
+async function cloudPush() {
+  clearTimeout(CLOUD_T); CLOUD_T = null;
+  if (!canCloud() || CLOUD_BUSY || !S.sync) return;
+  CLOUD_BUSY = true;
+  try {
+    const sig = S.sync.sig || {}, ids = new Set(), puts = [];
+    for (const s of S.sets) {
+      if (s.demo) continue;
+      ids.add(s.id);
+      const js = JSON.stringify(s), h = hashStr(js);
+      if (sig[s.id] !== h) puts.push({ id: s.id, h, js });
+    }
+    const del = Object.keys(sig).filter(id => !ids.has(id));
+    const pj = JSON.stringify(profOf()), ph = hashStr(pj);
+    if (!puts.length && !del.length && ph === S.sync.p) return;
+    /* دفعات حتى لا يكبر الطلب */
+    let batch = [], size = 0;
+    const send = async (last) => {
+      const body = { action: 'lput', token: S.auth.token, sets: batch.map(x => ({ id: x.id, h: x.h, data: x.js })) };
+      if (last) { body.del = del; body.p = { h: ph, data: pj }; }
+      await callApi(body);
+      batch.forEach(x => { sig[x.id] = x.h; });
+      if (last) { del.forEach(id => delete sig[id]); S.sync.p = ph; }
+      S.sync.sig = sig; batch = []; size = 0;
+    };
+    for (const x of puts) {
+      if (size + x.js.length > 4e6 && batch.length) await send(false);
+      batch.push(x); size += x.js.length;
+    }
+    await send(true);
+    await flushSave();
+  } finally { CLOUD_BUSY = false; }
+}
+async function cloudPull() {
+  if (!canCloud()) return;
+  const u = S.auth.u;
+  try {
+    const idx = await callApi({ action: 'lidx', token: S.auth.token });
+    if (!S.auth || S.auth.u !== u) return;
+    const items = idx.items || {}, sig = S.sync.sig || (S.sync.sig = {});
+    const local = new Map(S.sets.filter(s => !s.demo).map(s => [s.id, s]));
+    const need = [];
+    for (const [id, it] of Object.entries(items)) {
+      const l = local.get(id);
+      if (!l) { if (!(id in sig)) need.push(id); continue; }        // درس من جهاز آخر
+      const changedHere = hashStr(JSON.stringify(l)) !== sig[id];
+      if (it.h !== sig[id] && !changedHere) need.push(id);           // تعدّل في جهاز آخر
+    }
+    for (const id of Object.keys(sig)) if (!items[id] && local.has(id) && hashStr(JSON.stringify(local.get(id))) === sig[id]) {   // حُذف من جهاز آخر
+      S.sets = S.sets.filter(s => s.id !== id); delete sig[id];
+    }
+    let got = 0;
+    for (let i = 0; i < need.length; i += 15) {
+      const r = await callApi({ action: 'lget', token: S.auth.token, ids: need.slice(i, i + 15) });
+      if (!S.auth || S.auth.u !== u) return;
+      for (const [id, js] of Object.entries(r.sets || {})) {
+        try {
+          const s = JSON.parse(js), k = S.sets.findIndex(x => x.id === id);
+          if (k >= 0) S.sets[k] = s; else { S.sets.push(s); got++; }
+          sig[id] = hashStr(js);
+        } catch (e) {}
+      }
+    }
+    if (idx.p && idx.p.h !== S.sync.p && hashStr(JSON.stringify(profOf())) === S.sync.p) {   // النقاط والأوسمة من جهاز آخر
+      try { const r = await callApi({ action: 'lget', token: S.auth.token, ids: ['_p'] }); const p = JSON.parse(r.sets._p); Object.assign(S, p); S.sync.p = idx.p.h; } catch (e) {}
+    }
+    if (got && S.sets.some(s => !s.demo)) S.sets = S.sets.filter(s => !s.demo);   // لا حاجة للدرس التجريبي إذا وصلت دروسه
+    await flushSave();
+    if (got) toast(t('cloudGot', got));
+    if (['home', 'library'].includes(VIEW)) go(VIEW);
+    cloudPush().catch(() => {});
+  } catch (e) {}
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') { flushSave(); cloudPush().catch(() => {}); } });
+window.addEventListener('pagehide', () => { flushSave(); });
+window.addEventListener('online', () => cloudSoon());
 
 /* ---------------- المستويات والنقاط ---------------- */
 const levelOf = xp => Math.floor((1 + Math.sqrt(1 + 4 * xp / 50)) / 2);
@@ -823,13 +994,15 @@ function confetti() {
     if (++f < 200) requestAnimationFrame(loop); else x.clearRect(0, 0, c.width, c.height);
   })();
 }
+let WAKE = null;
 function loading(on, msgs) {
   const old = $('#loader'); if (old) { clearInterval(old._t); old.remove(); }
-  if (!on) return;
+  if (!on) { try { WAKE && WAKE.release(); } catch (e) {} WAKE = null; return; }
+  try { if (!WAKE && navigator.wakeLock) navigator.wakeLock.request('screen').then(w => { WAKE = w; }).catch(() => {}); } catch (e) {}   // تبقى الشاشة مضاءة أثناء التحضير
   const d = document.createElement('div'); d.className = 'overlay'; d.id = 'loader';
   msgs = msgs || t('ld');
   const tips = t('tips');
-  d.innerHTML = `<div class="loader-box"><div class="brain">🧠</div><div class="h2 mt" id="ldMsg">${msgs[0]}</div><div class="dots mt"><span></span><span></span><span></span></div><div class="tip mt">${tips[Math.floor(Math.random() * tips.length)]}</div></div>`;
+  d.innerHTML = `<div class="loader-box"><div class="brain">🧠</div><div class="h2 mt" id="ldMsg">${msgs[0]}</div><div class="dots mt"><span></span><span></span><span></span></div><div class="muted small mt">${t('keepOpen')}</div><div class="tip mt">${tips[Math.floor(Math.random() * tips.length)]}</div></div>`;
   document.body.appendChild(d);
   let i = 0; d._t = setInterval(() => { i = (i + 1) % msgs.length; const m = $('#ldMsg'); if (m) m.textContent = msgs[i]; }, 2200);
 }
@@ -945,6 +1118,7 @@ async function doAccount() {
   try {
     const r = await callApi(reg ? { action: 'register', u, p, name: S.user ? S.user.name : '', phone: $('#aPh').value.trim(), device: S.deviceId, ref: getRef() } : { action: 'login', u, p, device: S.deviceId });
     S.auth = { u, token: r.token, me: r.me };
+    await enterUser(u);
     if (S.user && !S.user.name) S.user.name = (r.me && r.me.name) || u;
     if (!S.user) { S.user = { name: (r.me && r.me.name) || u, stage: ONB.stage }; if (!S.sets.length) S.sets.push(LANG === 'ar' ? demoAr() : demoEn()); }
     save(); sfx('win');
@@ -958,9 +1132,9 @@ async function doAccount() {
     toast(TR.ar[k] ? t(k, (e.data && e.data.max) || 3) : aiError(e));
   }
 }
-function logout() {
+async function logout() {
   if (!confirmBox(t('logoutQ'))) return;
-  S.auth = null; S.user = null; save();
+  await leaveUser();
   try { speechSynthesis.cancel(); } catch (e) {}
   toast(t('loggedOut')); onboarding();
 }
@@ -1304,7 +1478,8 @@ async function doOnb(mode) {
   try {
     const r = await callApi(reg ? { action: 'register', u, p, name: u, phone: '', device: S.deviceId, ref: getRef() } : { action: 'login', u, p, device: S.deviceId });
     S.auth = { u, token: r.token, me: r.me }; S.lastU = u;
-    S.user = { name: (r.me && r.me.name) || u, stage: ONB.stage }; S.lang = LANG;
+    await enterUser(u);
+    S.user = S.user && S.user.name ? S.user : { name: (r.me && r.me.name) || u, stage: ONB.stage }; S.lang = LANG;
     if (!S.sets.length) S.sets.push(LANG === 'ar' ? demoAr() : demoEn());
     save(); sfx('win');
     toast(reg ? t('regOk') : t('logOk'));
@@ -2173,8 +2348,9 @@ function accCard() {
 function shareApp() { shareText(t('shApp', appName()), baseUrl()); }
 function resetAll() {
   if (!confirmBox(t('resetQ'))) return;
-  const keep = { deviceId: S.deviceId, auth: S.auth, lang: S.lang };
-  S = Object.assign(defState(), keep); save(); onboarding();
+  const keep = { deviceId: S.deviceId, auth: S.auth, lang: S.lang, lastU: S.lastU, sync: S.sync };
+  for (const k of Object.keys(S)) delete S[k];
+  Object.assign(S, defState(), keep); save(); onboarding();   // المزامنة تحذف الدروس من الخادم أيضاً
 }
 function applyTheme() { document.body.classList.toggle('dark', !!S.settings.dark); }
 
@@ -2182,7 +2358,7 @@ function applyTheme() { document.body.classList.toggle('dark', !!S.settings.dark
 async function boot() {
   S.lang = 'ar';   // يفتح دائماً بالعربية
   if (S.auth && S.auth.u) S.lastU = S.auth.u;
-  S.auth = null; S.user = null; save();   // يطلب اسم المستخدم وكلمة المرور في كل فتح
+  S.auth = null; S.user = null; save();   // يطلب اسم المستخدم وكلمة المرور في كل فتح (الدروس تُحمَّل بعد الدخول)
   applyLang(); applyTheme(); countVisit();
   const m = location.hash.match(/#c=([\w-]+)/);
   if (m) {

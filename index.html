@@ -552,7 +552,7 @@ const TR = {
     sound: '🔊 المؤثرات الصوتية', dark: '🌙 الوضع الليلي', shareApp: '📤 شارك التطبيق مع أصحابك', reset: '🗑️ حذف كل البيانات', resetQ: 'سيتم حذف كل دروسك ونقاطك. متأكد؟',
     version: 'الإصدار 1.1', visitors: '{0} زائر لذاكرلي حتى الآن', dev: 'تطوير:', wa: '💬 تواصل عبر واتساب', insta: '📸 تابعنا على إنستغرام',
     lvUp: '🎉 مبروك! وصلت المستوى {0} – {1}', goalDone: '🎯 حققت هدفك اليومي! استمر 🔥', full: '⚠️ ذاكرة الجهاز ممتلئة، احذف بعض الدروس', noTts: 'القراءة الصوتية غير مدعومة على هذا الجهاز',
-    keepOpen: '📱 لا تغلق التطبيق ولا تنتقل لتطبيق آخر حتى ينتهي التحضير', cloudGot: '☁️ تم جلب {0} من دروسك من حسابك',
+    keepOpen: '📱 لا تغلق التطبيق ولا تنتقل لتطبيق آخر حتى ينتهي التحضير', rememberMe: 'تذكّرني (ابقَ مسجّلاً على هذا الجهاز)', regTitle: 'إنشاء حساب جديد', regSub: 'اختر اسم مستخدم وكلمة مرور – واحصل على 3 دروس مجانية 🎁', phoneOpt: 'رقم الموبايل (اختياري)', haveAcc: 'لديك حساب؟ تسجيل الدخول ←', badPhone: 'رقم الموبايل غير صحيح – أو اتركه فارغاً', cloudGot: '☁️ تم جلب {0} من دروسك من حسابك',
     trialLeft: '🎁 التجربة المجانية: بقي {0} من {1}', activated: '✅ النسخة الكاملة مفعّلة', actTitle: 'انتهت التجربة المجانية',
     actDesc: 'استخدمت {0} طلبات مجانية 🎉 لتكمل بلا حدود، أرسل رقم جهازك للمطوّر عبر واتساب ليرسل لك رمز التفعيل.',
     actFeat: ['دروس من الصور والـ PDF والنصوص', 'المعلّم الذكي وتصحيح الأسئلة الكتابية', 'توليد أسئلة إضافية لأي درس', 'كل الميزات القادمة'],
@@ -646,7 +646,7 @@ const TR = {
     sound: '🔊 Sound effects', dark: '🌙 Dark mode', shareApp: '📤 Share the app with friends', reset: '🗑️ Delete all data', resetQ: 'All your lessons and points will be deleted. Are you sure?',
     version: 'Version 1.1', visitors: '{0} visitors to Zakerlee so far', dev: 'Developed by', wa: '💬 Contact on WhatsApp', insta: '📸 Follow us on Instagram',
     lvUp: '🎉 Congrats! You reached level {0} – {1}', goalDone: '🎯 Daily goal reached! Keep going 🔥', full: '⚠️ Device storage is full, delete some lessons', noTts: 'Text-to-speech is not supported on this device',
-    keepOpen: '📱 Keep the app open until it finishes', cloudGot: '☁️ {0} of your lessons were loaded from your account',
+    keepOpen: '📱 Keep the app open until it finishes', rememberMe: 'Remember me on this device', regTitle: 'Create a new account', regSub: 'Pick a username and password – and get 3 free lessons 🎁', phoneOpt: 'Mobile number (optional)', haveAcc: 'Already have an account? Log in', badPhone: 'Invalid mobile number – or leave it empty', cloudGot: '☁️ {0} of your lessons were loaded from your account',
     trialLeft: '🎁 Free trial: {0} of {1} left', activated: '✅ Full version activated', actTitle: 'Your free trial has ended',
     actDesc: "You've used your {0} free requests 🎉 To keep going without limits, send your device code to the developer on WhatsApp to get your activation code.",
     actFeat: ['Lessons from photos, PDFs and text', 'AI tutor and written-answer grading', 'Extra questions for any lesson', 'All upcoming features'],
@@ -728,7 +728,7 @@ function defState() {
    - بيانات كل طالب (دروسه ونقاطه وإعداداته) في IndexedDB باسم حسابه – مساحتها مئات الميغابايتات
    - نسخة من الدروس على الخادم مع الحساب: يجدها الطالب على أي جهاز يدخل منه */
 const DEV_KEY = 'zakerli_dev';
-const DEVF = ['deviceId', 'lang', 'lastU', 'activated', 'auth'];   // auth = «تذكّرني»: يبقى الطالب داخلاً حتى يضغط خروج
+const DEVF = ['deviceId', 'lang', 'lastU', 'activated', 'auth', 'remember'];   // auth = «تذكّرني»: يبقى الطالب داخلاً حتى يضغط خروج
 const userPart = s => { const o = {}; for (const k in s) if (!DEVF.includes(k)) o[k] = s[k]; return o; };
 const devPart = s => { const o = {}; for (const k of DEVF) if (s[k] !== undefined) o[k] = s[k]; return o; };
 let LEGACY = null;   // بيانات النسخة القديمة (قبل فصل الحسابات) – تُنقل لأول حساب صاحبها يدخل
@@ -1349,7 +1349,7 @@ const langBtn = () => `<button class="lang-btn" onclick="toggleLang()" title="La
 const langPills = (after) => `<div class="pills">${[['ar', '🇯🇴 العربية'], ['en', '🇬🇧 English']].map(([k, l]) => `<button class="pill ${LANG === k ? 'on' : ''}" onclick="setLang('${k}');${after}">${l}</button>`).join('')}</div>`;
 
 /* ---------------- الترحيب ---------------- */
-let ONB = { stage: 'tawjihi' };
+let ONB = { stage: 'tawjihi' }, ONB_MODE = 'log';   // log = شاشة الدخول ، reg = شاشة إنشاء حساب جديد
 function onboarding() {
   VIEW = 'onb'; renderNav();
   const u = $('#oU') ? $('#oU').value : (S.lastU || ''), pw = $('#oP') ? $('#oP').value : '';
@@ -1370,14 +1370,24 @@ function onboarding() {
 
     <div class="lg-grid">
       <div class="lg-card" id="lgLogin">
+        ${ONB_MODE === 'reg' ? `
+        <div class="lg-title">✨ ${t('regTitle')}</div>
+        <div class="lg-sub">${t('regSub')}</div>
+        <div><div class="label">${t('user')}</div><div class="fld"><span class="ic">👤</span><input type="text" id="oU" dir="ltr" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="username" placeholder="${t('userPh')}" value="${esc(u)}" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9._]/g,'')"></div><div class="muted small" style="margin-top:5px;line-height:1.7">${t('userHint')}</div></div>
+        <div><div class="label">${t('pass')}</div><div class="fld"><span class="ic">🔒</span><input type="password" id="oP" dir="ltr" autocomplete="new-password" placeholder="${t('passPh')}" value="${esc(pw)}"><button type="button" class="pw-eye" onclick="const i=$('#oP');i.type=i.type==='password'?'text':'password'">👁️</button></div></div>
+        <div><div class="label">${t('pass2')}</div><div class="fld"><span class="ic">🔒</span><input type="password" id="oP2" dir="ltr" autocomplete="new-password"></div></div>
+        <div><div class="label">${t('phoneOpt')}</div><div class="fld"><span class="ic">📱</span><input type="tel" id="oPh" dir="ltr" inputmode="tel" placeholder="07XXXXXXXX" onkeydown="if(event.key==='Enter')doOnb('reg')"></div><div class="muted small" style="margin-top:5px">${t('phoneHint')}</div></div>
+        <button class="btn lg-btn" id="oReg" onclick="doOnb('reg')">✨ ${t('doReg')}</button>
+        <button type="button" class="onb-guest" onclick="ONB_MODE='log';onboarding()">${t('haveAcc')}</button>`
+        : `
         <div class="lg-title">${t('lgTitle')}</div>
         <div class="lg-sub">${t('lgSub')}</div>
         <div><div class="label">${t('user')}</div><div class="fld"><span class="ic">👤</span><input type="text" id="oU" dir="ltr" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="username" placeholder="${t('userPh')}" value="${esc(u)}" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9._]/g,'')"></div></div>
         <div><div class="label">${t('pass')}</div><div class="fld"><span class="ic">🔒</span><input type="password" id="oP" dir="ltr" autocomplete="current-password" placeholder="${t('passPh')}" value="${esc(pw)}" onkeydown="if(event.key==='Enter')doOnb('log')"><button type="button" class="pw-eye" onclick="const i=$('#oP');i.type=i.type==='password'?'text':'password'">👁️</button></div></div>
+        <label style="display:flex;align-items:center;gap:8px;font-weight:600;cursor:pointer;margin:2px 0"><input type="checkbox" id="oRem" ${S.remember === false ? '' : 'checked'} style="width:20px;height:20px;accent-color:#1E3A8A"> ${t('rememberMe')}</label>
         <button class="btn lg-btn" id="oLog" onclick="doOnb('log')">${t('onbLogBtn')}</button>
         <div class="onb-or"><span>${t('onbOr')}</span></div>
-        <button class="btn lg-btn2" id="oReg" onclick="doOnb('reg')">✨ ${t('onbReg')}</button>
-        <div class="muted small" style="text-align:center;line-height:1.7">${t('userHint')}</div>
+        <button class="btn lg-btn2" id="oReg" onclick="ONB_MODE='reg';onboarding();setTimeout(()=>$('#oU')&&$('#oU').focus(),100)">✨ ${t('onbReg')}</button>`}
         <button class="onb-guest" onclick="finishOnb()">${t('onbGuest')}</button>
         ${inApp ? '' : `<div class="lg-get"><span>${t('lgGet')}</span><a href="https://github.com/Dahshan65/Zakerli/releases/latest/download/zakerli.apk" target="_blank" rel="noopener">🤖 ${t('lgAnd')}</a><button type="button" onclick="iosHelp()">🍎 ${t('lgIos')}</button></div>`}
       </div>
@@ -1474,9 +1484,14 @@ async function doOnb(mode) {
   const reg = mode === 'reg', u = $('#oU').value.trim().toLowerCase(), p = $('#oP').value;
   if (!/^[a-z0-9._]{3,20}$/.test(u)) { $('#oU').focus(); return toast(t('e_bad_user')); }
   if (p.length < 6) { $('#oP').focus(); return toast(t('e_short_pass')); }
-  const bl = $('#oLog'), br = $('#oReg'); bl.disabled = br.disabled = true;
+  if (reg && $('#oP2') && p !== $('#oP2').value) { $('#oP2').focus(); return toast(t('passMismatch')); }
+  const phone = reg && $('#oPh') ? $('#oPh').value.replace(/[^\d+]/g, '') : '';
+  if (phone && phone.replace(/\D/g, '').length < 9) { $('#oPh').focus(); return toast(t('badPhone')); }
+  if (!reg) S.remember = $('#oRem') ? $('#oRem').checked : true; else S.remember = true;
+  const btns = [$('#oLog'), $('#oReg')].filter(Boolean); btns.forEach(b => b.disabled = true);
   try {
-    const r = await callApi(reg ? { action: 'register', u, p, name: u, phone: '', device: S.deviceId, ref: getRef() } : { action: 'login', u, p, device: S.deviceId });
+    const r = await callApi(reg ? { action: 'register', u, p, name: u, phone, device: S.deviceId, ref: getRef() } : { action: 'login', u, p, device: S.deviceId });
+    ONB_MODE = 'log';
     S.auth = { u, token: r.token, me: r.me }; S.lastU = u;
     await enterUser(u);
     S.user = S.user && S.user.name ? S.user : { name: (r.me && r.me.name) || u, stage: ONB.stage }; S.lang = LANG;
@@ -1486,7 +1501,7 @@ async function doOnb(mode) {
     if (reg) { confetti(); setTimeout(welcomeTrial, 700); }
     if (PENDING_CH) { const c = PENDING_CH; PENDING_CH = null; openChallenge(c); } else go('home');
   } catch (e) {
-    sfx('no'); bl.disabled = br.disabled = false;
+    sfx('no'); btns.forEach(b => b.disabled = false);
     const k = 'e_' + e.message;
     toast(TR.ar[k] ? t(k, (e.data && e.data.max) || 3) : aiError(e));
   }
@@ -1599,10 +1614,9 @@ function create() {
   <div class="mt">${input}</div>
   <div class="card col mt">
     <div><div class="label">${t('setName')}</div><input type="text" id="crTitle" dir="auto" placeholder="${t('setNamePh')}" value="${esc(CR.title)}"></div>
-    <div><div class="label">${t('numQ')}</div><div class="pills"><button class="pill ${CR.n === 'auto' ? 'on' : ''}" onclick="crSave();CR.n='auto';go('create')">${t('autoL')}</button>${[20, 30, 45, 60].map(n => `<button class="pill ${CR.n === n ? 'on' : ''}" onclick="crSave();CR.n=${n};go('create')">${n}</button>`).join('')}</div>
+    <div><div class="label">${t('numQ')}</div><div class="pills"><button class="pill ${CR.n === 'auto' ? 'on' : ''}" onclick="crSave();CR.n='auto';go('create')">${t('autoL')}</button>${[20, 30, 60].map(n => `<button class="pill ${CR.n === n ? 'on' : ''}" onclick="crSave();CR.n=${n};go('create')">${n}</button>`).join('')}</div>
       ${CR.n === 'auto' ? `<div class="tip mt" id="autoHint"></div>` : ''}</div>
-    <div><div class="label">${t('diffL')}</div><div class="pills">${[['easy', t('d_easy')], ['med', t('d_med')], ['hard', t('d_hard')], ['exam', examLbl]].map(([k, l]) => `<button class="pill ${CR.diff === k ? 'on' : ''}" onclick="crSave();CR.diff='${k}';go('create')">${l}</button>`).join('')}</div></div>
-    <div><div class="label">${t('qLang')}</div><div class="pills">${['auto', 'ar', 'en'].map(k => `<button class="pill ${CR.lang === k ? 'on' : ''}" onclick="crSave();CR.lang='${k}';go('create')">${t('l_' + k)}</button>`).join('')}</div></div>
+    <div><div class="label">${t('diffL')}</div><div class="pills">${[['easy', t('d_easy')], ['med', t('d_med')], ['hard', t('d_hard')]].map(([k, l]) => `<button class="pill ${CR.diff === k ? 'on' : ''}" onclick="crSave();CR.diff='${k}';go('create')">${l}</button>`).join('')}</div></div>
   </div>
   <button class="btn btn-p mt2" onclick="generate()">${t('make')}</button>`;
   if (CR.src === 'image') renderThumbs();
@@ -2358,7 +2372,7 @@ function applyTheme() { document.body.classList.toggle('dark', !!S.settings.dark
 async function boot() {
   S.lang = 'ar';   // يفتح دائماً بالعربية
   if (S.auth && S.auth.u) S.lastU = S.auth.u;
-  const remembered = S.auth && S.auth.token && S.auth.u ? S.auth : null;   // تذكّرني: يدخل مباشرة بحسابه
+  const remembered = S.remember !== false && S.auth && S.auth.token && S.auth.u ? S.auth : null;   // تذكّرني: يدخل مباشرة بحسابه
   S.auth = null; S.user = null;
   if (remembered) {
     S.auth = remembered;

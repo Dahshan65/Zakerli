@@ -2335,13 +2335,12 @@ function profileView() {
   <div class="card col mt">
     <div><div class="label">${t('langL')}</div>${langPills("go('profileView')")}</div>
     <div><div class="label">${t('name')}</div><input type="text" value="${esc(S.user.name)}" maxlength="25" onchange="S.user.name=this.value.trim()||S.user.name;save();toast(t('saved'))"></div>
-    <div><div class="label">${t('stageL')}</div><div class="pills">${['tawjihi', 'school', 'uni'].map(s => `<button class="pill ${S.user.stage === s ? 'on' : ''}" onclick="S.user.stage='${s}';save();go('profileView')">${t('st_' + s)}</button>`).join('')}</div></div>
-    <div><div class="label">${t('goalL')}</div><div class="pills">${[30, 50, 100, 200].map((n, i) => `<button class="pill ${S.settings.goal === n ? 'on' : ''}" onclick="S.settings.goal=${n};save();go('profileView')">${t('goals')[i]} ${n}</button>`).join('')}</div></div>
   </div>
   <div class="card mt">${sw('sound', 'sound')}${sw('dark', 'dark')}
     <div class="list-row" onclick="shareApp()" style="cursor:pointer"><span>${t('shareApp')}</span><span>${back() === '→' ? '←' : '→'}</span></div>
     <div class="list-row" onclick="resetAll()" style="cursor:pointer;color:var(--r)"><span>${t('reset')}</span><span>${back() === '→' ? '←' : '→'}</span></div>
   </div>
+  ${S.auth && S.auth.token ? `<button class="btn mt2" onclick="logout()" style="width:100%;background:#DC2626;color:#fff;font-size:18px;font-weight:800;padding:16px;border-radius:14px;box-shadow:0 8px 20px rgba(220,38,38,.3)">${t('logout')}</button>` : ''}
   <div class="credit">
     <div style="font-size:30px">🧠</div>
     <div class="h3" style="color:var(--t)">${appName()}</div>
@@ -2357,7 +2356,7 @@ function accCard() {
   return `<div class="card acc-card"><div class="row between"><div><div class="muted small">${t('loggedAs')}</div><div class="h2" dir="ltr" style="text-align:start">${esc(m.u)}</div></div><span class="chip">${m.active ? planName(m.plan) : '🎁 ' + m.left + '/' + m.free}</span></div>
     <div class="mt small" style="font-weight:600">${m.active ? planStatus(m) + '<br>' + (m.until ? t('activeUntil', fmtDate(m.until)) : t('activeForever')) : m.expired ? t('expiredT') : t('trialLeft', m.left, m.free)}</div>
     <div class="muted small">${t('devicesL', m.devices, m.maxDevices)}</div>
-    <div class="grid2 mt">${m.active ? `<button class="btn btn-o btn-s" style="width:100%" onclick="go('activate')">${t('myPlan')}</button>` : `<button class="btn btn-g btn-s" style="width:100%" onclick="go('activate')">${t('subscribe')}</button>`}<button class="btn btn-o btn-s" style="width:100%" onclick="logout()">${t('logout')}</button></div></div>`;
+    <div class="mt">${m.active ? `<button class="btn btn-o btn-s" style="width:100%" onclick="go('activate')">${t('myPlan')}</button>` : `<button class="btn btn-g btn-s" style="width:100%" onclick="go('activate')">${t('subscribe')}</button>`}</div></div>`;
 }
 function shareApp() { shareText(t('shApp', appName()), baseUrl()); }
 function resetAll() {

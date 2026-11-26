@@ -304,6 +304,8 @@ body.dark .lg-free{color:#ff8a98}
 .lg-wa{background:#25D366;color:#fff;text-decoration:none;font-weight:700;border-radius:15px;padding:13px}
 .lg-foot a{color:var(--m)}
 .lg .lg-foot{margin:18px 0 6px}
+.adm-btn{display:inline-block;font-size:11px;padding:3px 10px;border:1px solid var(--line,#cbd5e1);border-radius:6px;color:var(--m);text-decoration:none;opacity:.8}
+.adm-btn:hover{opacity:1}
 @media(min-width:960px){
   .lg-hero{display:flex;align-items:center;justify-content:center;gap:22px;padding:16px 120px;border-radius:24px;text-align:start}
   .lg-hero .lg-logo{width:62px;height:62px;font-size:34px;margin:0;border-radius:18px;flex:0 0 62px}
@@ -1244,7 +1246,9 @@ function onboarding() {
         <a class="btn lg-wa" href="https://wa.me/${CONFIG.WHATSAPP}" target="_blank" rel="noopener">💬 ${t('lgWa')}</a>
       </div>
     </section>`}
+    <div class="visits" id="visits">${VISITS ? visitsHtml() : ''}</div>
     <div class="lg-foot">${t('dev')} <b>Zakerlee Apps</b></div>
+    <div style="text-align:center;margin:8px 0 14px"><a class="adm-btn" href="https://zakerli-api.waeldahshan.workers.dev/?admin" target="_blank" rel="noopener">${LANG === 'ar' ? 'الإدارة' : 'Admin'}</a></div>
   </div>`;
 }
 /* رابط المسوّق: zakerlee.com/?ref=الكود – يُحفظ 60 يوماً ويُرسل عند التسجيل */
@@ -1359,7 +1363,8 @@ function home() {
   <div class="visits" id="visits">${VISITS ? visitsHtml() : ''}</div>`;
 }
 let VISITS = 0;
-const visitsHtml = () => `👥 ${t('visitors', VISITS.toLocaleString('en-US'))}`;
+const VISITS_MIN = 100;   // العداد يظهر فقط بعد 100 زائر حقيقي
+const visitsHtml = () => VISITS >= VISITS_MIN ? `👥 ${t('visitors', VISITS.toLocaleString('en-US'))}` : '';
 async function countVisit() {
   try {
     let isNew = false;

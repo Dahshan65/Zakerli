@@ -509,7 +509,7 @@ const TR = {
     phone: 'رقم واتساب (اختياري)', phoneHint: 'ليصلك تأكيد التفعيل من المطوّر', doReg: '✨ أنشئ حسابي', doLog: '🔓 دخول', passMismatch: 'كلمتا المرور غير متطابقتين',
     regOk: '🎉 تم إنشاء حسابك! لديك {0} محاولات مجانية', logOk: '👋 أهلاً بعودتك',
     e_quota: 'وصل التطبيق للحد اليومي من طلبات الذكاء الاصطناعي، حاول لاحقاً أو غداً ⏳ (المحاولة لم تُحسب عليك)',
-    e_too_many_accounts: 'تم إنشاء حسابات كثيرة من هذا الإنترنت اليوم – حاول غداً أو سجّل الدخول بحسابك', trialDevice: 'استُخدمت الدروس المجانية على هذا الجهاز من قبل 🎁 اشترك لتكمل الدراسة', e_bad_user: 'اسم المستخدم: أحرف إنجليزية صغيرة وأرقام فقط (3-20)', e_short_pass: 'كلمة المرور قصيرة (6 أحرف على الأقل)', e_exists: 'اسم المستخدم مأخوذ، اختر اسماً آخر', e_wrong: 'اسم المستخدم أو كلمة المرور غير صحيحة',
+    e_too_many_accounts: 'تم إنشاء حسابات كثيرة من هذا الإنترنت اليوم – حاول غداً أو سجّل الدخول بحسابك', e_locked: 'محاولات دخول خاطئة كثيرة 🔒 انتظر ساعة ثم حاول، أو تواصل معنا لتغيير كلمة المرور', trialDevice: 'استُخدمت الدروس المجانية على هذا الجهاز من قبل 🎁 اشترك لتكمل الدراسة', e_bad_user: 'اسم المستخدم: أحرف إنجليزية صغيرة وأرقام فقط (3-20)', e_short_pass: 'كلمة المرور قصيرة (6 أحرف على الأقل)', e_exists: 'اسم المستخدم مأخوذ، اختر اسماً آخر', e_wrong: 'اسم المستخدم أو كلمة المرور غير صحيحة',
     e_devices: 'وصلت للحد الأقصى من الأجهزة ({0}). تواصل مع المطوّر ليصفّرها لك', e_no_db: 'الخادم غير مهيّأ بعد (قاعدة البيانات)', e_auth: 'انتهت جلستك، سجّل الدخول مرة أخرى',
     trialNoAcc: '🔐 أنشئ حساباً مجانياً واحصل على {0} محاولات', activeUntil: '✅ مفعّل حتى {0}', activeForever: '♾️ اشتراك دائم', expiredT: '⛔ انتهى اشتراكك',
     actDesc2: 'لتكمل بلا حدود على كل أجهزتك، أرسل اسم المستخدم للمطوّر عبر واتساب، وبعد أن يفعّله اضغط «تحديث الحالة».', yourUser: 'اسم المستخدم (أرسله للمطوّر)', refresh: '🔄 تحديث الحالة', stillTrial: 'لم يُفعَّل بعد، حاول بعد قليل ⏳',
@@ -603,7 +603,7 @@ const TR = {
     phone: 'WhatsApp number (optional)', phoneHint: 'So the developer can confirm your activation', doReg: '✨ Create my account', doLog: '🔓 Log in', passMismatch: "Passwords don't match",
     regOk: '🎉 Account created! You have {0} free tries', logOk: '👋 Welcome back',
     e_quota: 'The app reached its daily AI limit, please try later or tomorrow ⏳ (this try was not counted)',
-    e_too_many_accounts: 'Too many accounts were created from this network today – try tomorrow or log in', trialDevice: 'The free lessons were already used on this device 🎁 Subscribe to keep studying', e_bad_user: 'Username: lowercase letters and numbers only (3-20)', e_short_pass: 'Password is too short (min 6)', e_exists: 'Username is taken, choose another', e_wrong: 'Wrong username or password',
+    e_too_many_accounts: 'Too many accounts were created from this network today – try tomorrow or log in', e_locked: 'Too many wrong attempts 🔒 wait an hour and try again, or contact us to reset your password', trialDevice: 'The free lessons were already used on this device 🎁 Subscribe to keep studying', e_bad_user: 'Username: lowercase letters and numbers only (3-20)', e_short_pass: 'Password is too short (min 6)', e_exists: 'Username is taken, choose another', e_wrong: 'Wrong username or password',
     e_devices: 'Device limit reached ({0}). Contact the developer to reset it', e_no_db: 'Server not set up yet (database)', e_auth: 'Session expired, please log in again',
     trialNoAcc: '🔐 Create a free account and get {0} tries', activeUntil: '✅ Active until {0}', activeForever: '♾️ Lifetime access', expiredT: '⛔ Your subscription has expired',
     actDesc2: 'To keep going without limits on all your devices, send your username to the developer on WhatsApp, then tap "Refresh status" once activated.', yourUser: 'Your username (send it to the developer)', refresh: '🔄 Refresh status', stillTrial: 'Not activated yet, try again shortly ⏳',
@@ -728,8 +728,8 @@ function defState() {
    - بيانات كل طالب (دروسه ونقاطه وإعداداته) في IndexedDB باسم حسابه – مساحتها مئات الميغابايتات
    - نسخة من الدروس على الخادم مع الحساب: يجدها الطالب على أي جهاز يدخل منه */
 const DEV_KEY = 'zakerli_dev';
-const DEVF = ['deviceId', 'lang', 'lastU', 'activated'];
-const userPart = s => { const o = {}; for (const k in s) if (!DEVF.includes(k) && k !== 'auth') o[k] = s[k]; return o; };
+const DEVF = ['deviceId', 'lang', 'lastU', 'activated', 'auth'];   // auth = «تذكّرني»: يبقى الطالب داخلاً حتى يضغط خروج
+const userPart = s => { const o = {}; for (const k in s) if (!DEVF.includes(k)) o[k] = s[k]; return o; };
 const devPart = s => { const o = {}; for (const k of DEVF) if (s[k] !== undefined) o[k] = s[k]; return o; };
 let LEGACY = null;   // بيانات النسخة القديمة (قبل فصل الحسابات) – تُنقل لأول حساب صاحبها يدخل
 function load() {
@@ -821,7 +821,7 @@ const hashStr = s => { let h = 2166136261; for (let i = 0; i < s.length; i++) { 
 const profOf = () => ({ user: S.user, xp: S.xp, streak: S.streak, best: S.best, lastDay: S.lastDay, stats: S.stats, badges: S.badges, settings: S.settings });
 const canCloud = () => S.auth && S.auth.token && apiReady() && navigator.onLine;
 let CLOUD_T = null, CLOUD_BUSY = false;
-function cloudSoon() { if (!canCloud()) return; clearTimeout(CLOUD_T); CLOUD_T = setTimeout(() => cloudPush().catch(() => {}), 15000); }
+function cloudSoon() { if (!canCloud()) return; clearTimeout(CLOUD_T); CLOUD_T = setTimeout(() => cloudPush().catch(() => {}), 45000); }   // دفعة واحدة كل فترة لتوفير عمليات الكتابة في الخادم
 async function cloudPush() {
   clearTimeout(CLOUD_T); CLOUD_T = null;
   if (!canCloud() || CLOUD_BUSY || !S.sync) return;
@@ -2358,7 +2358,14 @@ function applyTheme() { document.body.classList.toggle('dark', !!S.settings.dark
 async function boot() {
   S.lang = 'ar';   // يفتح دائماً بالعربية
   if (S.auth && S.auth.u) S.lastU = S.auth.u;
-  S.auth = null; S.user = null; save();   // يطلب اسم المستخدم وكلمة المرور في كل فتح (الدروس تُحمَّل بعد الدخول)
+  const remembered = S.auth && S.auth.token && S.auth.u ? S.auth : null;   // تذكّرني: يدخل مباشرة بحسابه
+  S.auth = null; S.user = null;
+  if (remembered) {
+    S.auth = remembered;
+    await enterUser(remembered.u);
+    if (!S.user) S.user = { name: (remembered.me && remembered.me.name) || remembered.u, stage: '' };
+  }
+  save();
   applyLang(); applyTheme(); countVisit();
   const m = location.hash.match(/#c=([\w-]+)/);
   if (m) {
@@ -2366,7 +2373,7 @@ async function boot() {
     history.replaceState(null, '', location.pathname + location.search);
   }
   S.sets.forEach(x => { if (x.demo && !x.lesson) { const d = x.id === 'demo-ar' ? demoAr() : demoEn(); Object.assign(x, { lesson: d.lesson, glossary: d.glossary, mm: d.mm, written: d.written }); } });
-  if (S.auth) refreshMe(false);
+  if (S.auth) refreshMe(false).then(async () => { if (!S.auth && S.user) { await leaveUser(); onboarding(); } });   // انتهت الجلسة ← شاشة الدخول
   if (!S.user) return onboarding();
   if (PENDING_CH) { const c = PENDING_CH; PENDING_CH = null; return openChallenge(c); }
   go('home');

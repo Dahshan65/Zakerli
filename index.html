@@ -23,7 +23,9 @@
 <meta name="twitter:image" content="https://zakerlee.com/og-image.jpg">
 <link rel="canonical" href="https://zakerlee.com/">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" href="icon-512.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="ذاكرلي">
@@ -439,7 +441,7 @@ body.dark .plan-p{color:#9DB8FF}
 
 <script>
 /* =========================================================
-   ذاكرلي / Zakerlee – تطوير: Dahshan Soft
+   ذاكرلي / Zakerlee – تطوير: Zakerlee Apps
    ضع رابط خادم Cloudflare Worker في API_URL بعد إنشائه
    ========================================================= */
 const CONFIG = {
@@ -1242,7 +1244,7 @@ function onboarding() {
         <a class="btn lg-wa" href="https://wa.me/${CONFIG.WHATSAPP}" target="_blank" rel="noopener">💬 ${t('lgWa')}</a>
       </div>
     </section>`}
-    <div class="lg-foot">${t('dev')} <b>Dahshan Soft</b> · <a href="${CONFIG.SITE}" target="_blank" rel="noopener">dahshansoft.com</a></div>
+    <div class="lg-foot">${t('dev')} <b>Zakerlee Apps</b></div>
   </div>`;
 }
 /* رابط المسوّق: zakerlee.com/?ref=الكود – يُحفظ 60 يوماً ويُرسل عند التسجيل */
@@ -2150,7 +2152,7 @@ function profileView() {
     <div style="font-size:30px">🧠</div>
     <div class="h3" style="color:var(--t)">${appName()}</div>
     <div>${t('version')}</div>
-    <div class="mt">${t('dev')} <a href="${CONFIG.SITE}" target="_blank">Dahshan Soft</a></div>
+    <div class="mt">${t('dev')} <b>Zakerlee Apps</b></div>
     <a class="wa" href="https://wa.me/${CONFIG.WHATSAPP}" target="_blank">${t('wa')}</a>
     <div class="mt"><a href="${CONFIG.INSTAGRAM}" target="_blank">${t('insta')}</a></div>
   </div>`;

@@ -257,7 +257,12 @@ html[lang=ar] body{line-height:1.75}
 @media(max-width:959px){
   .lg-hero{background:linear-gradient(180deg,rgba(11,31,58,0) 0,rgba(11,31,58,.12) 95px,rgba(19,41,90,.92) 150px,#13295A 172px,#1E3A8A 100%),url(hero-kids.jpg) top center/100% auto no-repeat,#13295A;padding-top:150px}
   .lg-hero:after{-webkit-mask-image:linear-gradient(transparent 32%,#000 55%);mask-image:linear-gradient(transparent 32%,#000 55%)}
-  .lg-hero .lg-logo{width:58px;height:58px;font-size:30px;margin:0 auto 4px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+  .lg-hero .lg-logo{display:inline-grid;width:42px;height:42px;font-size:23px;border-radius:13px;margin:0;margin-inline-end:9px;vertical-align:middle;box-shadow:0 5px 14px rgba(0,0,0,.35)}
+  .lg-hero .lg-nm{display:inline-flex;align-items:baseline;gap:8px;vertical-align:middle}
+  .lg-hero .lg-name{font-size:28px;line-height:1.2}
+  html[lang=en] .lg-hero .lg-name{font-size:25px}
+  .lg-hero .lg-en{margin:0;font-size:12px;letter-spacing:1.5px}
+  .lg-hero .lg-tag{margin-top:8px;font-size:14.5px}
   .lg-hero .free-badge{animation:fbp 1.8s ease-in-out infinite}
   @keyframes fbp{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
   .lg-hero .lg-feats{gap:10px;margin-top:16px}

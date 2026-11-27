@@ -431,6 +431,53 @@ body.dark .plan-p{color:#9DB8FF}
 .pay-row span{min-width:90px}.pay-row b{flex:1;overflow-wrap:anywhere;font-size:15px}
 @media (max-width:380px){.plans{grid-template-columns:1fr}}
 .pay-tabs button{font-size:12px;padding:9px 2px}
+/* ================= واجهة الكمبيوتر (Desktop) – تظهر فقط على الشاشات العريضة بعد الدخول ================= */
+body.desk{background:linear-gradient(135deg,#EEF2FA 0%,#F7F8FC 50%,#EEF3F9 100%)}
+body.desk.dark{background:#070D18}
+body.desk #app{max-width:1180px;margin:0 auto;padding:34px 48px 60px}
+body.desk.has-side{padding-inline-start:272px}
+body.desk:not(.has-side) #app{max-width:820px}
+body.desk.v-create #app,body.desk.v-profileView #app{max-width:900px}
+/* الشريط الجانبي */
+.side{position:fixed;top:0;bottom:0;inset-inline-start:0;width:272px;z-index:30;display:flex;flex-direction:column;gap:6px;padding:26px 18px 20px;
+  background:linear-gradient(170deg,#0B1F3A 0%,#13306B 60%,#1E3A8A 100%);color:#fff;box-shadow:0 0 40px rgba(11,31,58,.25);border-inline-end:3px solid var(--gold)}
+.side-logo{display:flex;align-items:center;gap:12px;padding:4px 8px 22px}
+.side-logo i{font-style:normal;font-size:30px;width:54px;height:54px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,#F1D27A,#C9A227);box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.side-logo b{display:block;font-size:24px;letter-spacing:.5px}
+.side-logo small{display:block;font-size:12px;color:#C8D3EE;margin-top:2px}
+.side-new{width:100%;padding:15px;border-radius:14px;font-size:17px;font-weight:800;color:#0B1F3A;background:linear-gradient(135deg,#F1D27A,#C9A227);box-shadow:0 10px 24px rgba(201,162,39,.35);margin-bottom:14px;transition:transform .15s}
+.side-new:hover{transform:translateY(-2px)}
+.side nav{display:flex;flex-direction:column;gap:4px}
+.side .si{display:flex;align-items:center;gap:12px;width:100%;padding:13px 16px;border-radius:12px;color:#DCE4F5;font-size:16px;font-weight:600;text-align:start;transition:background .15s}
+.side .si .e{font-size:21px;width:26px;text-align:center}
+.side .si:hover{background:rgba(255,255,255,.08);color:#fff}
+.side .si.on{background:rgba(255,255,255,.14);color:#fff;box-shadow:inset 4px 0 0 var(--gold)}
+[dir=rtl] .side .si.on{box-shadow:inset -4px 0 0 var(--gold)}
+.side-user{margin-top:auto;display:flex;align-items:center;gap:12px;padding:14px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)}
+.side-user .av{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:19px;background:#F1D27A;color:#0B1F3A;flex:none}
+.side-user b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
+.side-user small{display:block;font-size:12px;color:#C8D3EE;margin-top:2px}
+.side-out{width:100%;margin-top:10px;padding:12px;border-radius:12px;font-weight:800;color:#fff;background:#DC2626;transition:background .15s}
+.side-out:hover{background:#B91C1C}
+/* الرئيسية على الكمبيوتر */
+body.desk .top .logo{display:none}
+body.desk .hero .out-btn{display:none}
+body.desk .hero{padding:30px 34px;border-radius:24px}
+body.desk .hero .h1{font-size:34px}
+body.desk .home-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+body.desk .home-actions .grid2{display:contents}
+body.desk .home-actions .big-action{flex-direction:column;align-items:flex-start;text-align:start;min-height:150px;padding:22px;border-radius:20px;transition:transform .15s,box-shadow .15s}
+body.desk .home-actions .big-action:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(11,31,58,.22)}
+body.desk .home-actions .big-action .ic{font-size:34px}
+body.desk .set-list{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+body.desk .set-list .card{margin:0}
+body.desk .set-list .empty{grid-column:1/-1}
+body.desk .card{transition:transform .15s,box-shadow .15s}
+body.desk .set-item:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(15,23,42,.12);cursor:pointer}
+body.desk .grid3{gap:16px}
+body.desk .stat b{font-size:30px}
+body.desk #libQ{max-width:520px}
+body.desk .h1{font-size:30px}
 </style>
 </head>
 <body>
@@ -479,7 +526,7 @@ const TR = {
     revWrong: 'راجع أخطاءك ({0})', revWrongSub: 'الأسئلة التي أخطأت فيها حتى تتقنها',
     recent: 'آخر دروسك', seeAll: 'عرض الكل ←', solved: 'سؤال محلول', accuracy: 'نسبة الصواب', bestStreak: 'أطول سلسلة 🔥',
     demo: 'تجريبية', qc: '{0} سؤال · {1} بطاقة', emptyT: 'لا توجد دروس بعد', emptyS: 'اضغط ＋ وأضف أول درس لك',
-    n_home: 'الرئيسية', n_lib: 'مكتبتي', n_badges: 'إنجازاتي', n_prof: 'حسابي',
+    n_home: 'الرئيسية', n_lib: 'مكتبتي', n_badges: 'إنجازاتي', n_prof: 'حسابي', deskNew: 'درس جديد', deskTag: 'ادرس بالذكاء الاصطناعي',
     lib: '📚 مكتبتي', setsN: '{0} درس', search: '🔍 ابحث في دروسك...',
     newSet: '✨ درس جديد', tb_image: '📸 صورة', tb_pdf: '📄 PDF', tb_text: '📝 نص', tb_topic: '💡 موضوع',
     cam: 'صوّر الآن', gal: 'من المعرض', imgTip: 'يمكنك إضافة حتى 6 صفحات. تأكد أن الصورة واضحة والإضاءة جيدة 💡', maxImg: 'الحد الأقصى 6 صفحات', imgErr: 'تعذّر قراءة الصورة',
@@ -573,7 +620,7 @@ const TR = {
     revWrong: 'Review your mistakes ({0})', revWrongSub: 'Questions you missed, until you master them',
     recent: 'Recent lessons', seeAll: 'See all →', solved: 'Answered', accuracy: 'Accuracy', bestStreak: 'Best streak 🔥',
     demo: 'Demo', qc: '{0} questions · {1} cards', emptyT: 'No lessons yet', emptyS: 'Tap ＋ to add your first lesson',
-    n_home: 'Home', n_lib: 'Library', n_badges: 'Awards', n_prof: 'Profile',
+    n_home: 'Home', n_lib: 'Library', n_badges: 'Awards', n_prof: 'Profile', deskNew: 'New lesson', deskTag: 'Study with AI',
     lib: '📚 My library', setsN: '{0} lessons', search: '🔍 Search your lessons...',
     newSet: '✨ New lesson', tb_image: '📸 Photo', tb_pdf: '📄 PDF', tb_text: '📝 Text', tb_topic: '💡 Topic',
     cam: 'Take photo', gal: 'Gallery', imgTip: 'Add up to 6 pages. Make sure the photo is sharp and well lit 💡', maxImg: 'Maximum 6 pages', imgErr: "Couldn't read the image",
@@ -1332,12 +1379,32 @@ function go(v, arg) {
   (views[v] || home)(arg);
   renderNav(); window.scrollTo(0, 0);
 }
+const isDesk = () => window.innerWidth >= 1024;   // كمبيوتر أو شاشة عريضة
 function renderNav() {
   const hide = ['quiz', 'cards', 'tutor', 'result', 'onb', 'challenge', 'activate', 'account'].includes(VIEW);
+  const desk = isDesk() && !['onb', 'account'].includes(VIEW) && !!S.user;
+  const bc = document.body.classList;
+  [...bc].filter(c => c.startsWith('v-')).forEach(c => bc.remove(c));
+  bc.add('v-' + VIEW); bc.toggle('desk', desk); bc.toggle('has-side', desk && !hide);
   if (hide) { $('#navWrap').innerHTML = ''; return; }
+  if (desk) { $('#navWrap').innerHTML = sideNav(); return; }
   const b = (v, e, k) => `<button class="${VIEW === v ? 'on' : ''}" onclick="sfx('tap');go('${v}')"><span class="e">${e}</span>${t(k)}</button>`;
   $('#navWrap').innerHTML = `<div class="nav"><div class="nav-in">${b('home', '🏠', 'n_home')}${b('library', '📚', 'n_lib')}<button class="fab" onclick="sfx('tap');go('create')">＋</button>${b('badgesView', '🏆', 'n_badges')}${b('profileView', '👤', 'n_prof')}</div></div>`;
 }
+function sideNav() {
+  const m = (S.auth && S.auth.me) || {}, nm = (S.user && S.user.name) || (S.auth && S.auth.u) || '';
+  const it = (v, e, k) => `<button class="si ${VIEW === v ? 'on' : ''}" onclick="sfx('tap');go('${v}')"><span class="e">${e}</span><span>${t(k)}</span></button>`;
+  const st = !S.auth ? '' : m.active ? '⭐ ' + t('myPlan') : t('trialLeft', m.left || 0, m.free || 3);
+  return `<aside class="side">
+    <div class="side-logo"><i>🎓</i><div><b>${appName()}</b><small>${t('deskTag')}</small></div></div>
+    <button class="side-new" onclick="sfx('tap');go('create')">＋ ${t('deskNew')}</button>
+    <nav>${it('home', '🏠', 'n_home')}${it('library', '📚', 'n_lib')}${it('badgesView', '🏆', 'n_badges')}${it('profileView', '👤', 'n_prof')}</nav>
+    <div class="side-user"><div class="av">${esc((nm[0] || '؟').toUpperCase())}</div><div style="min-width:0"><b>${esc(nm)}</b><small>${st}</small></div></div>
+    ${S.auth && S.auth.token ? `<button class="side-out" onclick="logout()">${t('logout')}</button>` : ''}
+  </aside>`;
+}
+let DESK_W = null;
+window.addEventListener('resize', () => { const d = isDesk(); if (d !== DESK_W) { DESK_W = d; if (VIEW) renderNav(); } });
 function applyLang() {
   LANG = S.lang || ((navigator.language || 'ar').startsWith('ar') ? 'ar' : 'en');
   document.documentElement.lang = LANG; document.documentElement.dir = LANG === 'ar' ? 'rtl' : 'ltr';
@@ -1534,7 +1601,7 @@ function home() {
   </div>
   ${examChips()}
   ${trialChip()}
-  <div class="col mt">
+  <div class="col mt home-actions">
     <button class="big-action" style="background:var(--ba-navy)" onclick="CR.src='image';go('create')"><div class="ic">📸</div><div><b>${t('snap')}</b><small>${t('snapSub')}</small></div></button>
     <div class="grid2">
       <button class="big-action vert" style="background:var(--ba-teal)" onclick="CR.src='text';go('create')"><div class="ic">📝</div><div><b>${t('paste')}</b><small>${t('pasteSub')}</small></div></button>
@@ -1544,7 +1611,7 @@ function home() {
     <button class="big-action" style="background:var(--ba-slate)" onclick="focusOpen()"><div class="ic">⏱️</div><div><b>${t('focus')}</b><small>${t('focusSub')}</small></div></button>
   </div>
   <div class="row between mt2 mb"><div class="h2">${t('recent')}</div><button class="muted small" style="font-weight:800" onclick="go('library')">${t('seeAll')}</button></div>
-  <div class="col">${recent.length ? recent.map(setCard).join('') : emptyLib()}</div>
+  <div class="col set-list">${recent.length ? recent.map(setCard).join('') : emptyLib()}</div>
   <div class="grid3 mt2">
     <div class="card stat"><b>${S.stats.answered}</b><span>${t('solved')}</span></div>
     <div class="card stat"><b>${S.stats.answered ? Math.round(S.stats.correct / S.stats.answered * 100) : 0}%</b><span>${t('accuracy')}</span></div>
@@ -1584,7 +1651,7 @@ let LIBQ = '';
 function library() {
   $('#app').innerHTML = `<div class="top"><div class="h1">${t('lib')}</div><div class="row">${langBtn()}<span class="chip">${t('setsN', S.sets.length)}</span></div></div>
   <input type="text" id="libQ" placeholder="${t('search')}" value="${esc(LIBQ)}" oninput="LIBQ=this.value;libList()">
-  <div class="col mt" id="libList"></div>`;
+  <div class="col mt set-list" id="libList"></div>`;
   libList();
 }
 function libList() {

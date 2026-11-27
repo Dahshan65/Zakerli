@@ -736,6 +736,7 @@ let LANG = 'ar';
 /* ---- الباقات الجديدة (3.0): نصوص ---- */
 Object.assign(TR.ar, {
   pl_x10: 'باقة الامتحان', dur_x10: '10 أيام', nLessonsF: '{0} دروس',
+  piBack: 'بعد إنشاء الحساب أو الدخول نكمل معك خطوات الدفع لباقة «{0}»', piBackBtn: 'رجوع لخطوات الدفع',
   piHow: 'كيف أشترك وأدفع؟', piTitle: 'الاشتراك والدفع', piChosen: 'الباقة التي اخترتها', piLogin: 'عندي حساب – تسجيل الدخول',
   piS1: 'أنشئ حسابك (مجاناً)', piS1d: 'اختر اسم مستخدم وكلمة مرور. اسم المستخدم هو الذي سنفعّل عليه اشتراكك – احفظه جيداً.', piHaveAcc: 'أنت داخل بحسابك: <b dir="ltr">{0}</b>',
   piS2: 'ادفع {0}', piS3: 'أرسل الإيصال على واتساب', piS3d: 'اكتب اسم المستخدم واضغط الزر، وسيفتح واتساب برسالة جاهزة فيها الباقة والمبلغ. أرفق صورة إيصال التحويل وأرسلها.',
@@ -766,6 +767,7 @@ Object.assign(TR.ar, {
 });
 Object.assign(TR.en, {
   pl_x10: 'Exam pack', dur_x10: '10 days', nLessonsF: '{0} lessons',
+  piBack: 'After you sign up or log in, we continue with payment for the «{0}» plan', piBackBtn: 'Back to payment steps',
   piHow: 'How do I subscribe and pay?', piTitle: 'Subscribe & pay', piChosen: 'Your chosen plan', piLogin: 'I have an account – log in',
   piS1: 'Create your account (free)', piS1d: 'Pick a username and password. We activate your plan on this username – keep it safe.', piHaveAcc: 'You are logged in as <b dir="ltr">{0}</b>',
   piS2: 'Pay {0}', piS3: 'Send the receipt on WhatsApp', piS3d: 'Type your username and tap the button – WhatsApp opens with a ready message showing the plan and amount. Attach the transfer receipt and send.',
@@ -1288,7 +1290,7 @@ function welcomeTrial() {
 }
 function copyTxt(x) { try { navigator.clipboard.writeText(x); toast(t('copiedX')); } catch (e) { toast(x); } }
 /* ---------------- صفحة «كيف أدفع وأشترك؟» – تفتح من قائمة الأسعار بدون تسجيل دخول ---------------- */
-let PI_TAB = 'cliq';
+let PI_TAB = 'cliq', PI_NEXT = false;   // PI_NEXT: بعد الدخول/التسجيل نرجع لخطوات الدفع
 function payInfoView() {
   const P = CONFIG.PAY, plan = planById(SEL_PLAN) || PLANS.find(x => x.best) || PLANS[0];
   SEL_PLAN = plan.id;
@@ -1312,7 +1314,7 @@ function payInfoView() {
     <div class="pills mt" style="justify-content:center">${PLANS.map(p => `<button class="pill ${p.id === plan.id ? 'on' : ''}" onclick="SEL_PLAN='${p.id}';payInfoView()">${planIcon(p.id)} ${t('jod', p.jod)}</button>`).join('')}</div>
   </div>
   ${step(1, t('piS1'), `<p class="small" style="line-height:1.9">${t('piS1d')}</p>
-    ${S.auth && S.auth.token ? `<div class="tip mt">✅ ${t('piHaveAcc', esc(uname))}</div>` : `<button class="btn btn-p mt" onclick="ONB_MODE='reg';go('onb')">${t('doReg')}</button><button class="btn btn-o mt" onclick="ONB_MODE='log';go('onb')">${t('piLogin')}</button>`}`)}
+    ${S.auth && S.auth.token ? `<div class="tip mt">✅ ${t('piHaveAcc', esc(uname))}</div>` : `<button class="btn btn-p mt" onclick="PI_NEXT=true;ONB_MODE='reg';go('onb')">${t('doReg')}</button><button class="btn btn-o mt" onclick="PI_NEXT=true;ONB_MODE='log';go('onb')">${t('piLogin')}</button>`}`)}
   ${step(2, t('piS2', price), `<div class="tabs mt pay-tabs">${['cliq', 'bank', 'paypal'].map(k => `<button class="${PI_TAB === k ? 'on' : ''}" onclick="PI_TAB='${k}';payInfoView()">${t('pm_' + k)}</button>`).join('')}</div><div class="mt">${body}</div>`)}
   ${step(3, t('piS3'), `<p class="small" style="line-height:1.9">${t('piS3d')}</p>
     <div class="label mt">${t('user')}</div><input type="text" id="piU" dir="ltr" autocapitalize="off" placeholder="${t('userPh')}" value="${esc(uname)}">
@@ -1538,6 +1540,7 @@ function onboarding() {
 
     <div class="lg-grid">
       <div class="lg-card" id="lgLogin">
+        ${PI_NEXT ? `<div class="tip" style="text-align:center;line-height:1.8">💳 ${t('piBack', planName(SEL_PLAN))}<br><button type="button" class="onb-guest" style="margin-top:4px" onclick="PI_NEXT=false;go('payInfo')">${back()} ${t('piBackBtn')}</button></div>` : ''}
         ${ONB_MODE === 'reg' ? `
         <div class="lg-title">✨ ${t('regTitle')}</div>
         <div class="lg-sub">${t('regSub')}</div>
@@ -1667,6 +1670,7 @@ async function doOnb(mode) {
     if (!S.sets.length) S.sets.push(LANG === 'ar' ? demoAr() : demoEn());
     save(); sfx('win');
     toast(reg ? t('regOk') : t('logOk'));
+    if (PI_NEXT) { PI_NEXT = false; if (reg) confetti(); go('payInfo'); setTimeout(() => { const s2 = document.querySelectorAll('.pi-step')[1]; s2 && s2.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 400); return; }   // نكمل خطوات الدفع
     if (reg) { confetti(); setTimeout(welcomeTrial, 700); }
     if (PENDING_CH) { const c = PENDING_CH; PENDING_CH = null; openChallenge(c); } else go('home');
   } catch (e) {

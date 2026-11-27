@@ -474,7 +474,7 @@ body.desk .top .logo{display:none}
 body.desk .hero .out-btn{display:none}
 body.desk .hero{padding:30px 34px;border-radius:24px}
 body.desk .hero .h1{font-size:34px}
-body.desk .home-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+body.desk .home-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 body.desk .home-actions .grid2{display:contents}
 body.desk .home-actions .big-action{flex-direction:column;align-items:flex-start;text-align:start;min-height:150px;padding:22px;border-radius:20px;transition:transform .15s,box-shadow .15s}
 body.desk .home-actions .big-action:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(11,31,58,.22)}
@@ -538,6 +538,7 @@ const TR = {
     demo: 'تجريبية', qc: '{0} سؤال · {1} بطاقة', emptyT: 'لا توجد دروس بعد', emptyS: 'اضغط ＋ وأضف أول درس لك',
     n_home: 'الرئيسية', n_lib: 'مكتبتي', n_badges: 'إنجازاتي', n_prof: 'حسابي', deskNew: 'درس جديد', deskTag: 'ادرس بالذكاء الاصطناعي',
     lib: '📚 مكتبتي', setsN: '{0} درس', search: '🔍 ابحث في دروسك...',
+    hFile: 'حمّل ملفك', hFileSub: 'PDF أو Word – ملخص أو محاضرة',
     sb_image: 'صوّر صفحتك', sbs_image: 'من الكاميرا أو المعرض', sb_pdf: 'حمّل ملفك', sbs_pdf: 'PDF أو Word', sb_text: 'الصق نصّك', sbs_text: 'اكتب أو الصق أي نص', sb_topic: 'اختر موضوعاً', sbs_topic: 'اكتب أي موضوع ونشرحه لك',
     manualN: 'تحديد يدوي', manualHint: 'اكتب العدد (من 5 إلى 100)', d_quick: '⚡ مختصر جداً', quickTip: '⚡ مراجعة سريعة قبل دخول الامتحان: شرح مختصر جداً، أهم النقاط فقط، وأسئلة مباشرة',
     shareBtn: '💬 شارك ذاكرلي مع أصدقائك على واتساب', shareMsg: '📚 جرّب «ذاكرلي» – صوّر صفحة من كتابك وخلال دقيقة بيطلعلك شرح وأسئلة وبطاقات حفظ وخريطة ذهنية بالذكاء الاصطناعي 🤖\n🎁 أول 3 دروس مجاناً\n👉 https://zakerlee.com',
@@ -636,6 +637,7 @@ const TR = {
     demo: 'Demo', qc: '{0} questions · {1} cards', emptyT: 'No lessons yet', emptyS: 'Tap ＋ to add your first lesson',
     n_home: 'Home', n_lib: 'Library', n_badges: 'Awards', n_prof: 'Profile', deskNew: 'New lesson', deskTag: 'Study with AI',
     lib: '📚 My library', setsN: '{0} lessons', search: '🔍 Search your lessons...',
+    hFile: 'Upload your file', hFileSub: 'PDF or Word – notes or lecture',
     sb_image: 'Snap your page', sbs_image: 'Camera or gallery', sb_pdf: 'Upload your file', sbs_pdf: 'PDF or Word', sb_text: 'Paste your text', sbs_text: 'Type or paste any text', sb_topic: 'Pick a topic', sbs_topic: 'Type any topic, we explain it',
     manualN: 'Custom', manualHint: 'Type a number (5 to 100)', d_quick: '⚡ Very short', quickTip: '⚡ Quick review right before the exam: very short explanation, key points only, direct questions',
     shareBtn: '💬 Share Zakerlee with friends on WhatsApp', shareMsg: '📚 Try Zakerlee – snap a page of your book and get an explanation, quiz, flashcards and a mind map in a minute 🤖\n🎁 First 3 lessons free\n👉 https://zakerlee.com',
@@ -1412,7 +1414,7 @@ function renderNav() {
 function sideNav() {
   const m = (S.auth && S.auth.me) || {}, nm = (S.user && S.user.name) || (S.auth && S.auth.u) || '';
   const it = (v, e, k) => `<button class="si ${VIEW === v ? 'on' : ''}" onclick="sfx('tap');go('${v}')"><span class="e">${e}</span><span>${t(k)}</span></button>`;
-  const st = !S.auth ? '' : m.active ? '⭐ ' + t('myPlan') : t('trialLeft', m.left || 0, m.free || 3);
+  const st = !S.auth ? '' : m.active ? t('myPlan') : t('trialLeft', m.left || 0, m.free || 3);
   return `<aside class="side">
     <div class="side-logo"><i>🎓</i><div><b>${appName()}</b><small>${t('deskTag')}</small></div></div>
     <button class="side-new" onclick="sfx('tap');go('create')">＋ ${t('deskNew')}</button>
@@ -1622,9 +1624,10 @@ function home() {
   <div class="col mt home-actions">
     <button class="big-action" style="background:var(--ba-navy)" onclick="CR.src='image';go('create')"><div class="ic">📸</div><div><b>${t('snap')}</b><small>${t('snapSub')}</small></div></button>
     <div class="grid2">
+      <button class="big-action vert" style="background:linear-gradient(135deg,#3B2A78,#5B3FA8)" onclick="CR.src='pdf';go('create')"><div class="ic">📄</div><div><b>${t('hFile')}</b><small>${t('hFileSub')}</small></div></button>
       <button class="big-action vert" style="background:var(--ba-teal)" onclick="CR.src='text';go('create')"><div class="ic">📝</div><div><b>${t('paste')}</b><small>${t('pasteSub')}</small></div></button>
-      <button class="big-action vert" style="background:var(--ba-gold)" onclick="CR.src='topic';go('create')"><div class="ic">💡</div><div><b>${t('topic')}</b><small>${t('topicSub')}</small></div></button>
     </div>
+    <button class="big-action" style="background:var(--ba-gold)" onclick="CR.src='topic';go('create')"><div class="ic">💡</div><div><b>${t('topic')}</b><small>${t('topicSub')}</small></div></button>
     ${wrongCount ? `<button class="big-action" style="background:var(--ba-red)" onclick="startQuiz('wrong')"><div class="ic">🎯</div><div><b>${t('revWrong', wrongCount)}</b><small>${t('revWrongSub')}</small></div></button>` : ''}
     <button class="big-action" style="background:var(--ba-slate)" onclick="focusOpen()"><div class="ic">⏱️</div><div><b>${t('focus')}</b><small>${t('focusSub')}</small></div></button>
   </div>

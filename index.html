@@ -424,7 +424,11 @@ body.dark .mm-name{filter:brightness(1.6)}
 .acc-card{border-top:4px solid var(--gold)}
 .pw-in{width:100%;border:1.5px solid var(--b);background:var(--card);border-radius:12px;padding:12px 14px;outline:none;font-family:inherit;font-size:16px;color:var(--t)}
 .pw-in:focus{border-color:var(--p);box-shadow:0 0 0 3px rgba(30,58,138,.12)}
-.plans{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media(max-width:560px){.plans{grid-template-columns:1fr}.plans .plan{padding:20px 12px 14px}}
+.gift{color:#B7791F;font-weight:800;white-space:nowrap}
+body.dark .gift{color:#F1D27A}
+.tu-card.on{border:2px solid #7c3aed}
 .plan{position:relative;background:var(--card);border:1.5px solid var(--b);border-radius:14px;padding:22px 8px 12px;text-align:center;color:var(--t);transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:4px}
 .plan.on{border-color:var(--p);box-shadow:0 0 0 3px rgba(30,58,138,.15);transform:translateY(-2px)}
 .plan.best{border-width:2px}
@@ -725,13 +729,16 @@ const TR = {
 let LANG = 'ar';
 /* ---- الباقات الجديدة (3.0): نصوص ---- */
 Object.assign(TR.ar, {
-  pl_month: 'الشهر', pl_term: 'الفصل', pl_school: 'السنة الدراسية', pl_open: 'السنوي المفتوح',
-  dur_month: '30 يوماً', dur_term: '4 أشهر', dur_school: 'حتى 31 آب', dur_open: '12 شهراً',
-  nLessons: '{0} درساً', unlim: 'دروس بلا حدود', plUnlimB: 'ادرس بلا عدّ', bestValue: '♾️ للمجتهدين', mostChosen: '⭐ الأكثر طلباً',
+  pl_x10: 'باقة الامتحان', dur_x10: '10 أيام', nLessonsF: '{0} دروس', pl_month: 'شهر', pl_q3: '3 أشهر + شهر مجاناً', pl_h6: '6 أشهر + شهرين مجاناً', pl_topupN: 'شحن {0} دروس', pl_topup: 'شحن دروس', pl_term: 'الفصل', pl_school: 'السنة الدراسية', pl_open: 'السنوي المفتوح',
+  dur_month: '30 يوماً', dur_q3: '4 أشهر', dur_h6: '8 أشهر', dur_term: '4 أشهر', dur_school: 'حتى 31 آب', dur_open: '12 شهراً',
+  perMonthN: '{0} درساً كل شهر', gift1: 'شهر مجاناً', gift2: 'شهرين مجاناً', plFils: '{0} فلس',
+  nextGrant: '📅 +{0} درساً جديداً في {1}',
+  tuTitle: 'نفدت دروسك؟ اشحن دروساً إضافية', tuSub: 'الدرس بدينار – أقل شحن 3 دروس – تُضاف لرصيدك فوراً', tuChoose: 'اختر الشحن',
+  nLessons: '{0} درساً', unlim: 'دروس بلا حدود', plUnlimB: 'ادرس بلا عدّ', bestValue: '💎 سنة دراسية كاملة', mostChosen: '🔥 الأكثر اختياراً',
   planBal: '{2} {0} · بقي {1} درساً', planOpenL: '{1} {0} · دروس بلا حدود', balLeft: 'بقي {0} من {1} درساً',
-  stackRule: '💡 نفدت دروسك قبل انتهاء باقتك؟ اشترِ أي باقة وتُضاف دروسها إلى رصيدك المتبقي، ولا تخسر شيئاً من مدتك.',
+  stackRule: '🔄 دروسك غير المستخدمة تنتقل للشهر التالي ما دام اشتراكك فعّالاً – ولا تخسر شيئاً عند التجديد.',
   bigRule: '📚 الملف الكبير (أكثر من 20 صفحة) يُحسب 3 دروس. والمراجعة والاختبارات على دروسك المحفوظة مجانية دائماً.',
-  planOver: 'انتهت دروسك 📚 اختر باقة جديدة وستُضاف دروسها إلى رصيدك',
+  planOver: 'انتهت دروسك لهذا الشهر 📚 اشحن دروساً إضافية (الدرس بدينار) أو انتظر دروس الشهر القادم',
   planNeed3: 'هذا ملف كبير ويحتاج 3 دروس، وبقي لك {0}. قسّمه أو اشترِ باقة تُضاف لرصيدك',
   dailyOver: 'وصلت حد الاستخدام اليومي ⏳ تابع غداً بإذن الله',
   chatDaily: 'وصلت حد رسائل المعلّم لليوم ⏳ تابع غداً',
@@ -747,12 +754,15 @@ Object.assign(TR.ar, {
   activeUntil: '✅ فعّال حتى {0}'
 });
 Object.assign(TR.en, {
-  pl_month: 'Month', pl_term: 'Semester', pl_school: 'School year', pl_open: 'Open yearly',
-  dur_month: '30 days', dur_term: '4 months', dur_school: 'until 31 Aug', dur_open: '12 months',
-  nLessons: '{0} lessons', unlim: 'Unlimited lessons', plUnlimB: 'Study without counting', bestValue: '♾️ For hard workers', mostChosen: '⭐ Most popular',
+  pl_x10: 'Exam pack', dur_x10: '10 days', nLessonsF: '{0} lessons', pl_month: 'Month', pl_q3: '3 months + 1 month free', pl_h6: '6 months + 2 months free', pl_topupN: 'Top-up {0} lessons', pl_topup: 'Top-up', pl_term: 'Semester', pl_school: 'School year', pl_open: 'Open yearly',
+  dur_month: '30 days', dur_q3: '4 months', dur_h6: '8 months', dur_term: '4 months', dur_school: 'until 31 Aug', dur_open: '12 months',
+  perMonthN: '{0} lessons every month', gift1: '1 month free', gift2: '2 months free', plFils: '{0} fils',
+  nextGrant: '📅 +{0} new lessons on {1}',
+  tuTitle: 'Out of lessons? Top up extra lessons', tuSub: '1 JOD per lesson – minimum 3 – added to your balance instantly', tuChoose: 'Choose top-up',
+  nLessons: '{0} lessons', unlim: 'Unlimited lessons', plUnlimB: 'Study without counting', bestValue: '💎 Full school year', mostChosen: '🔥 Most popular',
   planBal: '{2} {0} · {1} lessons left', planOpenL: '{1} {0} · unlimited lessons', balLeft: '{0} of {1} lessons left',
-  stackRule: "💡 Ran out of lessons before your plan ends? Buy any plan and its lessons are added to your remaining balance – you lose nothing.",
-  planOver: "You're out of lessons 📚 Pick a new plan and its lessons are added to your balance",
+  stackRule: "🔄 Unused lessons roll over to the next month while your plan is active – you lose nothing when you renew.",
+  planOver: "You've used this month's lessons 📚 Top up extra lessons (1 JOD each) or wait for next month's lessons",
   planNeed3: 'This large file needs 3 lessons and you have {0}. Split it or buy a plan to add lessons',
   dailyOver: "You've reached today's usage limit ⏳ Continue tomorrow",
   chatDaily: "You've reached today's tutor limit ⏳ Continue tomorrow",
@@ -1207,25 +1217,29 @@ async function logout() {
 }
 
 /* ---------------- الباقات وطرق الدفع ---------------- */
+/* الباقات (4.3): 20 درساً كل شهر – والدروس غير المستخدمة تنتقل للشهر التالي */
 const PLANS = [
-  { id: 'month', jod: 7, usd: 10, lessons: 15 },
-  { id: 'term', jod: 25, usd: 35, lessons: 80, best: true },
-  { id: 'school', jod: 45, usd: 63, lessons: 200 },
-  { id: 'open', jod: 70, usd: 99, lessons: 0, open: true, save: true }
+  { id: 'x10', jod: 5, usd: 7, lessons: 8, months: 0, days: 10, quick: true },
+  { id: 'month', jod: 10, usd: 14, lessons: 20, months: 1 },
+  { id: 'q3', jod: 30, usd: 42, lessons: 20, months: 4, gift: 1, best: true }
 ];
-const planById = id => PLANS.find(p => p.id === id);
-let SEL_PLAN = 'term', PAY_TAB = null, CUR = null;
+const TOPUP = { min: 3, jod: 1, usd: 1.5 };   // شحن: الدرس بدينار، وأقل شحن 3 دروس
+let TU_N = 3;
+const planById = id => id === 'topup' ? { id: 'topup', jod: TU_N * TOPUP.jod, usd: +(TU_N * TOPUP.usd).toFixed(2), lessons: TU_N, months: 0 } : PLANS.find(p => p.id === id);
+let SEL_PLAN = 'q3', PAY_TAB = null, CUR = null;
 const curNow = () => PAY_TAB === 'paypal' ? 'usd' : CUR || (LANG === 'ar' ? 'jod' : 'usd');
 const priceTxt = p => curNow() === 'jod' ? t('jod', p.jod) : t('usd', p.usd);
 const bothPrice = p => `${t('jod', p.jod)} · $${p.usd}`;
-const planName = id => t('pl_' + id);
-const planFeat = p => p.open ? '♾️ ' + t('unlim') : '📚 ' + t('nLessons', p.lessons);
+const planName = id => id === 'topup' ? t('pl_topupN', TU_N) : t('pl_' + id);
+const giftTxt = p => p.gift ? `<span class="gift">🎁 ${t(p.gift === 1 ? 'gift1' : 'gift2')}</span>` : '';
+const planFeat = p => p.open ? '♾️ ' + t('unlim') : p.months ? '📚 ' + t('perMonthN', p.lessons) + (p.gift ? '<br>' + giftTxt(p) : '') : '📚 ' + t(p.lessons <= 10 ? 'nLessonsF' : 'nLessons', p.lessons);
 /* تكلفة الدرس الواحد – خانة تشجيعية */
 function perLesson(p) {
   if (p.open) return `<small>${t('plOne')}</small><b>${t('plUnlimB')}</b>`;
-  return `<small>${t('plOne')}</small><b>${curNow() === 'jod' ? t('plQirsh', Math.round(p.jod / p.lessons * 100)) : t('plUsd', (p.usd / p.lessons).toFixed(2))}</b>`;
+  const n = p.lessons * (p.months || 1);
+  return `<small>${t('plOne')}</small><b>${curNow() === 'jod' ? t('plFils', Math.round(p.jod / n * 1000)) : t('plUsd', (p.usd / n).toFixed(2))}</b>`;
 }
-const planIcon = id => ({ month: '🟢', term: '⭐', school: '👑', open: '♾️' })[id] || '⭐';
+const planIcon = id => ({ x10: '⚡', month: '🟢', q3: '⭐', h6: '👑', topup: '➕', term: '⭐', school: '👑', open: '♾️' })[id] || '⭐';
 function planStatus(m) {
   return m.open ? t('planOpenL', planName(m.plan), planIcon(m.plan)) : t('planBal', planName(m.plan), m.bal, planIcon(m.plan));
 }
@@ -1285,6 +1299,7 @@ function activateView() {
     ? `<div class="card" style="text-align:center;border-top:4px solid var(--gold)"><div style="font-size:46px">${planIcon(m.plan)}</div><div class="h1">${planName(m.plan)}</div>
        <div class="mt" style="font-weight:600">${m.open ? '♾️ ' + t('unlim') + (m.bal ? ' · ' + t('balLeft', m.bal, m.bt) : '') : t('balLeft', m.bal, m.bt)}</div>
        ${m.open ? '' : `<div class="bar mt"><div style="width:${m.bt ? Math.min(100, m.bal / m.bt * 100) : 0}%;background:linear-gradient(90deg,var(--a),var(--g))"></div></div>`}
+       ${m.next ? `<p class="small mt" style="font-weight:700">${t('nextGrant', m.mq, fmtDate(m.next))}</p>` : ''}
        <p class="muted small mt">${m.until ? t('activeUntil', fmtDate(m.until)) : t('activeForever')}</p>
        <div class="devid" style="font-size:20px;letter-spacing:1px">${esc(m.u)}</div></div>`
     : `<div class="hero" style="text-align:center"><div style="font-size:46px;position:relative;z-index:1">${m.left && !m.expired && !m.tOver ? '🎁' : '🔒'}</div>
@@ -1305,6 +1320,16 @@ function activateView() {
   <div class="h2 mt2">${m.active ? t('renewT') : t('choosePlan')}</div>
   <div class="plans mt">${cards}</div>
   <div class="tip mt">${t('stackRule')}</div>
+  <div class="card mt tu-card ${SEL_PLAN === 'topup' ? 'on' : ''}">
+    <div class="row" style="gap:10px;align-items:center"><div class="tu-ic">➕</div><div class="tu-tx"><b>${t('tuTitle')}</b><small>${t('tuSub')}</small></div></div>
+    <div class="row mt" style="justify-content:center;align-items:center;gap:14px">
+      <button class="btn btn-o btn-s" style="width:44px" onclick="TU_N=Math.max(${TOPUP.min},TU_N-1);SEL_PLAN='topup';activateView()">−</button>
+      <b style="font-size:24px;min-width:34px;text-align:center">${TU_N}</b>
+      <button class="btn btn-o btn-s" style="width:44px" onclick="TU_N=Math.min(50,TU_N+1);SEL_PLAN='topup';activateView()">+</button>
+      <span class="tu-p">${priceTxt(planById('topup'))}</span>
+    </div>
+    <button class="btn ${SEL_PLAN === 'topup' ? 'btn-p' : 'btn-o'} mt" onclick="SEL_PLAN='topup';activateView()">${SEL_PLAN === 'topup' ? '✅ ' : ''}${t('tuChoose')}</button>
+  </div>
   <div class="tip mt">${t('bigRule')}</div>
   ${payBox()}
   <button class="btn btn-o mt" id="rfBtn" onclick="this.disabled=true;refreshMe(true).then(()=>activateView())">${t('refresh')}</button>
@@ -1494,7 +1519,7 @@ function onboarding() {
         <div class="lg-free">🎁 ${t('lgFree')}</div>
         ${PLANS.map(p => `<div class="lg-plan ${p.best ? 'best' : ''}">
           <div class="lg-plan-i">${planIcon(p.id)}</div>
-          <div class="lg-plan-n"><b>${planName(p.id)}${p.best ? ' <span class="lg-best">' + t('mostChosen') + '</span>' : ''}</b><small>${p.open ? t('unlim') : t('nLessons', p.lessons)} · ${t('dur_' + p.id)}</small></div>
+          <div class="lg-plan-n"><b>${planName(p.id)}${p.best ? ' <span class="lg-best">' + t('mostChosen') + '</span>' : ''}</b><small>${p.months ? t('perMonthN', p.lessons) : t('nLessonsF', p.lessons)} · ${t('dur_' + p.id)}${p.gift ? ' · ' + giftTxt(p) : ''}</small></div>
           <div class="lg-plan-p"><b>${t('jod', p.jod)}</b><small>$${p.usd}</small></div>
           <div class="per-lesson">${perLesson(p)}</div>
         </div>`).join('')}

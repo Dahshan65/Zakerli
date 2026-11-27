@@ -1409,7 +1409,7 @@ function renderNav() {
   if (hide) { $('#navWrap').innerHTML = ''; return; }
   if (desk) { $('#navWrap').innerHTML = sideNav(); return; }
   const b = (v, e, k) => `<button class="${VIEW === v ? 'on' : ''}" onclick="sfx('tap');go('${v}')"><span class="e">${e}</span>${t(k)}</button>`;
-  $('#navWrap').innerHTML = `<div class="nav"><div class="nav-in">${b('home', '🏠', 'n_home')}${b('library', '📚', 'n_lib')}<button class="fab" onclick="sfx('tap');go('create')">＋</button>${b('badgesView', '🏆', 'n_badges')}${b('profileView', '👤', 'n_prof')}</div></div>`;
+  $('#navWrap').innerHTML = `<div class="nav"><div class="nav-in">${b('home', '🏠', 'n_home')}${b('library', '📚', 'n_lib')}<button class="fab" onclick="sfx('tap');CR.lock=false;go('create')">＋</button>${b('badgesView', '🏆', 'n_badges')}${b('profileView', '👤', 'n_prof')}</div></div>`;
 }
 function sideNav() {
   const m = (S.auth && S.auth.me) || {}, nm = (S.user && S.user.name) || (S.auth && S.auth.u) || '';
@@ -1417,7 +1417,7 @@ function sideNav() {
   const st = !S.auth ? '' : m.active ? t('myPlan') : t('trialLeft', m.left || 0, m.free || 3);
   return `<aside class="side">
     <div class="side-logo"><i>🎓</i><div><b>${appName()}</b><small>${t('deskTag')}</small></div></div>
-    <button class="side-new" onclick="sfx('tap');go('create')">＋ ${t('deskNew')}</button>
+    <button class="side-new" onclick="sfx('tap');CR.lock=false;go('create')">＋ ${t('deskNew')}</button>
     <nav>${it('home', '🏠', 'n_home')}${it('library', '📚', 'n_lib')}${it('badgesView', '🏆', 'n_badges')}${it('profileView', '👤', 'n_prof')}</nav>
     <div class="side-user" onclick="sfx('tap');go('profileView')" title="${t('n_prof')}"><div class="av">${esc((nm[0] || '؟').toUpperCase())}</div><div style="min-width:0"><b>${esc(nm)}</b><small>${st}</small></div></div>
     ${S.auth && S.auth.token ? `<button class="side-out" onclick="logout()">${t('logout')}</button>` : ''}
@@ -1622,12 +1622,12 @@ function home() {
   ${examChips()}
   ${trialChip()}
   <div class="col mt home-actions">
-    <button class="big-action" style="background:var(--ba-navy)" onclick="CR.src='image';go('create')"><div class="ic">📸</div><div><b>${t('snap')}</b><small>${t('snapSub')}</small></div></button>
+    <button class="big-action" style="background:var(--ba-navy)" onclick="CR.src='image';CR.lock=true;go('create')"><div class="ic">📸</div><div><b>${t('snap')}</b><small>${t('snapSub')}</small></div></button>
     <div class="grid2">
-      <button class="big-action vert" style="background:linear-gradient(135deg,#3B2A78,#5B3FA8)" onclick="CR.src='pdf';go('create')"><div class="ic">📄</div><div><b>${t('hFile')}</b><small>${t('hFileSub')}</small></div></button>
-      <button class="big-action vert" style="background:var(--ba-teal)" onclick="CR.src='text';go('create')"><div class="ic">📝</div><div><b>${t('paste')}</b><small>${t('pasteSub')}</small></div></button>
+      <button class="big-action vert" style="background:linear-gradient(135deg,#3B2A78,#5B3FA8)" onclick="CR.src='pdf';CR.lock=true;go('create')"><div class="ic">📄</div><div><b>${t('hFile')}</b><small>${t('hFileSub')}</small></div></button>
+      <button class="big-action vert" style="background:var(--ba-teal)" onclick="CR.src='text';CR.lock=true;go('create')"><div class="ic">📝</div><div><b>${t('paste')}</b><small>${t('pasteSub')}</small></div></button>
     </div>
-    <button class="big-action" style="background:var(--ba-gold)" onclick="CR.src='topic';go('create')"><div class="ic">💡</div><div><b>${t('topic')}</b><small>${t('topicSub')}</small></div></button>
+    <button class="big-action" style="background:var(--ba-gold)" onclick="CR.src='topic';CR.lock=true;go('create')"><div class="ic">💡</div><div><b>${t('topic')}</b><small>${t('topicSub')}</small></div></button>
     ${wrongCount ? `<button class="big-action" style="background:var(--ba-red)" onclick="startQuiz('wrong')"><div class="ic">🎯</div><div><b>${t('revWrong', wrongCount)}</b><small>${t('revWrongSub')}</small></div></button>` : ''}
     <button class="big-action" style="background:var(--ba-slate)" onclick="focusOpen()"><div class="ic">⏱️</div><div><b>${t('focus')}</b><small>${t('focusSub')}</small></div></button>
   </div>
@@ -1683,6 +1683,7 @@ function libList() {
 
 /* ---------------- إنشاء مجموعة ---------------- */
 const CR = { src: 'image', text: '', topic: '', title: '', images: [], pdf: null, n: 'auto', diff: 'med', lang: 'auto' };
+const SRC_IC = { image: '📸', pdf: '📄', text: '📝', topic: '🔎' };
 function create() {
   const tb = (k, e) => `<button class="src-btn ${CR.src === k ? 'on' : ''}" onclick="crSave();CR.src='${k}';go('create')"><span class="e">${e}</span><b>${t('sb_' + k)}</b><small>${t('sbs_' + k)}</small></button>`;
   let input = '';
@@ -1696,9 +1697,9 @@ function create() {
   else input = `<input type="text" id="crTopic" dir="auto" placeholder="${t('topicPh')}" value="${esc(CR.topic)}"><div class="tip mt">${t('topicTip')}</div>`;
   const examLbl = S.user.stage === 'uni' ? t('d_exam_u') : t('d_exam_s');
   $('#app').innerHTML = `
-  <div class="top"><button class="icon-btn" onclick="go('home')">${back()}</button><div class="h2">${t('newSet')}</div>${langBtn()}</div>
+  <div class="top"><button class="icon-btn" onclick="CR.lock=false;go('home')">${back()}</button><div class="h2">${CR.lock ? SRC_IC[CR.src] + ' ' + t('sb_' + CR.src) : t('newSet')}</div>${langBtn()}</div>
   ${trialChip()}
-  <div class="src-grid mt">${tb('image', '📸')}${tb('pdf', '📄')}${tb('text', '📝')}${tb('topic', '🔎')}</div>
+  ${CR.lock ? `<div class="muted small mt" style="text-align:center">${t('sbs_' + CR.src)}</div>` : `<div class="src-grid mt">${tb('image', SRC_IC.image)}${tb('pdf', SRC_IC.pdf)}${tb('text', SRC_IC.text)}${tb('topic', SRC_IC.topic)}</div>`}
   <div class="mt">${input}</div>
   <div class="card col mt">
     <div><div class="label">${t('setName')}</div><input type="text" id="crTitle" dir="auto" placeholder="${t('setNamePh')}" value="${esc(CR.title)}"></div>
@@ -1994,7 +1995,7 @@ async function generate() {
       summary: base.summary, cards: base.cards, qs, lesson: ex.lesson, glossary: ex.glossary, mm: ex.mm, written: ex.written,
       src: src === 'text' ? CR.text.trim().slice(0, 12000) : CR.doc ? CR.doc.text.slice(0, 12000) : src === 'topic' ? 'Topic: ' + topic : '' };
     S.sets.push(set); S.stats.created++;
-    Object.assign(CR, { text: '', topic: '', title: '', images: [], pdf: null, doc: null });
+    Object.assign(CR, { text: '', topic: '', title: '', images: [], pdf: null, doc: null, lock: false });
     loading(false); save(); sfx('win'); confetti(); addXP(30);
     toast(t('ready', set.qs.length, set.cards.length));
     go('setView', set.id);

@@ -289,6 +289,27 @@ body.dark .lg-btn2{color:#9db4ff;border-color:#3b5bbf}
 .lg-steps{display:flex;flex-direction:column;gap:8px;margin-top:14px}
 .lg-steps div{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:12px;padding:9px 12px;font-size:14.5px}
 .lg-steps b{flex:0 0 28px;height:28px;border-radius:50%;background:var(--navy);color:#E8C766;display:grid;place-items:center;font-family:'Poppins',sans-serif;font-size:14px}
+.lg-dl{display:none;margin-top:16px;border-radius:16px;padding:14px;background:linear-gradient(135deg,#0B1F3A,#1E3A8A);color:#fff;text-align:center}
+.lg-dl-t{font-weight:700;font-size:15px;margin-bottom:12px}
+.lg-dl-b{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lg-dl-b a,.lg-dl-b button{display:flex;align-items:center;justify-content:center;gap:8px;border-radius:12px;padding:9px 10px;text-decoration:none;font:inherit;font-weight:700;font-size:16px;cursor:pointer;border:0;transition:transform .15s}
+.lg-dl-b a:hover,.lg-dl-b button:hover{transform:translateY(-2px)}
+.lg-dl-b i{font-style:normal;font-size:24px}
+.lg-dl-b span{display:flex;flex-direction:column;line-height:1.25;text-align:start}
+.lg-dl-b small{font-size:11px;font-weight:600;opacity:.8}
+.dl-and{background:#3DDC84;color:#0B1F3A}
+.dl-ios{background:#fff;color:#0B1F3A}
+.lg-faq{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.lg-faq details{background:var(--bg);border-radius:12px;padding:10px 13px;font-size:14.5px}
+.lg-faq summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.lg-faq summary::-webkit-details-marker{display:none}
+.lg-faq summary:after{content:'+';font-size:18px;color:var(--navy);font-weight:700;flex:0 0 auto}
+.lg-faq details[open] summary:after{content:'−'}
+.lg-faq p{margin:8px 0 2px;color:var(--m);line-height:1.8;font-size:13.5px}
+.lg-help{margin-top:14px;border-radius:14px;padding:14px;text-align:center;background:linear-gradient(135deg,#E9F9EF,#F3FFF7);border:1px solid #BDEBCD}
+.lg-help-t{font-weight:700;font-size:14.5px;margin-bottom:10px}
+.lg-wa{display:block;background:#25D366;color:#fff;text-decoration:none;border-radius:12px;padding:11px;font-weight:700;font-size:15px}
+.lg-wa:hover{filter:brightness(.95)}
 .lg-free{background:rgba(187,25,44,.08);border:1px dashed rgba(187,25,44,.45);color:#9f1d2d;border-radius:12px;padding:8px 12px;text-align:center;font-weight:700;font-size:14px;margin-bottom:10px}
 body.dark .lg-free{color:#ff8a98}
 .pi-plan{border-top:4px solid var(--gold)}
@@ -345,7 +366,11 @@ body.dark .pi-price{color:#9DB8FF}
   .lg-hero:has(.lg-banner) .free-badge{top:auto;bottom:16px;transform:none;line-height:normal}
   .lg-hero:has(.lg-banner) .lang-btn{top:16px;transform:none;line-height:normal}
   .lg-grid .lg-card{grid-area:log;margin:0}
-  .lg-vid{grid-area:vid}.lg-pr{grid-area:pr}
+  .lg-vid{grid-area:vid}.lg-pr{grid-area:pr}.lg-faqbox{grid-area:faq}
+  .lg-grid{grid-template-areas:"vid log pr" "faq faq faq"}
+  .lg-faqbox .lg-faq{display:grid;grid-template-columns:1fr 1fr;align-items:start}
+  .lg-dl{display:block}
+  .lg-card .lg-get{display:none}
   .lg-cat-g{grid-template-columns:repeat(6,1fr)}
   .lg-cta-b{flex-direction:row;max-width:none;justify-content:center}.lg-cta-b .btn{width:auto;padding-inline:26px}
 }
@@ -1584,7 +1609,33 @@ function onboarding() {
           <div><b>2</b><span>${t('lgS2')}</span></div>
           <div><b>3</b><span>${t('lgS3')}</span></div>
         </div>
+        <div class="lg-dl">
+          <div class="lg-dl-t">📲 ${LANG === 'ar' ? 'حمّل تطبيق ذاكرلي على هاتفك' : 'Get the Zakerlee app on your phone'}</div>
+          <div class="lg-dl-b">
+            <a class="dl-and" href="https://github.com/Dahshan65/Zakerli/releases/latest/download/zakerli.apk" target="_blank" rel="noopener"><i>🤖</i><span><small>${LANG === 'ar' ? 'حمّل للأندرويد' : 'Download for'}</small>${LANG === 'ar' ? 'أندرويد' : 'Android'}</span></a>
+            <button type="button" class="dl-ios" onclick="iosHelp()"><i>🍎</i><span><small>${LANG === 'ar' ? 'ثبّته على' : 'Install on'}</small>${LANG === 'ar' ? 'آيفون' : 'iPhone'}</span></button>
+          </div>
+        </div>
+        <div class="lg-help">
+          <div class="lg-help-t">💬 ${LANG === 'ar' ? 'عندك سؤال؟ نحن هنا لمساعدتك' : 'Have a question? We\'re here to help'}</div>
+          <a class="lg-wa" target="_blank" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(LANG === 'ar' ? 'مرحباً، عندي سؤال عن ذاكرلي' : 'Hi, I have a question about Zakerlee')}">${LANG === 'ar' ? 'كلّمنا على واتساب' : 'Chat on WhatsApp'}</a>
+        </div>
       </section>
+
+      ${inApp ? '' : `<section class="lg-box lg-faqbox">
+        <div class="lg-h">❓ ${LANG === 'ar' ? 'أسئلة شائعة' : 'FAQ'}</div>
+        <div class="lg-faq">${(LANG === 'ar' ? [
+          ['هل يناسب منهاجي؟', 'نعم ✅ ذاكرلي يصنع الدرس من ملفك أنت، فيناسب أي مادة وأي منهاج… من المدرسة إلى الجامعة.'],
+          ['ما الملفات التي أستطيع رفعها؟', 'ملف PDF أو Word، أو صورة لصفحة من كتابك أو دفترك، أو نص تلصقه، أو موضوع تكتب اسمه فقط.'],
+          ['هل التجربة مجانية؟', 'نعم 🎁 تحصل على 3 دروس مجانية عند إنشاء حسابك، بدون دفع وبدون بطاقة.'],
+          ['هل أستخدمه على الهاتف والكمبيوتر؟', 'نعم، ادخل بنفس الحساب من هاتفك أو حاسوبك، ودروسك محفوظة معك.']
+        ] : [
+          ['Does it fit my curriculum?', 'Yes ✅ Zakerlee builds the lesson from your own file, so it works for any subject — from school to university.'],
+          ['What files can I upload?', 'PDF or Word, a photo of a book or notebook page, pasted text, or just a topic name.'],
+          ['Is there a free trial?', 'Yes 🎁 You get 3 free lessons when you create your account — no payment, no card.'],
+          ['Can I use it on phone and computer?', 'Yes, sign in with the same account on any device and your lessons stay with you.']
+        ]).map(([q, a]) => `<details><summary>${q}</summary><p>${a}</p></details>`).join('')}</div>
+      </section>`}
 
       <section class="lg-box lg-pr">
         <div class="lg-h">💳 ${t('lgPrT')}</div>

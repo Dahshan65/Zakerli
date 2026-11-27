@@ -252,6 +252,16 @@ html[lang=ar] body{line-height:1.75}
 .lg-hero:after{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.5px);background-size:18px 18px;pointer-events:none}
 .lg-hero>*{position:relative;z-index:1}
 .lg-banner{display:none}
+.lg-hero .lg-feats .lg-ft{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:12.5px;font-weight:700;background:none;border:0;padding:0;min-width:64px}
+.lg-ft i{font-style:normal;font-size:23px;width:48px;height:48px;display:grid;place-items:center;border-radius:15px;background:rgba(255,255,255,.12);border:1px solid rgba(232,199,102,.5)}
+@media(max-width:959px){
+  .lg-hero{background:linear-gradient(180deg,rgba(11,31,58,0) 0,rgba(11,31,58,.12) 95px,rgba(19,41,90,.92) 150px,#13295A 172px,#1E3A8A 100%),url(hero-kids.jpg) top center/100% auto no-repeat,#13295A;padding-top:150px}
+  .lg-hero:after{-webkit-mask-image:linear-gradient(transparent 32%,#000 55%);mask-image:linear-gradient(transparent 32%,#000 55%)}
+  .lg-hero .lg-logo{width:58px;height:58px;font-size:30px;margin:0 auto 4px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+  .lg-hero .free-badge{animation:fbp 1.8s ease-in-out infinite}
+  @keyframes fbp{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+  .lg-hero .lg-feats{gap:10px;margin-top:16px}
+}
 .lg-hero .free-badge{position:absolute;top:14px;inset-inline-start:14px;width:76px;height:76px;flex-basis:76px;font-size:11px;z-index:2}
 .lg-hero .free-badge b{font-size:25px}
 .lg-hero .lang-btn{position:absolute;top:16px;inset-inline-end:14px;background:rgba(255,255,255,.12);color:#fff;border-color:rgba(232,199,102,.75);backdrop-filter:blur(4px);z-index:2}
@@ -1573,7 +1583,7 @@ function onboarding() {
       <div class="lg-nm"><div class="lg-name">${appName()}</div>
       <div class="lg-en">${other}</div></div>
       <div class="lg-tx"><div class="lg-tag">${t('lgTag')}</div>
-      <div class="lg-feats"><span>${t('lgF1')}</span><span>${t('lgF2')}</span><span>${t('lgF3')}</span><span>${t('lgF4')}</span></div></div>
+      <div class="lg-feats">${(LANG === 'ar' ? [['📤','حمّل ملفك'],['📖','شرح مفصّل'],['✅','اختبارات'],['🤖','معلّم ذكي']] : [['📤','Upload'],['📖','Lessons'],['✅','Quizzes'],['🤖','AI tutor']]).map(([i, x]) => `<span class="lg-ft"><i>${i}</i>${x}</span>`).join('')}</div></div>
     </div>
 
     <div class="lg-grid">

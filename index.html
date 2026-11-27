@@ -251,6 +251,7 @@ html[lang=ar] body{line-height:1.75}
 .lg-hero{position:relative;background:radial-gradient(circle at 85% -10%,rgba(232,199,102,.28),transparent 42%),radial-gradient(circle at 0% 110%,rgba(43,79,179,.55),transparent 50%),linear-gradient(155deg,#0B1F3A 0%,#13295A 55%,#1E3A8A 100%);color:#fff;border-radius:28px;padding:22px 16px 58px;text-align:center;overflow:hidden;box-shadow:0 20px 44px rgba(11,31,58,.35)}
 .lg-hero:after{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.5px);background-size:18px 18px;pointer-events:none}
 .lg-hero>*{position:relative;z-index:1}
+.lg-banner{display:none}
 .lg-hero .free-badge{position:absolute;top:14px;inset-inline-start:14px;width:76px;height:76px;flex-basis:76px;font-size:11px;z-index:2}
 .lg-hero .free-badge b{font-size:25px}
 .lg-hero .lang-btn{position:absolute;top:16px;inset-inline-end:14px;background:rgba(255,255,255,.12);color:#fff;border-color:rgba(232,199,102,.75);backdrop-filter:blur(4px);z-index:2}
@@ -335,6 +336,14 @@ body.dark .pi-price{color:#9DB8FF}
   @keyframes fbr{0%{box-shadow:0 0 0 0 rgba(187,25,44,.6)}70%{box-shadow:0 0 0 12px rgba(187,25,44,0)}100%{box-shadow:0 0 0 0 rgba(187,25,44,0)}}
   .lg-hero .lang-btn{top:50%;transform:translateY(-50%)}
   .lg-grid{grid-template-columns:1fr 400px 1fr;grid-template-areas:"vid log pr";align-items:start;margin-top:22px}
+  /* بانر الموقع على الكمبيوتر */
+  #app:not(.wide) .lg-banner{display:none}
+  .lg-hero:has(.lg-banner){display:block;padding:0;background:#0B1F3A;max-width:860px;margin:0 auto;border-radius:24px;line-height:0}
+  .lg-hero:has(.lg-banner):after{display:none}
+  .lg-hero:has(.lg-banner) .lg-logo,.lg-hero:has(.lg-banner) .lg-nm,.lg-hero:has(.lg-banner) .lg-tx{display:none}
+  .lg-banner{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:cover;border-radius:24px}
+  .lg-hero:has(.lg-banner) .free-badge{top:auto;bottom:16px;transform:none;line-height:normal}
+  .lg-hero:has(.lg-banner) .lang-btn{top:16px;transform:none;line-height:normal}
   .lg-grid .lg-card{grid-area:log;margin:0}
   .lg-vid{grid-area:vid}.lg-pr{grid-area:pr}
   .lg-cat-g{grid-template-columns:repeat(6,1fr)}
@@ -1534,6 +1543,7 @@ function onboarding() {
     <div class="lg-hero">
       <div class="free-badge"><b>3</b><span>${t('fbL1')}</span><span>${t('fbL2')}</span></div>
       ${langBtn()}
+      ${inApp ? '' : '<img class="lg-banner" src="banner.jpg" alt="ذاكرلي Zakerlee" onerror="this.remove()">'}
       <div class="lg-logo">🎓</div>
       <div class="lg-nm"><div class="lg-name">${appName()}</div>
       <div class="lg-en">${other}</div></div>

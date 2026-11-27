@@ -291,6 +291,7 @@ body.dark .lg-btn2{color:#9db4ff;border-color:#3b5bbf}
 .lg-free{background:rgba(187,25,44,.08);border:1px dashed rgba(187,25,44,.45);color:#9f1d2d;border-radius:12px;padding:8px 12px;text-align:center;font-weight:700;font-size:14px;margin-bottom:10px}
 body.dark .lg-free{color:#ff8a98}
 .pi-plan{border-top:4px solid var(--gold)}
+.chip-buy{background:linear-gradient(135deg,#F1D27A,#C9A227)!important;color:#0B1F3A!important;font-weight:800;border:0}
 .pi-price{text-align:center;font-size:34px;font-weight:800;color:var(--p);margin:4px 0}
 body.dark .pi-price{color:#9DB8FF}
 .pi-h{display:flex;align-items:center;gap:10px;font-size:16.5px}
@@ -735,6 +736,7 @@ const TR = {
 let LANG = 'ar';
 /* ---- الباقات الجديدة (3.0): نصوص ---- */
 Object.assign(TR.ar, {
+  n_plans: 'الباقات', tapPlan: 'اضغط على أي باقة لتشتريها – وستظهر لك خطوات الدفع', dur_topup: 'تُضاف فوراً لرصيدك',
   pl_x10: 'باقة الامتحان', dur_x10: '10 أيام', nLessonsF: '{0} دروس',
   piBack: 'بعد إنشاء الحساب أو الدخول نكمل معك خطوات الدفع لباقة «{0}»', piBackBtn: 'رجوع لخطوات الدفع',
   piHow: 'كيف أشترك وأدفع؟', piTitle: 'الاشتراك والدفع', piChosen: 'الباقة التي اخترتها', piLogin: 'عندي حساب – تسجيل الدخول',
@@ -766,6 +768,7 @@ Object.assign(TR.ar, {
   activeUntil: '✅ فعّال حتى {0}'
 });
 Object.assign(TR.en, {
+  n_plans: 'Plans', tapPlan: 'Tap any plan to buy it – payment steps will follow', dur_topup: 'added to your balance instantly',
   pl_x10: 'Exam pack', dur_x10: '10 days', nLessonsF: '{0} lessons',
   piBack: 'After you sign up or log in, we continue with payment for the «{0}» plan', piBackBtn: 'Back to payment steps',
   piHow: 'How do I subscribe and pay?', piTitle: 'Subscribe & pay', piChosen: 'Your chosen plan', piLogin: 'I have an account – log in',
@@ -1311,7 +1314,7 @@ function payInfoView() {
     <div class="h2" style="text-align:center">${planName(plan.id)}</div>
     <div class="pi-price">${price}</div>
     <div class="muted small" style="text-align:center;line-height:1.8">${planFeat(plan)} · 📅 ${t('dur_' + plan.id)}</div>
-    <div class="pills mt" style="justify-content:center">${PLANS.map(p => `<button class="pill ${p.id === plan.id ? 'on' : ''}" onclick="SEL_PLAN='${p.id}';payInfoView()">${planIcon(p.id)} ${t('jod', p.jod)}</button>`).join('')}</div>
+    <div class="pills mt" style="justify-content:center">${[...PLANS, ...(S.auth && S.auth.token ? [planById('topup')] : [])].map(p => `<button class="pill ${p.id === plan.id ? 'on' : ''}" onclick="SEL_PLAN='${p.id}';payInfoView()">${planIcon(p.id)} ${t('jod', p.jod)}</button>`).join('')}</div>
   </div>
   ${step(1, t('piS1'), `<p class="small" style="line-height:1.9">${t('piS1d')}</p>
     ${S.auth && S.auth.token ? `<div class="tip mt">✅ ${t('piHaveAcc', esc(uname))}</div>` : `<button class="btn btn-p mt" onclick="PI_NEXT=true;ONB_MODE='reg';go('onb')">${t('doReg')}</button><button class="btn btn-o mt" onclick="PI_NEXT=true;ONB_MODE='log';go('onb')">${t('piLogin')}</button>`}`)}
@@ -1363,7 +1366,7 @@ function activateView() {
     : `<div class="hero" style="text-align:center"><div style="font-size:46px;position:relative;z-index:1">${m.left && !m.expired && !m.tOver ? '🎁' : '🔒'}</div>
        <div class="h1" style="position:relative;z-index:1">${trialTxt(m)}</div>
        <p style="position:relative;z-index:1;line-height:1.9;margin-top:6px;opacity:.95">${t('subDesc')}</p></div>`;
-  const cards = PLANS.map(p => `<button class="plan ${SEL_PLAN === p.id ? 'on' : ''} ${p.best ? 'best' : ''}" onclick="SEL_PLAN='${p.id}';activateView()">
+  const cards = PLANS.map(p => `<button class="plan ${SEL_PLAN === p.id ? 'on' : ''} ${p.best ? 'best' : ''}" onclick="sfx('tap');SEL_PLAN='${p.id}';go('payInfo')">
       ${p.best ? `<span class="ribbon">${t('mostChosen')}</span>` : p.save ? `<span class="ribbon gold">${t('bestValue')}</span>` : ''}
       <div class="plan-ic">${planIcon(p.id)}</div>
       <div class="plan-n">${planName(p.id)}</div>
@@ -1376,6 +1379,7 @@ function activateView() {
     <button class="lang-btn" onclick="CUR=curNow()==='jod'?'usd':'jod';PAY_TAB=CUR==='usd'?'paypal':(PAY_TAB==='paypal'?'cliq':PAY_TAB);activateView()">${curNow() === 'jod' ? '$ USD' : 'د.أ JOD'}</button></div>
   ${head}
   <div class="h2 mt2">${m.active ? t('renewT') : t('choosePlan')}</div>
+  <div class="muted small" style="margin-top:4px">👆 ${t('tapPlan')}</div>
   <div class="plans mt">${cards}</div>
   <div class="tip mt">${t('stackRule')}</div>
   <div class="card mt tu-card ${SEL_PLAN === 'topup' ? 'on' : ''}">
@@ -1386,10 +1390,9 @@ function activateView() {
       <button class="btn btn-o btn-s" style="width:44px" onclick="TU_N=Math.min(50,TU_N+1);SEL_PLAN='topup';activateView()">+</button>
       <span class="tu-p">${priceTxt(planById('topup'))}</span>
     </div>
-    <button class="btn ${SEL_PLAN === 'topup' ? 'btn-p' : 'btn-o'} mt" onclick="SEL_PLAN='topup';activateView()">${SEL_PLAN === 'topup' ? '✅ ' : ''}${t('tuChoose')}</button>
+    <button class="btn btn-p mt" onclick="sfx('tap');SEL_PLAN='topup';go('payInfo')">${t('tuChoose')}</button>
   </div>
   <div class="tip mt">${t('bigRule')}</div>
-  ${payBox()}
   <button class="btn btn-o mt" id="rfBtn" onclick="this.disabled=true;refreshMe(true).then(()=>activateView())">${t('refresh')}</button>
   <div class="card mt">${t('actFeat').map(f => `<div class="list-row"><span>✅ ${f}</span></div>`).join('')}<div class="list-row"><span>✅ ${t('featDevices')}</span></div></div>`;
 }
@@ -1484,8 +1487,8 @@ function go(v, arg) {
 }
 const isDesk = () => window.innerWidth >= 1024;   // كمبيوتر أو شاشة عريضة
 function renderNav() {
-  const hide = ['quiz', 'cards', 'tutor', 'result', 'onb', 'challenge', 'activate', 'account', 'payInfo'].includes(VIEW);
-  const desk = isDesk() && !['onb', 'account', 'payInfo'].includes(VIEW) && !!S.user;
+  const desk = isDesk() && !['onb', 'account'].includes(VIEW) && !!S.user;
+  const hide = ['quiz', 'cards', 'tutor', 'result', 'onb', 'challenge', 'activate', 'account', 'payInfo'].includes(VIEW) && !(desk && ['activate', 'payInfo'].includes(VIEW));   // على الكمبيوتر تبقى القائمة الجانبية في صفحات الاشتراك
   const bc = document.body.classList;
   [...bc].filter(c => c.startsWith('v-')).forEach(c => bc.remove(c));
   bc.add('v-' + VIEW); bc.toggle('desk', desk); bc.toggle('has-side', desk && !hide);
@@ -1501,7 +1504,7 @@ function sideNav() {
   return `<aside class="side">
     <div class="side-logo"><i>🎓</i><div><b>${appName()}</b><small>${t('deskTag')}</small></div></div>
     <button class="side-new" onclick="sfx('tap');CR.lock=false;go('create')">＋ ${t('deskNew')}</button>
-    <nav>${it('home', '🏠', 'n_home')}${it('library', '📚', 'n_lib')}${it('badgesView', '🏆', 'n_badges')}${it('profileView', '👤', 'n_prof')}</nav>
+    <nav>${it('home', '🏠', 'n_home')}${it('library', '📚', 'n_lib')}${it('badgesView', '🏆', 'n_badges')}${it('activate', '💳', 'n_plans')}${it('profileView', '👤', 'n_prof')}</nav>
     <div class="side-user" onclick="sfx('tap');go('profileView')" title="${t('n_prof')}"><div class="av">${esc((nm[0] || '؟').toUpperCase())}</div><div style="min-width:0"><b>${esc(nm)}</b><small>${st}</small></div></div>
     ${S.auth && S.auth.token ? `<button class="side-out" onclick="logout()">${t('logout')}</button>` : ''}
   </aside>`;
@@ -1693,7 +1696,7 @@ function home() {
   $('#app').innerHTML = `
   <div class="top">
     <div class="logo"><i>🎓</i>${appName()}</div>
-    <div class="row">${langBtn()}<span class="chip">🔥 ${streakAlive()}</span><span class="chip">💎 ${S.xp}</span></div>
+    <div class="row">${langBtn()}<button class="chip chip-buy" onclick="sfx('tap');go('activate')">💳 ${t('n_plans')}</button><span class="chip">🔥 ${streakAlive()}</span><span class="chip">💎 ${S.xp}</span></div>
   </div>
   <div class="hero">
     <div class="row between" style="position:relative;z-index:1">

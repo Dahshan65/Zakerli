@@ -290,7 +290,13 @@ body.dark .lg-btn2{color:#9db4ff;border-color:#3b5bbf}
 .lg-steps b{flex:0 0 28px;height:28px;border-radius:50%;background:var(--navy);color:#E8C766;display:grid;place-items:center;font-family:'Poppins',sans-serif;font-size:14px}
 .lg-free{background:rgba(187,25,44,.08);border:1px dashed rgba(187,25,44,.45);color:#9f1d2d;border-radius:12px;padding:8px 12px;text-align:center;font-weight:700;font-size:14px;margin-bottom:10px}
 body.dark .lg-free{color:#ff8a98}
-.lg-plan{display:grid;grid-template-columns:38px 1fr auto;grid-template-areas:"i n p" "i l l";align-items:center;gap:2px 10px;border:1.5px solid var(--b);border-radius:16px;padding:10px 12px;margin-top:8px;position:relative}
+.pi-plan{border-top:4px solid var(--gold)}
+.pi-price{text-align:center;font-size:34px;font-weight:800;color:var(--p);margin:4px 0}
+body.dark .pi-price{color:#9DB8FF}
+.pi-h{display:flex;align-items:center;gap:10px;font-size:16.5px}
+.pi-n{flex:none;width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:800;border-bottom:2px solid var(--gold)}
+.lg-plan:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(15,23,42,.1)}
+.lg-plan{cursor:pointer;transition:transform .15s,box-shadow .15s;display:grid;grid-template-columns:38px 1fr auto;grid-template-areas:"i n p" "i l l";align-items:center;gap:2px 10px;border:1.5px solid var(--b);border-radius:16px;padding:10px 12px;margin-top:8px;position:relative}
 .lg-plan.best{border-color:var(--p);box-shadow:0 6px 16px rgba(30,58,138,.12)}
 .lg-plan-i{grid-area:i;font-size:24px;text-align:center}
 .lg-plan-n{grid-area:n;display:flex;flex-direction:column;line-height:1.5}
@@ -729,7 +735,12 @@ const TR = {
 let LANG = 'ar';
 /* ---- الباقات الجديدة (3.0): نصوص ---- */
 Object.assign(TR.ar, {
-  pl_x10: 'باقة الامتحان', dur_x10: '10 أيام', nLessonsF: '{0} دروس', pl_month: 'شهر', pl_q3: '3 أشهر + شهر مجاناً', pl_h6: '6 أشهر + شهرين مجاناً', pl_topupN: 'شحن {0} دروس', pl_topup: 'شحن دروس', pl_term: 'الفصل', pl_school: 'السنة الدراسية', pl_open: 'السنوي المفتوح',
+  pl_x10: 'باقة الامتحان', dur_x10: '10 أيام', nLessonsF: '{0} دروس',
+  piHow: 'كيف أشترك وأدفع؟', piTitle: 'الاشتراك والدفع', piChosen: 'الباقة التي اخترتها', piLogin: 'عندي حساب – تسجيل الدخول',
+  piS1: 'أنشئ حسابك (مجاناً)', piS1d: 'اختر اسم مستخدم وكلمة مرور. اسم المستخدم هو الذي سنفعّل عليه اشتراكك – احفظه جيداً.', piHaveAcc: 'أنت داخل بحسابك: <b dir="ltr">{0}</b>',
+  piS2: 'ادفع {0}', piS3: 'أرسل الإيصال على واتساب', piS3d: 'اكتب اسم المستخدم واضغط الزر، وسيفتح واتساب برسالة جاهزة فيها الباقة والمبلغ. أرفق صورة إيصال التحويل وأرسلها.',
+  piSend: 'أرسل الإيصال على واتساب', piNeedU: 'اكتب اسم المستخدم أولاً',
+  piS4: 'نفعّل اشتراكك فوراً', piS4d: 'نفعّل اشتراكك خلال دقائق من استلام الإيصال ✅ بعدها افتح التطبيق وادخل بحسابك – أو اضغط «تحديث الحالة» من صفحة الاشتراك – وابدأ الدراسة 🎓', pl_month: 'شهر', pl_q3: '3 أشهر + شهر مجاناً', pl_h6: '6 أشهر + شهرين مجاناً', pl_topupN: 'شحن {0} دروس', pl_topup: 'شحن دروس', pl_term: 'الفصل', pl_school: 'السنة الدراسية', pl_open: 'السنوي المفتوح',
   dur_month: '30 يوماً', dur_q3: '4 أشهر', dur_h6: '8 أشهر', dur_term: '4 أشهر', dur_school: 'حتى 31 آب', dur_open: '12 شهراً',
   perMonthN: '{0} درساً كل شهر', gift1: 'شهر مجاناً', gift2: 'شهرين مجاناً', plFils: '{0} فلس',
   nextGrant: '📅 +{0} درساً جديداً في {1}',
@@ -754,7 +765,12 @@ Object.assign(TR.ar, {
   activeUntil: '✅ فعّال حتى {0}'
 });
 Object.assign(TR.en, {
-  pl_x10: 'Exam pack', dur_x10: '10 days', nLessonsF: '{0} lessons', pl_month: 'Month', pl_q3: '3 months + 1 month free', pl_h6: '6 months + 2 months free', pl_topupN: 'Top-up {0} lessons', pl_topup: 'Top-up', pl_term: 'Semester', pl_school: 'School year', pl_open: 'Open yearly',
+  pl_x10: 'Exam pack', dur_x10: '10 days', nLessonsF: '{0} lessons',
+  piHow: 'How do I subscribe and pay?', piTitle: 'Subscribe & pay', piChosen: 'Your chosen plan', piLogin: 'I have an account – log in',
+  piS1: 'Create your account (free)', piS1d: 'Pick a username and password. We activate your plan on this username – keep it safe.', piHaveAcc: 'You are logged in as <b dir="ltr">{0}</b>',
+  piS2: 'Pay {0}', piS3: 'Send the receipt on WhatsApp', piS3d: 'Type your username and tap the button – WhatsApp opens with a ready message showing the plan and amount. Attach the transfer receipt and send.',
+  piSend: 'Send receipt on WhatsApp', piNeedU: 'Type your username first',
+  piS4: 'We activate you right away', piS4d: 'We activate your plan within minutes of receiving the receipt ✅ Then open the app and log in – or tap "Refresh status" on the plans page – and start studying 🎓', pl_month: 'Month', pl_q3: '3 months + 1 month free', pl_h6: '6 months + 2 months free', pl_topupN: 'Top-up {0} lessons', pl_topup: 'Top-up', pl_term: 'Semester', pl_school: 'School year', pl_open: 'Open yearly',
   dur_month: '30 days', dur_q3: '4 months', dur_h6: '8 months', dur_term: '4 months', dur_school: 'until 31 Aug', dur_open: '12 months',
   perMonthN: '{0} lessons every month', gift1: '1 month free', gift2: '2 months free', plFils: '{0} fils',
   nextGrant: '📅 +{0} new lessons on {1}',
@@ -1271,6 +1287,46 @@ function welcomeTrial() {
   document.body.appendChild(o);
 }
 function copyTxt(x) { try { navigator.clipboard.writeText(x); toast(t('copiedX')); } catch (e) { toast(x); } }
+/* ---------------- صفحة «كيف أدفع وأشترك؟» – تفتح من قائمة الأسعار بدون تسجيل دخول ---------------- */
+let PI_TAB = 'cliq';
+function payInfoView() {
+  const P = CONFIG.PAY, plan = planById(SEL_PLAN) || PLANS.find(x => x.best) || PLANS[0];
+  SEL_PLAN = plan.id;
+  const m = meNow(), uname = (m && m.u) || (S.auth && S.auth.u) || S.lastU || '';
+  const row = (label, val) => val ? `<div class="pay-row"><span class="muted small">${label}</span><b dir="auto">${esc(val)}</b><button class="btn btn-o btn-s" onclick="copyTxt(${J(val)})">📋</button></div>` : '';
+  const askWa = method => `<a class="btn btn-o mt" style="text-decoration:none" target="_blank" href="https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(t('waAsk', appName(), t('pm_' + method), uname || '—'))}">${t('askDetails')}</a>`;
+  let body = '';
+  if (PI_TAB === 'cliq') body = P.cliq.alias ? row(t('cliqAlias'), P.cliq.alias) + row(t('accName'), P.cliq.name) + row(t('bankName'), P.cliq.bank) + `<p class="small mt" style="line-height:1.9">${t('cliqHow')}</p>` : askWa('cliq');
+  else if (PI_TAB === 'bank') body = P.bank.iban ? row(t('bankName'), P.bank.bank) + row(t('accName'), P.bank.name) + row(t('accNo'), P.bank.acc) + row('IBAN', P.bank.iban) + row('SWIFT', P.bank.swift) : askWa('bank');
+  else body = P.paypal.email ? row(t('ppEmail'), P.paypal.email) + row(t('ppUser'), P.paypal.user) + (P.paypal.link ? `<a class="btn btn-p mt" style="text-decoration:none" target="_blank" href="${esc(P.paypal.link)}">${t('ppOpen')}</a>` : '') : askWa('paypal');
+  const price = PI_TAB === 'paypal' ? t('usd', plan.usd) : t('jod', plan.jod);
+  const step = (n, title, inner) => `<div class="card mt pi-step"><div class="pi-h"><span class="pi-n">${n}</span><b>${title}</b></div>${inner}</div>`;
+  $('#app').innerHTML = `
+  <div class="top"><button class="icon-btn" onclick="go(S.user ? 'activate' : 'onb')">${back()}</button><div class="h2">💳 ${t('piTitle')}</div>${langBtn()}</div>
+  <div class="card pi-plan">
+    <div class="muted small" style="text-align:center">${t('piChosen')}</div>
+    <div style="text-align:center;font-size:40px;margin-top:4px">${planIcon(plan.id)}</div>
+    <div class="h2" style="text-align:center">${planName(plan.id)}</div>
+    <div class="pi-price">${price}</div>
+    <div class="muted small" style="text-align:center;line-height:1.8">${planFeat(plan)} · 📅 ${t('dur_' + plan.id)}</div>
+    <div class="pills mt" style="justify-content:center">${PLANS.map(p => `<button class="pill ${p.id === plan.id ? 'on' : ''}" onclick="SEL_PLAN='${p.id}';payInfoView()">${planIcon(p.id)} ${t('jod', p.jod)}</button>`).join('')}</div>
+  </div>
+  ${step(1, t('piS1'), `<p class="small" style="line-height:1.9">${t('piS1d')}</p>
+    ${S.auth && S.auth.token ? `<div class="tip mt">✅ ${t('piHaveAcc', esc(uname))}</div>` : `<button class="btn btn-p mt" onclick="ONB_MODE='reg';go('onb')">${t('doReg')}</button><button class="btn btn-o mt" onclick="ONB_MODE='log';go('onb')">${t('piLogin')}</button>`}`)}
+  ${step(2, t('piS2', price), `<div class="tabs mt pay-tabs">${['cliq', 'bank', 'paypal'].map(k => `<button class="${PI_TAB === k ? 'on' : ''}" onclick="PI_TAB='${k}';payInfoView()">${t('pm_' + k)}</button>`).join('')}</div><div class="mt">${body}</div>`)}
+  ${step(3, t('piS3'), `<p class="small" style="line-height:1.9">${t('piS3d')}</p>
+    <div class="label mt">${t('user')}</div><input type="text" id="piU" dir="ltr" autocapitalize="off" placeholder="${t('userPh')}" value="${esc(uname)}">
+    <button class="btn mt" style="background:#25D366;color:#fff" onclick="piSend()">💬 ${t('piSend')}</button>`)}
+  ${step(4, t('piS4'), `<p class="small" style="line-height:1.9">${t('piS4d')}</p>`)}
+  <div class="tip mt">${t('stackRule')}</div>
+  <div class="tip mt">${t('bigRule')}</div>`;
+}
+function piSend() {
+  const u = ($('#piU').value || '').trim().toLowerCase();
+  if (!u) { $('#piU').focus(); return toast(t('piNeedU')); }
+  const plan = planById(SEL_PLAN), price = PI_TAB === 'paypal' ? t('usd', plan.usd) : t('jod', plan.jod);
+  window.open(`https://wa.me/${CONFIG.WHATSAPP}?text=${encodeURIComponent(t('waPaid', appName(), u, planName(plan.id), price, t('pm_' + PI_TAB)))}`, '_blank');
+}
 function payBox() {
   if (!PAY_TAB) PAY_TAB = LANG === 'ar' ? 'cliq' : 'paypal';
   const P = CONFIG.PAY, m = meNow(), plan = planById(SEL_PLAN) || PLANS[1];
@@ -1419,15 +1475,15 @@ function go(v, arg) {
   if (TIMER) { clearInterval(TIMER); TIMER = null; }
   try { speechSynthesis.cancel(); } catch (e) {}
   VIEW = v; VARG = arg;
-  const views = { onb: onboarding, home, library, create, setView, summaryView, badgesView, profileView, tutorView, lessonView, mindmapView, writtenView, account: accountView, activate: activateView };
+  const views = { payInfo: payInfoView, onb: onboarding, home, library, create, setView, summaryView, badgesView, profileView, tutorView, lessonView, mindmapView, writtenView, account: accountView, activate: activateView };
   const app = $('#app'); app.innerHTML = ''; app.className = 'fade'; void app.offsetWidth;
   (views[v] || home)(arg);
   renderNav(); window.scrollTo(0, 0);
 }
 const isDesk = () => window.innerWidth >= 1024;   // كمبيوتر أو شاشة عريضة
 function renderNav() {
-  const hide = ['quiz', 'cards', 'tutor', 'result', 'onb', 'challenge', 'activate', 'account'].includes(VIEW);
-  const desk = isDesk() && !['onb', 'account'].includes(VIEW) && !!S.user;
+  const hide = ['quiz', 'cards', 'tutor', 'result', 'onb', 'challenge', 'activate', 'account', 'payInfo'].includes(VIEW);
+  const desk = isDesk() && !['onb', 'account', 'payInfo'].includes(VIEW) && !!S.user;
   const bc = document.body.classList;
   [...bc].filter(c => c.startsWith('v-')).forEach(c => bc.remove(c));
   bc.add('v-' + VIEW); bc.toggle('desk', desk); bc.toggle('has-side', desk && !hide);
@@ -1517,13 +1573,14 @@ function onboarding() {
       <section class="lg-box lg-pr">
         <div class="lg-h">💳 ${t('lgPrT')}</div>
         <div class="lg-free">🎁 ${t('lgFree')}</div>
-        ${PLANS.map(p => `<div class="lg-plan ${p.best ? 'best' : ''}">
+        ${PLANS.map(p => `<div class="lg-plan ${p.best ? 'best' : ''}" role="button" tabindex="0" onclick="sfx('tap');SEL_PLAN='${p.id}';go('payInfo')">
           <div class="lg-plan-i">${planIcon(p.id)}</div>
           <div class="lg-plan-n"><b>${planName(p.id)}${p.best ? ' <span class="lg-best">' + t('mostChosen') + '</span>' : ''}</b><small>${p.months ? t('perMonthN', p.lessons) : t('nLessonsF', p.lessons)} · ${t('dur_' + p.id)}${p.gift ? ' · ' + giftTxt(p) : ''}</small></div>
           <div class="lg-plan-p"><b>${t('jod', p.jod)}</b><small>$${p.usd}</small></div>
           <div class="per-lesson">${perLesson(p)}</div>
         </div>`).join('')}
         <div class="lg-tu">${t('stackRule')}</div>
+        <button class="btn btn-p mt" onclick="sfx('tap');go('payInfo')">💳 ${t('piHow')}</button>
         <div class="muted small" style="text-align:center;line-height:1.8;margin-top:4px">${t('lgPay')}</div>
       </section>`}
     </div>

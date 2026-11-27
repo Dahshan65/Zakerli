@@ -140,6 +140,15 @@ textarea{min-height:180px;resize:vertical;line-height:1.8}
 .thumbs img{width:100%;height:100%;object-fit:cover}
 .thumbs button{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--r);color:#fff;font-size:12px;line-height:22px}
 .pills{display:flex;gap:8px;flex-wrap:wrap}
+.src-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.src-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:14px 8px;border-radius:16px;border:2px solid var(--b);background:var(--card);color:var(--t);text-align:center;min-height:96px;transition:all .15s}
+.src-btn .e{font-size:28px}.src-btn b{font-size:14.5px}.src-btn small{font-size:11.5px;color:var(--m);line-height:1.4}
+.src-btn.on{border-color:var(--p);background:linear-gradient(135deg,#1E3A8A,#2B4FB3);color:#fff;box-shadow:0 8px 20px rgba(30,58,138,.25)}
+.src-btn.on small{color:#DCE4F5}
+body.desk .src-grid{grid-template-columns:repeat(4,1fr)}
+.n-in{width:110px!important;text-align:center;font-weight:800;font-size:18px;margin-top:10px}
+.pill.quick{border-color:#F59E0B}.pill.quick.on{background:#F59E0B;border-color:#F59E0B;color:#fff}
+.share-wa{display:block;width:100%;margin-top:12px;padding:14px;border-radius:14px;background:#25D366;color:#fff;font-weight:800;font-size:15.5px;text-align:center;text-decoration:none;box-shadow:0 8px 20px rgba(37,211,102,.25)}
 .pill{padding:8px 14px;border-radius:10px;border:1.5px solid var(--b);font-weight:600;font-size:14px;background:var(--card);color:var(--t)}
 .pill.on{border-color:var(--p);background:var(--p);color:#fff}
 .label{font-weight:600;margin-bottom:8px;font-size:14.5px;color:var(--t)}
@@ -487,7 +496,7 @@ body.desk .h1{font-size:30px}
 <canvas id="confetti"></canvas>
 <input type="file" id="fCam" accept="image/*" capture="environment" hidden>
 <input type="file" id="fGal" accept="image/*" multiple hidden>
-<input type="file" id="fPdf" accept="application/pdf" hidden>
+<input type="file" id="fPdf" accept="application/pdf,.pdf,.docx,.doc,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword" hidden>
 
 <script>
 /* =========================================================
@@ -529,9 +538,13 @@ const TR = {
     demo: 'تجريبية', qc: '{0} سؤال · {1} بطاقة', emptyT: 'لا توجد دروس بعد', emptyS: 'اضغط ＋ وأضف أول درس لك',
     n_home: 'الرئيسية', n_lib: 'مكتبتي', n_badges: 'إنجازاتي', n_prof: 'حسابي', deskNew: 'درس جديد', deskTag: 'ادرس بالذكاء الاصطناعي',
     lib: '📚 مكتبتي', setsN: '{0} درس', search: '🔍 ابحث في دروسك...',
+    sb_image: 'صوّر صفحتك', sbs_image: 'من الكاميرا أو المعرض', sb_pdf: 'حمّل ملفك', sbs_pdf: 'PDF أو Word', sb_text: 'الصق نصّك', sbs_text: 'اكتب أو الصق أي نص', sb_topic: 'اختر موضوعاً', sbs_topic: 'اكتب أي موضوع ونشرحه لك',
+    manualN: 'تحديد يدوي', manualHint: 'اكتب العدد (من 5 إلى 100)', d_quick: '⚡ مختصر جداً', quickTip: '⚡ مراجعة سريعة قبل دخول الامتحان: شرح مختصر جداً، أهم النقاط فقط، وأسئلة مباشرة',
+    shareBtn: '💬 شارك ذاكرلي مع أصدقائك على واتساب', shareMsg: '📚 جرّب «ذاكرلي» – صوّر صفحة من كتابك وخلال دقيقة بيطلعلك شرح وأسئلة وبطاقات حفظ وخريطة ذهنية بالذكاء الاصطناعي 🤖\n🎁 أول 3 دروس مجاناً\n👉 https://zakerlee.com',
+    docOld: 'صيغة .doc القديمة غير مدعومة – احفظ الملف من Word بصيغة .docx أو PDF', docEmpty: 'لم أجد نصاً كافياً في ملف Word', docErr: 'تعذّرت قراءة ملف Word – جرّب حفظه بصيغة PDF',
     newSet: '✨ درس جديد', tb_image: '📸 صورة', tb_pdf: '📄 PDF', tb_text: '📝 نص', tb_topic: '💡 موضوع',
-    cam: 'صوّر الآن', gal: 'من المعرض', imgTip: 'يمكنك إضافة حتى 6 صفحات. تأكد أن الصورة واضحة والإضاءة جيدة 💡', maxImg: 'الحد الأقصى 6 صفحات', imgErr: 'تعذّر قراءة الصورة',
-    pdfPick: 'اختر ملف PDF', pdfSub: 'ملخص، شرائح محاضرة، فصل من كتاب (حتى 50 ميغا – 1000 صفحة)', pdfBig: 'الملف أكبر من 50 ميغا',
+    cam: 'صوّر الآن', gal: 'اختر من المعرض', imgTip: 'يمكنك إضافة حتى 6 صفحات. تأكد أن الصورة واضحة والإضاءة جيدة 💡', maxImg: 'الحد الأقصى 6 صفحات', imgErr: 'تعذّر قراءة الصورة',
+    pdfPick: 'اضغط هنا لتحميل ملف PDF أو Word', pdfSub: 'ملخص، شرائح محاضرة، فصل من كتاب (حتى 50 ميغا – 1000 صفحة)', pdfBig: 'الملف أكبر من 50 ميغا',
     textPh: 'الصق هنا الدرس أو الملخص أو الملاحظات...', chars: '{0} حرف',
     topicPh: 'مثال: قوانين نيوتن، الجملة الفعلية، الخلية الحيوانية...', topicTip: '💡 كلما كتبت الموضوع بدقة أكثر (المادة + الدرس + المرحلة) كانت الأسئلة أدق.',
     setName: 'اسم الدرس (اختياري)', setNamePh: 'سأقترح اسماً تلقائياً', numQ: 'عدد الأسئلة', diffL: 'مستوى الصعوبة',
@@ -623,9 +636,13 @@ const TR = {
     demo: 'Demo', qc: '{0} questions · {1} cards', emptyT: 'No lessons yet', emptyS: 'Tap ＋ to add your first lesson',
     n_home: 'Home', n_lib: 'Library', n_badges: 'Awards', n_prof: 'Profile', deskNew: 'New lesson', deskTag: 'Study with AI',
     lib: '📚 My library', setsN: '{0} lessons', search: '🔍 Search your lessons...',
+    sb_image: 'Snap your page', sbs_image: 'Camera or gallery', sb_pdf: 'Upload your file', sbs_pdf: 'PDF or Word', sb_text: 'Paste your text', sbs_text: 'Type or paste any text', sb_topic: 'Pick a topic', sbs_topic: 'Type any topic, we explain it',
+    manualN: 'Custom', manualHint: 'Type a number (5 to 100)', d_quick: '⚡ Very short', quickTip: '⚡ Quick review right before the exam: very short explanation, key points only, direct questions',
+    shareBtn: '💬 Share Zakerlee with friends on WhatsApp', shareMsg: '📚 Try Zakerlee – snap a page of your book and get an explanation, quiz, flashcards and a mind map in a minute 🤖\n🎁 First 3 lessons free\n👉 https://zakerlee.com',
+    docOld: 'Old .doc files are not supported – save it as .docx or PDF', docEmpty: 'Not enough text in the Word file', docErr: 'Could not read the Word file – try saving it as PDF',
     newSet: '✨ New lesson', tb_image: '📸 Photo', tb_pdf: '📄 PDF', tb_text: '📝 Text', tb_topic: '💡 Topic',
-    cam: 'Take photo', gal: 'Gallery', imgTip: 'Add up to 6 pages. Make sure the photo is sharp and well lit 💡', maxImg: 'Maximum 6 pages', imgErr: "Couldn't read the image",
-    pdfPick: 'Choose a PDF', pdfSub: 'Notes, lecture slides, a book chapter (up to 50 MB – 1000 pages)', pdfBig: 'File is larger than 50 MB',
+    cam: 'Take a photo', gal: 'Choose from gallery', imgTip: 'Add up to 6 pages. Make sure the photo is sharp and well lit 💡', maxImg: 'Maximum 6 pages', imgErr: "Couldn't read the image",
+    pdfPick: 'Tap here to upload a PDF or Word file', pdfSub: 'Notes, lecture slides, a book chapter (up to 50 MB – 1000 pages)', pdfBig: 'File is larger than 50 MB',
     textPh: 'Paste your lesson, summary or notes here...', chars: '{0} characters',
     topicPh: "e.g. Newton's laws, photosynthesis, the animal cell...", topicTip: '💡 The more precise the topic (subject + lesson + level), the better the questions.',
     setName: 'Lesson name (optional)', setNamePh: "I'll suggest one automatically", numQ: 'Number of questions', diffL: 'Difficulty',
@@ -1664,29 +1681,31 @@ function libList() {
 /* ---------------- إنشاء مجموعة ---------------- */
 const CR = { src: 'image', text: '', topic: '', title: '', images: [], pdf: null, n: 'auto', diff: 'med', lang: 'auto' };
 function create() {
-  const tb = k => `<button class="${CR.src === k ? 'on' : ''}" onclick="crSave();CR.src='${k}';go('create')">${t('tb_' + k)}</button>`;
+  const tb = (k, e) => `<button class="src-btn ${CR.src === k ? 'on' : ''}" onclick="crSave();CR.src='${k}';go('create')"><span class="e">${e}</span><b>${t('sb_' + k)}</b><small>${t('sbs_' + k)}</small></button>`;
   let input = '';
   if (CR.src === 'image') input = `
     <div class="grid2">
       <button class="drop" onclick="$('#fCam').click()"><div class="e">📸</div><b>${t('cam')}</b></button>
       <button class="drop" onclick="$('#fGal').click()"><div class="e">🖼️</div><b>${t('gal')}</b></button>
     </div><div class="thumbs" id="thumbs"></div><p class="muted small mt">${t('imgTip')}</p>`;
-  else if (CR.src === 'pdf') input = `<button class="drop" style="width:100%" onclick="$('#fPdf').click()"><div class="e">📄</div><b>${CR.pdf ? '✅ ' + esc(CR.pdf.name) + ' (' + (CR.pdf.size / 1048576).toFixed(1) + ' MB)' : t('pdfPick')}</b><div class="muted small mt">${t('pdfSub')}</div></button>`;
+  else if (CR.src === 'pdf') input = `<button class="drop" style="width:100%" onclick="$('#fPdf').click()"><div class="e">${CR.doc ? '📘' : '📄'}</div><b>${CR.doc ? '✅ ' + esc(CR.doc.name) + ' (' + t('chars', CR.doc.text.length) + ')' : CR.pdf ? '✅ ' + esc(CR.pdf.name) + ' (' + (CR.pdf.size / 1048576).toFixed(1) + ' MB)' : t('pdfPick')}</b><div class="muted small mt">${t('pdfSub')}</div></button>`;
   else if (CR.src === 'text') input = `<textarea id="crText" dir="auto" placeholder="${t('textPh')}">${esc(CR.text)}</textarea><div class="muted small" style="margin-top:6px" id="cnt"></div>`;
   else input = `<input type="text" id="crTopic" dir="auto" placeholder="${t('topicPh')}" value="${esc(CR.topic)}"><div class="tip mt">${t('topicTip')}</div>`;
   const examLbl = S.user.stage === 'uni' ? t('d_exam_u') : t('d_exam_s');
   $('#app').innerHTML = `
   <div class="top"><button class="icon-btn" onclick="go('home')">${back()}</button><div class="h2">${t('newSet')}</div>${langBtn()}</div>
   ${trialChip()}
-  <div class="tabs mt">${tb('image')}${tb('pdf')}${tb('text')}${tb('topic')}</div>
+  <div class="src-grid mt">${tb('image', '📸')}${tb('pdf', '📄')}${tb('text', '📝')}${tb('topic', '🔎')}</div>
   <div class="mt">${input}</div>
   <div class="card col mt">
     <div><div class="label">${t('setName')}</div><input type="text" id="crTitle" dir="auto" placeholder="${t('setNamePh')}" value="${esc(CR.title)}"></div>
-    <div><div class="label">${t('numQ')}</div><div class="pills"><button class="pill ${CR.n === 'auto' ? 'on' : ''}" onclick="crSave();CR.n='auto';go('create')">${t('autoL')}</button>${[20, 30, 60].map(n => `<button class="pill ${CR.n === n ? 'on' : ''}" onclick="crSave();CR.n=${n};go('create')">${n}</button>`).join('')}</div>
+    <div><div class="label">${t('numQ')}</div><div class="pills"><button class="pill ${CR.n === 'auto' ? 'on' : ''}" onclick="crSave();CR.n='auto';CR.manual=false;go('create')">${t('autoL')}</button>${[20, 30, 60].map(n => `<button class="pill ${!CR.manual && CR.n === n ? 'on' : ''}" onclick="crSave();CR.n=${n};CR.manual=false;go('create')">${n}</button>`).join('')}<button class="pill ${CR.manual ? 'on' : ''}" onclick="crSave();CR.manual=true;CR.n=CR.n==='auto'?25:CR.n;go('create');setTimeout(()=>{const i=$('#crN');i&&i.focus();i&&i.select()},50)">✏️ ${t('manualN')}</button></div>
+      ${CR.manual ? `<div class="row" style="gap:10px;align-items:center"><input type="number" id="crN" class="n-in" min="5" max="100" step="1" inputmode="numeric" value="${CR.n}" oninput="CR.n=Math.max(1,parseInt(this.value)||0)" onchange="CR.n=clamp(parseInt(this.value)||25,5,100);this.value=CR.n"><span class="muted small" style="margin-top:10px">${t('manualHint')}</span></div>` : ''}
       ${CR.n === 'auto' ? `<div class="tip mt" id="autoHint"></div>` : ''}</div>
-    <div><div class="label">${t('diffL')}</div><div class="pills">${[['easy', t('d_easy')], ['med', t('d_med')], ['hard', t('d_hard')]].map(([k, l]) => `<button class="pill ${CR.diff === k ? 'on' : ''}" onclick="crSave();CR.diff='${k}';go('create')">${l}</button>`).join('')}</div></div>
+    <div><div class="label">${t('diffL')}</div><div class="pills">${[['quick', t('d_quick')], ['easy', t('d_easy')], ['med', t('d_med')], ['hard', t('d_hard')]].map(([k, l]) => `<button class="pill ${k === 'quick' ? 'quick ' : ''}${CR.diff === k ? 'on' : ''}" onclick="crSave();CR.diff='${k}';go('create')">${l}</button>`).join('')}</div>${CR.diff === 'quick' ? `<div class="tip mt">${t('quickTip')}</div>` : ''}</div>
   </div>
-  <button class="btn btn-p mt2" onclick="generate()">${t('make')}</button>`;
+  <button class="btn btn-p mt2" onclick="generate()">${t('make')}</button>
+  <a class="share-wa" href="https://wa.me/?text=${encodeURIComponent(t('shareMsg'))}" target="_blank" rel="noopener">${t('shareBtn')}</a>`;
   if (CR.src === 'image') renderThumbs();
   if (CR.src === 'text') { const ta = $('#crText'); const up = () => { $('#cnt').textContent = t('chars', ta.value.length); CR.text = ta.value; autoHint(); }; ta.oninput = up; up(); }
   autoHint();
@@ -1696,6 +1715,7 @@ function crSave() {
   if (g('#crText') !== null) CR.text = g('#crText');
   if (g('#crTopic') !== null) CR.topic = g('#crTopic');
   if (g('#crTitle') !== null) CR.title = g('#crTitle');
+  if (g('#crN') !== null) CR.n = clamp(parseInt(g('#crN')) || 25, 5, 100);
 }
 function renderThumbs() {
   const el = $('#thumbs'); if (!el) return;
@@ -1728,15 +1748,54 @@ async function onImages(files) {
 }
 $('#fCam').onchange = e => { onImages([...e.target.files]); e.target.value = ''; };
 $('#fGal').onchange = e => { onImages([...e.target.files]); e.target.value = ''; };
-$('#fPdf').onchange = e => {
+$('#fPdf').onchange = async e => {
   const f = e.target.files[0]; e.target.value = '';
   if (!f) return;
+  const nm = f.name.toLowerCase();
+  if (/\.doc$/.test(nm)) { toast(t('docOld')); return; }
+  if (/\.docx$/.test(nm) || /wordprocessingml/.test(f.type)) {
+    crSave();
+    try {
+      const text = await docxText(f);
+      if (text.trim().length < 80) { toast(t('docEmpty')); return; }
+      CR.doc = { name: f.name, text: text.slice(0, 120000) }; CR.pdf = null;
+    } catch (err) { toast(t('docErr')); return; }
+    go('create'); return;
+  }
+  CR.doc = null;
   if (f.size > 50 * 1024 * 1024) { toast(t('pdfBig')); return; }
   crSave();
   CR.pdf = { name: f.name, file: f, size: f.size, uri: null, pages: 0 };
   go('create');
   countPdfPages(f).then(n => { if (CR.pdf && CR.pdf.file === f) { CR.pdf.pages = n; autoHint(); } });
 };
+/* قراءة نص ملف Word (docx) داخل المتصفح بدون مكتبات: فك ضغط word/document.xml واستخراج النص */
+async function docxText(file) {
+  const buf = new Uint8Array(await file.arrayBuffer()), dv = new DataView(buf.buffer);
+  let eocd = -1;
+  for (let i = buf.length - 22; i >= Math.max(0, buf.length - 66000); i--) if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+  if (eocd < 0) throw new Error('zip');
+  let p = dv.getUint32(eocd + 16, true); const cnt = dv.getUint16(eocd + 10, true);
+  const dec = new TextDecoder('utf-8');
+  for (let k = 0; k < cnt; k++) {
+    const method = dv.getUint16(p + 10, true), csize = dv.getUint32(p + 20, true), nlen = dv.getUint16(p + 28, true), xlen = dv.getUint16(p + 30, true), clen = dv.getUint16(p + 32, true), off = dv.getUint32(p + 42, true);
+    const name = dec.decode(buf.subarray(p + 46, p + 46 + nlen));
+    if (name === 'word/document.xml') {
+      const start = off + 30 + dv.getUint16(off + 26, true) + dv.getUint16(off + 28, true), raw = buf.subarray(start, start + csize);
+      let xml;
+      if (method === 0) xml = dec.decode(raw);
+      else {
+        const ds = new Blob([raw]).stream().pipeThrough(new DecompressionStream('deflate-raw'));
+        xml = await new Response(ds).text();
+      }
+      return xml.replace(/<w:tab\/>/g, '\t').replace(/<w:br[^>]*\/>/g, '\n').replace(/<\/w:p>/g, '\n')
+        .replace(/<[^>]+>/g, '').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, '&')
+        .replace(/\n{3,}/g, '\n\n').trim();
+    }
+    p += 46 + nlen + xlen + clen;
+  }
+  throw new Error('nodoc');
+}
 async function uploadPdf(p) {
   if (p.uri) return p.uri;
   if (!apiReady()) throw new Error('NOAPI');
@@ -1749,7 +1808,7 @@ async function uploadPdf(p) {
 
 /* ---------- بناء التعليمات للذكاء الاصطناعي ---------- */
 function stageTxt() { const st = S.user.stage; return st === 'uni' ? 'طالب جامعي' : st === 'tawjihi' ? 'طالب توجيهي (الثانوية العامة في الأردن)' : 'طالب مدرسة'; }
-function diffTxt() { const st = S.user.stage; return { easy: 'سهل', med: 'متوسط', hard: 'صعب', exam: st === 'uni' ? 'بمستوى امتحانات الجامعات النهائية: أسئلة فهم وتطبيق وتحليل وليست حفظاً فقط' : 'بنمط أسئلة امتحانات وزارة التربية والتعليم (التوجيهي): دقيقة، تقيس الفهم والتطبيق، وبعضها يحتاج تفكيراً' }[CR.diff]; }
+function diffTxt() { const st = S.user.stage; return { quick: 'مراجعة سريعة قبل الامتحان مباشرة: أسئلة مباشرة وواضحة على أهم الأفكار والمفاهيم الأكثر وروداً في الامتحانات فقط، بلا تفاصيل جانبية', easy: 'سهل', med: 'متوسط', hard: 'صعب', exam: st === 'uni' ? 'بمستوى امتحانات الجامعات النهائية: أسئلة فهم وتطبيق وتحليل وليست حفظاً فقط' : 'بنمط أسئلة امتحانات وزارة التربية والتعليم (التوجيهي): دقيقة، تقيس الفهم والتطبيق، وبعضها يحتاج تفكيراً' }[CR.diff]; }
 function langTxt(src) {
   return CR.lang === 'ar' ? 'اكتب كل المحتوى باللغة العربية الفصحى السهلة.' : CR.lang === 'en' ? 'Write ALL content (every title, explanation, card, question, option) in clear English.' : `اكتب المحتوى بنفس لغة المادة الأصلية (إن كانت بالإنجليزية فاكتب بالإنجليزية، وإن كانت بالعربية فبالعربية).${src === 'topic' ? (LANG === 'en' ? ' Since this is a topic, write in English.' : ' بما أنه موضوع فاكتب بالعربية إلا إذا كان الموضوع مكتوباً بالإنجليزية.') : ''}`;
 }
@@ -1774,21 +1833,27 @@ async function countPdfPages(file) {
 const round5 = x => Math.round(x / 5) * 5;
 const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
 function autoCount() {
+  if (CR.diff === 'quick') return clamp(round5(baseCount() * 0.5), 10, 25);   // مختصر جداً: أسئلة أقل
+  return baseCount();
+}
+function baseCount() {
   if (CR.src === 'text') return clamp(round5(CR.text.trim().length / 220), 15, 80);
   if (CR.src === 'image') return clamp(round5(Math.max(1, CR.images.length) * 12), 15, 70);
+  if (CR.src === 'pdf' && CR.doc) return clamp(round5(CR.doc.text.length / 220), 15, 80);
   if (CR.src === 'pdf') {
     if (!CR.pdf) return 30;
     const pg = CR.pdf.pages || Math.max(1, Math.round(CR.pdf.size / 120000));
     return clamp(round5(pg <= 3 ? pg * 12 : 30 + (pg - 3) * 4), 15, 100);
   }
-  return { easy: 25, med: 30, hard: 35, exam: 40 }[CR.diff] || 30;
+  return { quick: 20, easy: 25, med: 30, hard: 35, exam: 40 }[CR.diff] || 30;
 }
 const qCount = () => CR.n === 'auto' ? autoCount() : CR.n;
 /* الملف الكبير (أكثر من 20 صفحة) يُحسب 3 دروس للمشتركين */
 function lessonCost() {
   if (!isPro()) return 1;
-  if (CR.src === 'pdf' && CR.pdf) return (CR.pdf.pages || Math.round(CR.pdf.size / 120000)) > 20 ? 3 : 1;
+  if (CR.src === 'pdf' && CR.pdf && !CR.doc) return (CR.pdf.pages || Math.round(CR.pdf.size / 120000)) > 20 ? 3 : 1;
   if (CR.src === 'text') return CR.text.trim().length > 40000 ? 3 : 1;
+  if (CR.src === 'pdf' && CR.doc) return CR.doc.text.length > 40000 ? 3 : 1;
   return 1;
 }
 function autoHint() {
@@ -1828,7 +1893,14 @@ ${langTxt(src)}
 - mindmap: 4-7 فروع، لكل فرع 2-6 نقاط قصيرة جداً (2-5 كلمات).
 - flashcards: ${nCards} بطاقة بالضبط، تغطي التعريفات والقوانين والمفاهيم والأمثلة، بلا تكرار.
 - written: 5 أسئلة كتابية تقيس الفهم العميق، مع إجابة نموذجية كاملة و3-5 عناصر للتصحيح لكل سؤال.
-- تأكد من الدقة العلمية لكل معلومة.`;
+- تأكد من الدقة العلمية لكل معلومة.${CR.diff === 'quick' ? `
+
+⚡ تنبيه مهم يتقدّم على كل القواعد السابقة: الطالب سيدخل الامتحان بعد قليل ويريد مراجعة سريعة جداً، فاختصر كل شيء:
+- lesson.sections: من 2 إلى 4 أقسام فقط، و body من 3 إلى 5 جمل مركّزة على أهم ما يأتي في الامتحان، و examples مثال واحد قصير أو لا شيء.
+- mistakes: 3، tips: 3 نصائح سريعة لليلة الامتحان.
+- summary: 6-10 نقاط مختصرة جداً هي «الزبدة» التي يجب أن يتذكرها.
+- glossary: أهم 5-10 مصطلحات فقط. mindmap: 3-5 فروع.
+- written: 2 سؤالان فقط بإجابات مختصرة.` : ''}`;
 }
 function questionPrompt(n, k, m, src, topic) {
   return `أنت مصمّم اختبارات محترف. المتعلّم: ${stageTxt()}.
@@ -1893,12 +1965,13 @@ async function generate() {
   crSave();
   const media = [];
   if (CR.src === 'image') { if (!CR.images.length) return toast(t('needImg')); CR.images.forEach(d => media.push({ inline_data: { mime_type: 'image/jpeg', data: d } })); }
+  else if (CR.src === 'pdf' && CR.doc) media.push({ text: 'المادة (من ملف Word):\n' + CR.doc.text.slice(0, 60000) });
   else if (CR.src === 'pdf') { if (!CR.pdf) return toast(t('needPdf')); }
   else if (CR.src === 'text') { if (CR.text.trim().length < 80) return toast(t('shortText')); media.push({ text: 'المادة:\n' + CR.text.trim().slice(0, 60000) }); }
   else if (CR.topic.trim().length < 3) return toast(t('needTopic'));
   let tk;
   try { tk = await getTicket('gen', lessonCost()); } catch (e) { return toast(aiError(e)); }
-  if (CR.src === 'pdf') {
+  if (CR.src === 'pdf' && !CR.doc) {
     loading(true, t('ldUp'));
     try { media.push({ file_data: { mime_type: 'application/pdf', file_uri: await uploadPdf(CR.pdf) } }); }
     catch (e) { loading(false); sfx('no'); refund(tk); return toast(aiError(e)); }
@@ -1916,9 +1989,9 @@ async function generate() {
     const base = normalize(c), ex = normExtra(c);
     const set = { id: uid(), title: CR.title.trim() || base.title || t('newSet'), subject: base.subject, created: Date.now(), best: 0,
       summary: base.summary, cards: base.cards, qs, lesson: ex.lesson, glossary: ex.glossary, mm: ex.mm, written: ex.written,
-      src: src === 'text' ? CR.text.trim().slice(0, 12000) : src === 'topic' ? 'Topic: ' + topic : '' };
+      src: src === 'text' ? CR.text.trim().slice(0, 12000) : CR.doc ? CR.doc.text.slice(0, 12000) : src === 'topic' ? 'Topic: ' + topic : '' };
     S.sets.push(set); S.stats.created++;
-    Object.assign(CR, { text: '', topic: '', title: '', images: [], pdf: null });
+    Object.assign(CR, { text: '', topic: '', title: '', images: [], pdf: null, doc: null });
     loading(false); save(); sfx('win'); confetti(); addXP(30);
     toast(t('ready', set.qs.length, set.cards.length));
     go('setView', set.id);
